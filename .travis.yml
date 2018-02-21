@@ -3,6 +3,8 @@ solution: BachelorThesis.sln
 #before_install:
 #  - sudo apt-get install nunit-console
 before_script:
-  - nuget restore BachelorThesis.sln
+ - nuget locals all -clear
+ - nuget restore BachelorThesis.sln
+ - msbuild /t:restore BachelorThesis.sln
 #after_script:
 #  - nunit-console Tests/bin/Release/Tests.dll
