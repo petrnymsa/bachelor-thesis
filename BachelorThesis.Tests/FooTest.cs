@@ -1,14 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace BachelorThesis.Tests
 {
-    [TestClass]
-    public class UnitTest1
+    [TestFixture]
+    public class FooTest
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
+            Assert.True(true);
         }
     }
 }
