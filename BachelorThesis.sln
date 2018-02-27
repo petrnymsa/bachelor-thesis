@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.Android", "BachelorThesis\BachelorThesis.Android\BachelorThesis.Android.csproj", "{8AEC0116-B3F7-4A55-9A09-77F682CC5400}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorThesis", "BachelorThesis\BachelorThesis\BachelorThesis.csproj", "{9ECC6A4B-AA78-4D29-9A40-1AF8510959A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.Tests", "BachelorThesis.Tests\BachelorThesis.Tests.csproj", "{2D5F14CD-8C30-41BC-8772-65C67AE448C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.Console", "BachelorThesis.Console\BachelorThesis.Console.csproj", "{1DECE7AC-7D92-4180-8500-A0A18A991E37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{ED0DEECE-B2C6-425C-8209-6E65530D9109}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6AB7176D-77DC-4E16-8F9F-127F8D45912A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,9 +105,31 @@ Global
 		{2D5F14CD-8C30-41BC-8772-65C67AE448C4}.Release|x64.Build.0 = Release|Any CPU
 		{2D5F14CD-8C30-41BC-8772-65C67AE448C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{2D5F14CD-8C30-41BC-8772-65C67AE448C4}.Release|x86.Build.0 = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|x64.Build.0 = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Debug|x86.Build.0 = Debug|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|ARM.Build.0 = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|x64.ActiveCfg = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|x64.Build.0 = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|x86.ActiveCfg = Release|Any CPU
+		{1DECE7AC-7D92-4180-8500-A0A18A991E37}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8AEC0116-B3F7-4A55-9A09-77F682CC5400} = {ED0DEECE-B2C6-425C-8209-6E65530D9109}
+		{54213F53-9E7A-4B48-ABF3-91DC3FFC606E} = {ED0DEECE-B2C6-425C-8209-6E65530D9109}
+		{9ECC6A4B-AA78-4D29-9A40-1AF8510959A5} = {ED0DEECE-B2C6-425C-8209-6E65530D9109}
+		{2D5F14CD-8C30-41BC-8772-65C67AE448C4} = {6AB7176D-77DC-4E16-8F9F-127F8D45912A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BAE20-3A69-4DDA-90B4-021329F5883A}
