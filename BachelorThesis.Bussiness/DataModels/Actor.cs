@@ -8,6 +8,8 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public int Id { get; set; }
         public string Name { get; set; }
+
+
     }
 
     public class Actor

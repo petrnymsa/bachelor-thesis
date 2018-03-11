@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using BachelorThesis.Bussiness.DataModels;
 using Colorful;
@@ -19,88 +18,6 @@ using Console = Colorful.Console;
 
 namespace BachelorThesis.ConsoleTest
 {
-    public class ProcessKindXmlParser
-    {
-        private static XElement CreateTransactionKindElement(TransactionKind kind)
-        {
-            var kindElement = new XElement("TransactionKind");
-            kindElement.Add(new XAttribute("Id", kind.Id));
-            kindElement.Add(new XAttribute("Identificator", kind.Identificator));
-            kindElement.Add(new XAttribute("Name", kind.Name));
-            kindElement.Add(new XAttribute("OptimisticTimeEstimate", kind.OptimisticTimeEstimate));
-            kindElement.Add(new XAttribute("NormalTimeEstimate", kind.NormalTimeEstimate));
-            kindElement.Add(new XAttribute("PesimisticTimeEstimate", kind.PesimisticTimeEstimate));
-            kindElement.Add(new XAttribute("ProcessKindId", kind.ProcessKindId));
-
-            return kindElement;
-        }
-
-        public static XDocument CreateDocument(ProcessKind process)
-        {
-            var processElement = new XElement("ProcessKind");
-            processElement.Add(new XAttribute("Id", process.Id));
-            processElement.Add(new XAttribute("Name", process.Name));
-
-            // transactions 
-            var transactionsElement = new XElement("Transactions");
-
-            foreach (var kind in process.GetTransactions())
-            {
-                var rootElement = CreateTransactionKindElement(kind);
-
-                TreeStructureHelper.Traverse(kind, rootElement, (node, element) =>
-                {
-                    var childElement = CreateTransactionKindElement(node);
-                    element.Add(childElement);
-                });
-
-                transactionsElement.Add(rootElement);
-            }
-            processElement.Add(transactionsElement);
-
-            // links
-            var linksElement = new XElement("Links");
-
-            foreach (var link in process.GetLinks())
-            {
-                var linkElement = new XElement("TransactionLink");
-                linkElement.Add(new XAttribute("Id", link.Id));
-                linkElement.Add(new XAttribute("Type", link.Type));
-                linkElement.Add(new XAttribute("SourceTransactionId", link.SourceTransactionKindId));
-                linkElement.Add(new XAttribute("DestinationTransactionId", link.DestinationTransactionKindId));
-                linkElement.Add(new XAttribute("SourceCompletion", link.SourceCompletion));
-                linkElement.Add(new XAttribute("DestinationCompletion", link.DestinationCompletion));
-
-                var sourceCardinality = new XElement("SourceCardinality", new XAttribute("Cardinality", link.SourceCardinality));
-                var destinationCardinality = new XElement("DestinationCardinality", new XAttribute("Cardinality", link.DestinationCardinality));
-
-                if (link.SourceCardinality == TransactionLinkCardinality.Interval)
-                {
-                    sourceCardinality.Add(new XElement("Interval",
-                        new XAttribute("Min", link.SourceCardinalityInterval.Min),
-                        new XAttribute("Max", link.SourceCardinalityInterval.Max)));
-                }
-
-                if (link.DestinationCardinality == TransactionLinkCardinality.Interval)
-                {
-                    destinationCardinality.Add(new XElement("Interval",
-                        new XAttribute("Min", link.DestinationCardinalityInterval.Min),
-                        new XAttribute("Max", link.DestinationCardinalityInterval.Max)));
-                }
-
-                linkElement.Add(sourceCardinality);
-                linkElement.Add(destinationCardinality);
-
-                linksElement.Add(linkElement);
-
-            }
-
-            processElement.Add(linksElement);
-
-            return new XDocument(processElement);
-        }
-    }
-
     class Program
     {
         static void DisplayProcess(ProcessKind process)
@@ -232,14 +149,6 @@ namespace BachelorThesis.ConsoleTest
 
                     Console.WriteLine($"Event '{transactionEvent.EventType}' affected transaction #{transaction.Id} and occured at {transactionEvent.Created}. Raised by #{transactionEvent.RaisedByActorId}");
                     Console.WriteLine();
-
-                    //StyleSheet styleSheet = new StyleSheet(Color.Gray);
-                    //styleSheet.AddStyle("Id:", Color.MediumSlateBlue);
-                    //styleSheet.AddStyle("Completion:", Color.MediumSlateBlue);
-                    //styleSheet.AddStyle("CompletionType:", Color.MediumSlateBlue);
-                    //styleSheet.AddStyle("Id:", Color.MediumSlateBlue);
-          //          Console.WriteLineStyled($"{transaction}", styleSheet);
-                  //  Console.WriteLineFormatted($"\t {transaction}",Color.Gray,Color.Aqua,trKeys);
                 }
                 NextCmd(simulation.ProcessInstance);
             }
@@ -285,7 +194,7 @@ namespace BachelorThesis.ConsoleTest
             //    {
             //        Console.WriteLine(JsonConvert.SerializeObject(step, Formatting.Indented));
             //        var eventInstance = step.Event;
-            //        var eventName = eventDefinition.FindById(eventInstance.TransactionEventKindId).Name;
+            //        var eventName = eventDefinition.FindById(eventInstance.TransactionEventKindId).FirstName;
 
             //        Console.WriteLine($"For '{step.AffectedTransaction.Identificator} 'Event '{eventName}' occured {eventInstance.Created.ToShortDateString()} and raisedBy {eventInstance.RaisedByActorId}");
             //        if (eventInstance is CompletionChangedTransactionEvent @completionChangedEvent)
@@ -303,7 +212,7 @@ namespace BachelorThesis.ConsoleTest
 
 
             //            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
-            //<Simulation Name=""Case01"">
+            //<Simulation FirstName=""Case01"">
             //    <SimulationChunk>
             //        <SimulationStep>
             //            <EventInstance Type=""CompletionChanged"" TransactionId=""1"" RaisedById=""1"" Created=""Date"">

@@ -10,7 +10,7 @@ namespace BachelorThesis.ConsoleTest
             var kindElement = new XElement("TransactionKind");
             kindElement.Add(new XAttribute("Id", kind.Id));
             kindElement.Add(new XAttribute("Identificator", kind.Identificator));
-            kindElement.Add(new XAttribute("Name", kind.Name));
+            kindElement.Add(new XAttribute("FirstName", kind.Name));
             kindElement.Add(new XAttribute("OptimisticTimeEstimate", kind.OptimisticTimeEstimate));
             kindElement.Add(new XAttribute("NormalTimeEstimate", kind.NormalTimeEstimate));
             kindElement.Add(new XAttribute("PesimisticTimeEstimate", kind.PesimisticTimeEstimate));
@@ -23,7 +23,7 @@ namespace BachelorThesis.ConsoleTest
         {
             var processElement = new XElement("ProcessKind");
             processElement.Add(new XAttribute("Id", process.Id));
-            processElement.Add(new XAttribute("Name", process.Name));
+            processElement.Add(new XAttribute("FirstName", process.Name));
 
             // transactions 
             var transactionsElement = new XElement("Transactions");

@@ -25,7 +25,7 @@ namespace BachelorThesis.ConsoleTest
             var processInstanceParser = new ProcessInstanceXmlParser();
             var simulationChunksParser = new SimulationChunksXmlParser();
 
-            Name = xdoc.Root?.Attribute("Name")?.Value;
+            Name = xdoc.Root?.Attribute("FirstName")?.Value;
 
             ProcessInstance = processInstanceParser.Parse(xdoc.Root);
 
