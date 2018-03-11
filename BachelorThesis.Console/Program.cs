@@ -1,143 +1,341 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using BachelorThesis.Bussiness.DataModels;
+using Colorful;
+using ConsoleTableExt;
 using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
+using Console = Colorful.Console;
 
 namespace BachelorThesis.ConsoleTest
 {
-    public class Actor
+    public class ProcessKindXmlParser
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public enum TransactionState
-    {
-        None = 0,
-        Requested,
-        Promised,
-        Stated,
-        Accepted,
-        Quitted,
-        Stopped,
-        Rejected
-    }
-
-    public class Transaction
-    {
-        public Guid Id { get; set; }
-        public string Label { get; set; }
-        public DateTime RequestedTime { get; set; }
-        public DateTime OptimisticEndTime { get; set; }
-        public DateTime NormalEndTime { get; set; }
-        public DateTime PessimisticEndTime { get; set; }
-        public DateTime ExpectedEndTime => new DateTime((OptimisticEndTime.Ticks + 4 * NormalEndTime.Ticks + PessimisticEndTime.Ticks) / 6);
-        public float Completion { get; set; }
-        public TransactionState State { get; set; } = TransactionState.None;
-
-        public List<TransactionEvent> Events { get; set; }
-
-        public List<Transaction> Child { get; set; }
-        public Transaction ParentTransaction { get; set; }
-
-        public Actor Initiator { get; set; }
-        public Actor Executor { get; set; }
-        ////public double ExpectedTimeEstimate
-        ////{
-        ////    get
-        ////    {
-        ////        var o = GetNumberOfDaysBetween(RequestedTime, OptimisticEndTime);
-        ////        var n = GetNumberOfDaysBetween(RequestedTime, NormalEndTime);
-        ////        var p = GetNumberOfDaysBetween(RequestedTime, PessimisticEndTime);
-        ////        Console.WriteLine(o);
-        ////        Console.WriteLine(n);
-        ////        Console.WriteLine(p);
-        ////        return (o + 4 * n + p) / 6d;
-        ////    }
-        ////}
-
-        //private static int GetNumberOfDaysBetween(DateTime a, DateTime b) => (b - a).Days;
-        public Transaction() { }
-        public Transaction(Guid id, string label, DateTime requestedTime = default(DateTime), DateTime optimisticEndTime = default(DateTime), DateTime normalEndTime = default(DateTime), DateTime pessimisticEndTime = default(DateTime), float completion = 0, List<TransactionEvent> events = null, Actor initiator = null, Actor executor = null)
+        private static XElement CreateTransactionKindElement(TransactionKind kind)
         {
-            Id = id;
-            Label = label;
-            RequestedTime = requestedTime;
-            OptimisticEndTime = optimisticEndTime;
-            NormalEndTime = normalEndTime;
-            PessimisticEndTime = pessimisticEndTime;
-            Completion = completion;
-            Events = events;
-            Initiator = initiator;
-            Executor = executor;
+            var kindElement = new XElement("TransactionKind");
+            kindElement.Add(new XAttribute("Id", kind.Id));
+            kindElement.Add(new XAttribute("Identificator", kind.Identificator));
+            kindElement.Add(new XAttribute("Name", kind.Name));
+            kindElement.Add(new XAttribute("OptimisticTimeEstimate", kind.OptimisticTimeEstimate));
+            kindElement.Add(new XAttribute("NormalTimeEstimate", kind.NormalTimeEstimate));
+            kindElement.Add(new XAttribute("PesimisticTimeEstimate", kind.PesimisticTimeEstimate));
+            kindElement.Add(new XAttribute("ProcessKindId", kind.ProcessKindId));
+
+            return kindElement;
+        }
+
+        public static XDocument CreateDocument(ProcessKind process)
+        {
+            var processElement = new XElement("ProcessKind");
+            processElement.Add(new XAttribute("Id", process.Id));
+            processElement.Add(new XAttribute("Name", process.Name));
+
+            // transactions 
+            var transactionsElement = new XElement("Transactions");
+
+            foreach (var kind in process.GetTransactions())
+            {
+                var rootElement = CreateTransactionKindElement(kind);
+
+                TreeStructureHelper.Traverse(kind, rootElement, (node, element) =>
+                {
+                    var childElement = CreateTransactionKindElement(node);
+                    element.Add(childElement);
+                });
+
+                transactionsElement.Add(rootElement);
+            }
+            processElement.Add(transactionsElement);
+
+            // links
+            var linksElement = new XElement("Links");
+
+            foreach (var link in process.GetLinks())
+            {
+                var linkElement = new XElement("TransactionLink");
+                linkElement.Add(new XAttribute("Id", link.Id));
+                linkElement.Add(new XAttribute("Type", link.Type));
+                linkElement.Add(new XAttribute("SourceTransactionId", link.SourceTransactionKindId));
+                linkElement.Add(new XAttribute("DestinationTransactionId", link.DestinationTransactionKindId));
+                linkElement.Add(new XAttribute("SourceCompletion", link.SourceCompletion));
+                linkElement.Add(new XAttribute("DestinationCompletion", link.DestinationCompletion));
+
+                var sourceCardinality = new XElement("SourceCardinality", new XAttribute("Cardinality", link.SourceCardinality));
+                var destinationCardinality = new XElement("DestinationCardinality", new XAttribute("Cardinality", link.DestinationCardinality));
+
+                if (link.SourceCardinality == TransactionLinkCardinality.Interval)
+                {
+                    sourceCardinality.Add(new XElement("Interval",
+                        new XAttribute("Min", link.SourceCardinalityInterval.Min),
+                        new XAttribute("Max", link.SourceCardinalityInterval.Max)));
+                }
+
+                if (link.DestinationCardinality == TransactionLinkCardinality.Interval)
+                {
+                    destinationCardinality.Add(new XElement("Interval",
+                        new XAttribute("Min", link.DestinationCardinalityInterval.Min),
+                        new XAttribute("Max", link.DestinationCardinalityInterval.Max)));
+                }
+
+                linkElement.Add(sourceCardinality);
+                linkElement.Add(destinationCardinality);
+
+                linksElement.Add(linkElement);
+
+            }
+
+            processElement.Add(linksElement);
+
+            return new XDocument(processElement);
         }
     }
-
-    public class TransactionEvent
-    {
-        public Guid Id { get; set; }
-        public string Label { get; set; }
-        public TransactionState TransactionState { get; set; }
-        public DateTime CreatedTime { get; set; }
-
-        public TransactionEvent(Guid id, string label, TransactionState transactionState, DateTime createdTime)
-        {
-            Id = id;
-            Label = label;
-            TransactionState = transactionState;
-            CreatedTime = createdTime;
-        }
-    }
-
-    public class Process
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime ExpectedEndTime { get; set; }
-        public float Completion { get; set; }
-
-        public List<Transaction> Transactions { get; set; }
-    }
-
 
     class Program
     {
+        static void DisplayProcess(ProcessKind process)
+        {
+            Console.WriteLine(process.Name);
+
+            foreach (var transaction in process.GetTransactions())
+            {
+                DisplayTransaction(process, transaction);
+            }
+        }
+
+        static void DisplayTransaction(ProcessKind process, TransactionKind kind, int depth = 0)
+        {
+            for (int i = 0; i < depth*2; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.WriteLine($"-{kind.Name}");
+            foreach (var link in process.GetLinksAsSourceForTransaction(kind.Id))
+            {
+                DisplayLink(link);
+            }
+            foreach (var child in kind.GetChildren())
+            {
+                DisplayTransaction(process, child, depth + 1);
+            }
+        }
+
+        static void DisplayLink(TransactionLink link)
+        {
+           // Console.WriteLine($" {link.SourceEventKindId} -> {link.DestinationEventKindId} ");
+        }
+
+        static void IterateChildren(TransactionInstance instance, DataTable table)
+        {
+            foreach (var child in instance.GetChildren())
+            {
+                table.Rows.Add(child.Id, child.Identificator, child.Completion, child.CompletionType,child.ParentId);
+                IterateChildren(child,table);
+            }
+        }
+
+        static DataTable CreateDataTable(List<TransactionInstance> transactions)
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("Identificator", typeof(string));
+            table.Columns.Add("Completion", typeof(float));
+            table.Columns.Add("Completion type", typeof(String));
+            table.Columns.Add("Parent id", typeof(int));
+
+            //     table.Columns.Add("", typeof(DateTime));
+
+            foreach (var root in transactions)
+            {
+                table.Rows.Add(root.Id, root.Identificator, root.Completion, root.CompletionType,root.ParentId);
+
+             //   IterateChildren(root,table);
+                //TreeStructureHelper.IterateThrough<TransactionInstance,DataTable,object>(root,table, (node, t) =>
+                //{
+                //    t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId);
+                //} );
+
+                TreeStructureHelper.Traverse(root,table, (node, t) =>
+                {
+                    t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId);
+                });
+            }
+
+            return table;
+
+        }
+
+        static void PrintTransaction(ProcessInstance process)
+        {
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("----------------------------TRANSACTIONS---------------------------------");
+
+            var table = CreateDataTable(process.GetTransactions());
+            ConsoleTableBuilder.From(table).ExportAndWriteLine();
+
+            NextCmd(process);
+
+        }
+
+        static void NextCmd(ProcessInstance process)
+        {
+            Console.WriteLine("T: transaction view. <other> continue", Color.LawnGreen);
+            var key = Console.ReadKey(true);
+            if(key.Key == ConsoleKey.T)
+                PrintTransaction(process);
+        }
+
+        
+
+      
+
         [STAThread]
         static void Main(string[] args)
         {
-            var date = DateTime.Now;
-            var transaction = new Transaction
+            //var def = new RentalContractProcessDefinition();
+            //var process = def.GetDefinition();
+
+            //var doc = PrepareProcessDocument(process);
+            //System.Console.WriteLine(doc.ToString());
+
+            //doc.Save("TestCases/definition.xml");
+
+
+            //  Console.WriteLine(DateTime.ParseExact("01-02-2018 15:34:23", XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture));
+
+            var simulation = new RentalContractSimulationFromXml("SimulationCases/case-01.xml");
+
+            simulation.Prepare();
+
+            Console.WriteLine($"Simulation {simulation.Name} prepared");
+            Console.ReadKey(true);
+            
+            PrintTransaction(simulation.ProcessInstance);
+
+            while (simulation.CanContinue)
             {
-                Id = Guid.NewGuid(),
-                Label = "Car pick up",
-                RequestedTime = date,
-                OptimisticEndTime = date.AddDays(2),
-                NormalEndTime = date.AddDays(4),
-                PessimisticEndTime = date.AddDays(6),
-                Completion = 0.25f,
-                State = TransactionState.Requested,
-                Initiator = new Actor() {Id = Guid.NewGuid(), Name = "Alice"},
-                Executor = new Actor() {Id = Guid.NewGuid(), Name = "Bob"},
-                Events = new List<TransactionEvent>() { new TransactionEvent(Guid.NewGuid(), "Requested", TransactionState.Requested, date)},
-            };
+                var results = simulation.SimulateNextChunk();
+
+                foreach (var transactionEvent in results)
+                {
+                    var transaction = simulation.ProcessInstance.GetTransactionById(transactionEvent.TransactionInstanceId);
+
+                    Console.WriteLine($"Event '{transactionEvent.EventType}' affected transaction #{transaction.Id} and occured at {transactionEvent.Created}. Raised by #{transactionEvent.RaisedByActorId}");
+                    Console.WriteLine();
+
+                    //StyleSheet styleSheet = new StyleSheet(Color.Gray);
+                    //styleSheet.AddStyle("Id:", Color.MediumSlateBlue);
+                    //styleSheet.AddStyle("Completion:", Color.MediumSlateBlue);
+                    //styleSheet.AddStyle("CompletionType:", Color.MediumSlateBlue);
+                    //styleSheet.AddStyle("Id:", Color.MediumSlateBlue);
+          //          Console.WriteLineStyled($"{transaction}", styleSheet);
+                  //  Console.WriteLineFormatted($"\t {transaction}",Color.Gray,Color.Aqua,trKeys);
+                }
+                NextCmd(simulation.ProcessInstance);
+            }
+
+            //var eventDefinition = new RentalContractEventDefinitions();
+            //var definition = new RentalContractProcessDefinition();
+            //var processKind = definition.GetDefinition();
+
+            //var rentalInstance = processKind.NewInstance(DateTime.Now);
+
+            //var t1 = processKind.GetTransactionByIdentifier("T1").NewInstance(rentalInstance.Id);
+            //var t2 = processKind.GetTransactionByIdentifier("T2").NewInstance(rentalInstance.Id);
+            //var t3 = processKind.GetTransactionByIdentifier("T3").NewInstance(rentalInstance.Id);
+            //var t4 = processKind.GetTransactionByIdentifier("T4").NewInstance(rentalInstance.Id);
+            //var t5 = processKind.GetTransactionByIdentifier("T5").NewInstance(rentalInstance.Id);
+
+            //rentalInstance.AddTransaction(t1);
+            //rentalInstance.AddTransaction(t2);
+            //rentalInstance.AddTransaction(t3);
+            //rentalInstance.AddTransaction(t4);
+            //rentalInstance.AddTransaction(t5);
 
 
-            var process = new Process()
-            {
-                Id = Guid.NewGuid(),
-                Completion = 0.25f,
-                ExpectedEndTime = date.AddDays(7),
-                Name = "Car rent",
-                StartTime = date,
-                Transactions = new List<Transaction>() { transaction}
-            };
 
-            var json = JsonConvert.SerializeObject(process);
-            Clipboard.SetText(json);
-            Console.WriteLine(json);
-            Console.WriteLine("---- END ---");
+            //var jsonModel = JsonConvert.SerializeObject(processKind, Formatting.Indented);
+            //   var jsonInstance = JsonConvert.SerializeObject(rentalInstance, Formatting.Indented);
+
+            ////  Console.WriteLine(jsonModel);
+            // Console.WriteLine(jsonInstance);
+
+
+
+
+            //Console.WriteLine("---- SIMULATION --- ");
+            //var simulation = new RentalContractSimulation(rentalInstance);
+            //simulation.Prepare();
+
+            //while (simulation.CanContinue)
+            //{
+            //    var results = simulation.SimulateNextChunk();
+
+            //    foreach (var step in results)
+            //    {
+            //        Console.WriteLine(JsonConvert.SerializeObject(step, Formatting.Indented));
+            //        var eventInstance = step.Event;
+            //        var eventName = eventDefinition.FindById(eventInstance.TransactionEventKindId).Name;
+
+            //        Console.WriteLine($"For '{step.AffectedTransaction.Identificator} 'Event '{eventName}' occured {eventInstance.Created.ToShortDateString()} and raisedBy {eventInstance.RaisedByActorId}");
+            //        if (eventInstance is CompletionChangedTransactionEvent @completionChangedEvent)
+            //        {
+            //            Console.WriteLine($"\t -- changed from {completionChangedEvent.OldCompletion} to {completionChangedEvent.NewCompletion}");
+            //        }
+
+            //    }
+
+            //    Console.WriteLine();
+            //    Console.WriteLine("...");
+            //    Console.ReadKey();
+            //    Console.WriteLine();
+            //}
+
+
+            //            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            //<Simulation Name=""Case01"">
+            //    <SimulationChunk>
+            //        <SimulationStep>
+            //            <EventInstance Type=""CompletionChanged"" TransactionId=""1"" RaisedById=""1"" Created=""Date"">
+            //                <CompletionChanged OldCompletion=""Request"" NewCompletion=""Promise"" />
+            //            </EventInstance>
+            //        </SimulationStep>        
+            //    </SimulationChunk>
+            //</Simulation>";
+
+            //            var xdoc = XDocument.Parse(xml);
+            //            var chunks = xdoc.Descendants("SimulationChunk");
+            //            foreach (var chunk in chunks)
+            //            {
+            //                var steps = chunk.Elements("SimulationStep");
+            //                foreach (var step in steps)
+            //                {
+            //                    var ev = step.Element("EventInstance");
+            //                    var evType = ev.Attribute("Type").Value;
+
+            //                    if (evType == "CompletionChanged")
+            //                    {
+            //                        var evArgs = ev.Element("CompletionChanged");
+            //                        Console.WriteLine(evArgs.Attribute("OldCompletion").Value);
+            //                        Console.WriteLine(evArgs.Attribute("NewCompletion").Value);
+            //                    }
+            //                    Console.WriteLine(evType);
+            //                }
+            //            }
+
+            Console.WriteLine("---- END ----");
             Console.ReadKey();
         }
     }
-}
+};
+
