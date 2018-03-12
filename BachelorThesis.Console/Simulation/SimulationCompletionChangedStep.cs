@@ -12,7 +12,7 @@ namespace BachelorThesis.ConsoleTest
         {
             var instance = process.GetTransactionById(Event.TransactionInstanceId);
 
-            instance.CompletionType = ((CompletionChangedTransactionEvent) Event).NewCompletion;
+            instance.Completion = ((CompletionChangedTransactionEvent) Event).Completion;
 
             return Event;
         }

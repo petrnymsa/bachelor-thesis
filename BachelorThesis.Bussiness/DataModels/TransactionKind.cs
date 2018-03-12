@@ -60,7 +60,7 @@ namespace BachelorThesis.Bussiness.DataModels
         {
             return new TransactionInstance
             {
-                CompletionType = TransactionCompletion.None,
+                Completion = TransactionCompletion.None,
                 TransactionKindId = this.Id,
                 ProcessInstanceId = processInstanceId,
                 Identificator = this.Identificator

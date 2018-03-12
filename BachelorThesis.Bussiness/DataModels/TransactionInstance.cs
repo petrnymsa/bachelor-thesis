@@ -11,9 +11,9 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public int Id { get; set; }
         public string Identificator { get; set; }
-        public float Completion => GetCompletion();
+        public float CompletionNumber => GetCompletion();
       
-        public TransactionCompletion CompletionType { get; set; }
+        public TransactionCompletion Completion { get; set; }
         public int ProcessInstanceId { get; set; }
         public int TransactionKindId { get; set; }
         public int? InitiatorId { get; set; }
@@ -39,7 +39,7 @@ namespace BachelorThesis.Bussiness.DataModels
 
         private float GetCompletion()
         {
-            switch (CompletionType)
+            switch (Completion)
             {
                 case TransactionCompletion.None: return 0f;
                 case TransactionCompletion.Requested: return 0.25f;
@@ -72,7 +72,7 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public override string ToString()
         {
-            return $"{nameof(Id)}: {Id}, {nameof(Identificator)}: {Identificator}, {nameof(Completion)}: {Completion}, {nameof(CompletionType)}: {CompletionType}, {nameof(ProcessInstanceId)}: {ProcessInstanceId}, {nameof(TransactionKindId)}: {TransactionKindId}, {nameof(InitiatorId)}: {InitiatorId}, {nameof(ExecutorId)}: {ExecutorId}, {nameof(ParentId)}: {ParentId}";
+            return $"{nameof(Id)}: {Id}, {nameof(Identificator)}: {Identificator}, {nameof(CompletionNumber)}: {CompletionNumber}, {nameof(Completion)}: {Completion}, {nameof(ProcessInstanceId)}: {ProcessInstanceId}, {nameof(TransactionKindId)}: {TransactionKindId}, {nameof(InitiatorId)}: {InitiatorId}, {nameof(ExecutorId)}: {ExecutorId}, {nameof(ParentId)}: {ParentId}";
         }
     }
 }
