@@ -38,13 +38,11 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public List<TransactionInstance> GetTransactions() => transactions;
 
-        public TransactionInstance GetTransactionById(int id) => transactions.Find(x=> x.Id == id);
-
-        public TransactionInstance GetTransactionByIdentificator(string identificator)
+        public TransactionInstance GetTransactionById(int id)
         {
-            foreach (var root in transactions)
+            foreach (var instance in transactions)
             {
-                var found = TreeStructureHelper.FindByIdentificator(root, identificator);
+                var found = TreeStructureHelper.Find(instance, (node) => node.Id == id);
                 if (found != null)
                     return found;
             }
@@ -52,22 +50,16 @@ namespace BachelorThesis.Bussiness.DataModels
             return null;
         }
 
-        //private TransactionInstance FindByIndetifier(TransactionInstance node, string identifier)
-        //{
-        //    if (node == null)
-        //        return null;
+        public TransactionInstance GetTransactionByIdentificator(string identificator)
+        {
+            foreach (var instance in transactions)
+            {
+                var found = TreeStructureHelper.Find(instance, (node) => string.Equals(node.Identificator, identificator, StringComparison.InvariantCulture));
+                if (found != null)
+                    return found;
+            }
 
-        //    if (string.Equals(node.Identificator, identifier, StringComparison.InvariantCulture))
-        //        return node;
-
-        //    foreach (var child in node.GetChildren())
-        //    {
-        //        var found = FindByIndetifier(child, identifier);
-        //        if (found != null)
-        //            return found;
-        //    }
-
-        //    return null;
-        //}
+            return null;
+        }
     }
 }
