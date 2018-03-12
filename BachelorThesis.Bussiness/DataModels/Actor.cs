@@ -9,7 +9,11 @@ namespace BachelorThesis.Bussiness.DataModels
         public int Id { get; set; }
         public string Name { get; set; }
 
-
+        public ActorKind(string name)
+        {
+            Id = Interlocked.Increment(ref nextId);
+            Name = name;
+        }
     }
 
     public class Actor
@@ -17,6 +21,7 @@ namespace BachelorThesis.Bussiness.DataModels
         private static int nextId;
 
         public int Id { get; set; }
+        public int ActorKindId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -25,9 +30,10 @@ namespace BachelorThesis.Bussiness.DataModels
             
         }
 
-        public Actor(string firstName, string lastName)
+        public Actor(int actorKindId, string firstName, string lastName)
         {
             Id = Interlocked.Increment(ref nextId);
+            ActorKindId = actorKindId;
             FirstName = firstName;
             LastName = lastName;
         }

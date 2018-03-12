@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Simulation FirstName="Case01">
+<Simulation Name="Case01">
+	<Actors>
+		<Actor Id="1" ActorKindId="1" FirstName="George" LastName="Lucas" />
+		<Actor Id="2" ActorKindId="2" FirstName="George" LastName="Lucas" />
+		<Actor Id="3" ActorKindId="3" FirstName="Bob" LastName="Freeman" />        
+		<Actor Id="4" ActorKindId="4" FirstName="Alice" LastName="Freeman" />
+	</Actors>
+
     <ProcessInstance Id="1" KindId="1" StartTime="01-02-2018 15:34:23" ExpectedEndTime="01-02-2018 15:34:23">
         <TransactionInstance Id="1" KindId="1" Identificator="T1" CompletionType="0" ProcessInstanceId="1" InitiatorId="null" ExecutorId="null" ParentId="null">
                 <TransactionInstance Id="2" KindId="2" Identificator="T2" CompletionType="0" ProcessInstanceId="1" InitiatorId="null" ExecutorId="null" ParentId="1"  />

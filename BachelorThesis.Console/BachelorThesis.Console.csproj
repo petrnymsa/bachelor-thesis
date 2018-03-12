@@ -56,8 +56,9 @@
   <ItemGroup>
     <Compile Include="IProcessDefinition.cs" />
     <Compile Include="IProcessEventDefinitions.cs" />
-    <Compile Include="ProcessKindXmlParser.cs" />
-    <Compile Include="Simulation\ProcessInstanceXmlParser.cs" />
+    <Compile Include="Parsers\ProcessKindXmlParser.cs" />
+    <Compile Include="Parsers\ProcessInstanceXmlParser.cs" />
+    <Compile Include="Parsers\SimulationCaseParser.cs" />
     <Compile Include="Simulation\ProcessSimulation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,10 +67,10 @@
     <Compile Include="Simulation\RentalContractSimulation.cs" />
     <Compile Include="Simulation\RentalContractSimulationFromXml.cs" />
     <Compile Include="Simulation\SimulationChunk.cs" />
-    <Compile Include="Simulation\SimulationChunksXmlParser.cs" />
+    <Compile Include="Parsers\SimulationChunksXmlParser.cs" />
     <Compile Include="Simulation\SimulationCompletionChangedStep.cs" />
     <Compile Include="Simulation\SimulationStep.cs" />
-    <Compile Include="Simulation\XmlParsersConfig.cs" />
+    <Compile Include="Parsers\XmlParsersConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest
+namespace BachelorThesis.ConsoleTest.Parsers
 {
     public class SimulationChunksXmlParser
     {

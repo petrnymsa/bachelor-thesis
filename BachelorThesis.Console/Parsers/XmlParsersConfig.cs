@@ -1,4 +1,4 @@
-﻿namespace BachelorThesis.ConsoleTest
+﻿namespace BachelorThesis.ConsoleTest.Parsers
 {
     public static class XmlParsersConfig
     {

@@ -18,6 +18,9 @@ namespace BachelorThesis.Bussiness.DataModels
         public double PesimisticTimeEstimate { get; private set; }
         public double ExpectedTimeEstimate { get; private set; }
 
+        public int InitiatorKindId { get; set; }
+        public int ExecutorKindId { get; set; }
+
         public int? ParentId { get; set; }
 
         [JsonProperty(Order = 10)]
@@ -31,13 +34,14 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public List<TransactionKind> GetChildren() => children;
 
-        public TransactionKind(string identificator, string name, int processKindId)
+        public TransactionKind(string identificator, string name, int processKindId, int initiatorKindId, int executorKindId)
         {
             Id = Interlocked.Increment(ref nextId);
             Identificator = identificator;
             Name = name;
             ProcessKindId = processKindId;
-
+            InitiatorKindId = initiatorKindId;
+            ExecutorKindId = executorKindId;
             ExpectedTimeEstimate = 0;
 
             children = new List<TransactionKind>();

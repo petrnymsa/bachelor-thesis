@@ -1,7 +1,9 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest
+namespace BachelorThesis.ConsoleTest.Parsers
 {
     public class ProcessKindXmlParser
     {
@@ -15,36 +17,47 @@ namespace BachelorThesis.ConsoleTest
             kindElement.Add(new XAttribute("NormalTimeEstimate", kind.NormalTimeEstimate));
             kindElement.Add(new XAttribute("PesimisticTimeEstimate", kind.PesimisticTimeEstimate));
             kindElement.Add(new XAttribute("ProcessKindId", kind.ProcessKindId));
+            kindElement.Add(new XAttribute("InitiatorKindId", kind.InitiatorKindId));
+            kindElement.Add(new XAttribute("ExecutorKindId", kind.ExecutorKindId));
 
             return kindElement;
         }
 
-        public static XDocument CreateDocument(ProcessKind process)
+        public static XDocument CreateDocument(ProcessKind process, List<ActorKind> actors)
         {
             var processElement = new XElement("ProcessKind");
             processElement.Add(new XAttribute("Id", process.Id));
             processElement.Add(new XAttribute("FirstName", process.Name));
 
+            // actors
+            var actorsElement = new XElement("Actors", 
+                from actor in actors
+                    select new XElement("ActorKind", 
+                        new XAttribute("Id", actor.Id),
+                        new XAttribute("Name", actor.Name)));
+
+            processElement.Add(actorsElement);
+        
+
             // transactions 
             var transactionsElement = new XElement("Transactions");
 
-            foreach (var kind in process.GetTransactions())
-            {
-                var rootElement = CreateTransactionKindElement(kind);
+            CreateTransactionElements(process, transactionsElement);
 
-                TreeStructureHelper.Traverse(kind, rootElement, (node, element) =>
-                {
-                    var childElement = CreateTransactionKindElement(node);
-                    element.Add(childElement);
-                });
-
-                transactionsElement.Add(rootElement);
-            }
             processElement.Add(transactionsElement);
 
             // links
             var linksElement = new XElement("Links");
 
+            CreateLinkElements(process, linksElement);
+
+            processElement.Add(linksElement);
+
+            return new XDocument(processElement);
+        }
+
+        private static void CreateLinkElements(ProcessKind process, XElement linksElement)
+        {
             foreach (var link in process.GetLinks())
             {
                 var linkElement = new XElement("TransactionLink");
@@ -78,10 +91,22 @@ namespace BachelorThesis.ConsoleTest
                 linksElement.Add(linkElement);
 
             }
+        }
 
-            processElement.Add(linksElement);
+        private static void CreateTransactionElements(ProcessKind process, XElement transactionsElement)
+        {
+            foreach (var kind in process.GetTransactions())
+            {
+                var rootElement = CreateTransactionKindElement(kind);
 
-            return new XDocument(processElement);
+                TreeStructureHelper.Traverse(kind, rootElement, (node, element) =>
+                {
+                    var childElement = CreateTransactionKindElement(node);
+                    element.Add(childElement);
+                });
+
+                transactionsElement.Add(rootElement);
+            }
         }
     }
 }

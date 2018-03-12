@@ -1,11 +1,12 @@
 ﻿using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.ConsoleTest.Parsers;
 
 namespace BachelorThesis.ConsoleTest
 {
     public class RentalContractSimulationFromXml : ProcessSimulation
     {
-        private string xmlPath;
+        private readonly string xmlPath;
 
         private TransactionInstance rentalContracting;
         private TransactionInstance rentalPayment;
@@ -21,16 +22,16 @@ namespace BachelorThesis.ConsoleTest
 
         public override void Prepare()
         {
-            var xdoc = XDocument.Load(xmlPath);
-            var processInstanceParser = new ProcessInstanceXmlParser();
-            var simulationChunksParser = new SimulationChunksXmlParser();
+            var parser = new SimulationCaseParser();
+            var result = parser.Parse(xmlPath);
 
-            Name = xdoc.Root?.Attribute("FirstName")?.Value;
+            ProcessInstance = result.ProcessInstance;
+            Name = result.Name;
 
-            ProcessInstance = processInstanceParser.Parse(xdoc.Root);
+            foreach (var actor in result.Actors)
+                Actors.Add(actor);
 
-            var chunks = simulationChunksParser.Parse(ProcessInstance, xdoc.Root);
-            foreach (var chunk in chunks)
+            foreach (var chunk in result.Chunks)
                 AddChunk(chunk);
         }
     }

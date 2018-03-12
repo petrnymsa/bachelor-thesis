@@ -1,12 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ProcessKind Id="1" FirstName="Rental contract">
+﻿<ProcessKind Id="1" FirstName="Rental contract">
+  <Actors>
+    <ActorKind Id="1" Name="Renter" />
+    <ActorKind Id="2" Name="Driver" />
+    <ActorKind Id="3" Name="Car issuer" />
+    <ActorKind Id="4" Name="Rental contracter" />
+  </Actors>
   <Transactions>
-    <TransactionKind Id="1" Identificator="T1" FirstName="Rental contracting" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1">
-      <TransactionKind Id="2" Identificator="T2" FirstName="Rental payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" />
+    <TransactionKind Id="1" Identificator="T1" FirstName="Rental contracting" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="1" ExecutorKindId="4">
+      <TransactionKind Id="2" Identificator="T2" FirstName="Rental payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="4" ExecutorKindId="1" />
     </TransactionKind>
-    <TransactionKind Id="3" Identificator="T3" FirstName="Car pick up" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1">
-      <TransactionKind Id="4" Identificator="T4" FirstName="Car drop off" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" />
-      <TransactionKind Id="5" Identificator="T5" FirstName="Penalty payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" />
+    <TransactionKind Id="3" Identificator="T3" FirstName="Car pick up" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="2" ExecutorKindId="3">
+      <TransactionKind Id="4" Identificator="T4" FirstName="Car drop off" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="3" ExecutorKindId="2" />
+      <TransactionKind Id="5" Identificator="T5" FirstName="Penalty payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="3" ExecutorKindId="2" />
     </TransactionKind>
   </Transactions>
   <Links>
