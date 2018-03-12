@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest
+namespace BachelorThesis.Bussiness.Simulation
 {
     public class SimulationChunk
     {
@@ -29,5 +30,7 @@ namespace BachelorThesis.ConsoleTest
 
             return events;
         }
+
+        public List<TransactionEvent> GetEvents() => steps.Select(x => x.Event).ToList();
     }
 }

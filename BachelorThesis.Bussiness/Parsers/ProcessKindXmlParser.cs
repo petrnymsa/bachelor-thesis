@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest.Parsers
+namespace BachelorThesis.Bussiness.Parsers
 {
     public class ProcessKindXmlParser
     {

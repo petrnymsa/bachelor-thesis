@@ -1,8 +1,7 @@
-﻿using System.Xml.Linq;
-using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.ConsoleTest.Parsers;
+﻿using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.Bussiness.Parsers;
 
-namespace BachelorThesis.ConsoleTest
+namespace BachelorThesis.Bussiness.Simulation
 {
     public class RentalContractSimulationFromXml : ProcessSimulation
     {

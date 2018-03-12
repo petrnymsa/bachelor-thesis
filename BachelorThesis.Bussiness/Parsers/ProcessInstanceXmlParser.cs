@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest.Parsers
+namespace BachelorThesis.Bussiness.Parsers
 {
     public class ProcessInstanceXmlParser
     {
@@ -80,7 +80,7 @@ namespace BachelorThesis.ConsoleTest.Parsers
 
             var instance = new TransactionInstance()
             {
-                CompletionType = completionType,
+                Completion = completionType,
                 ExecutorId = executorId,
                 Id = id,
                 Identificator = identificator,
@@ -91,6 +91,38 @@ namespace BachelorThesis.ConsoleTest.Parsers
             };
 
             return instance;
+        }
+
+        public XElement Create(ProcessInstance process)
+        {
+            var root = new XElement(ProcessInstanceElement,
+                new XAttribute(IdAttribute, process.Id),
+                new XAttribute(KindIdAttribute, process.ProcessKindId),
+                new XAttribute(StartTimeAttribute, process.StartTime.ToString(XmlParsersConfig.DateTimeFormat)),
+                new XAttribute(ExpectedEndTimeAttribute, process.ExpectedEndTime?.ToString(XmlParsersConfig.DateTimeFormat)));
+
+            foreach (var transaction in process.GetTransactions())
+            {
+                var element = CreateTransactionElement(transaction);
+                TreeStructureHelper.Traverse(transaction,element, (t, e) => e.Add(CreateTransactionElement(t)));
+                root.Add(element);
+            }
+
+
+            return root;
+        }
+
+        private XElement CreateTransactionElement(TransactionInstance transaction)
+        {
+            return new XElement(TransactionInstanceElement,
+                new XAttribute(IdAttribute, transaction.Id),
+                new XAttribute(KindIdAttribute, transaction.TransactionKindId),
+                new XAttribute(IdentificatorAttribute, transaction.Identificator),
+                new XAttribute(CompletionTypeAttribute, (int)transaction.Completion),
+                new XAttribute(ProcessInstanceIdAttribute, transaction.ProcessInstanceId),
+                new XAttribute(InitiatorIdAttribute, transaction.InitiatorId == null ? 0 : transaction.InitiatorId) ,
+                new XAttribute(ExecutorIdAttribute, transaction.ExecutorId == null ? 0 : transaction.ExecutorId),
+                new XAttribute(ParentIdAttribute, transaction.ParentId == null ? 0 : transaction.ParentId));
         }
     }
 }

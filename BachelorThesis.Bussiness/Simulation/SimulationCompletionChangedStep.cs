@@ -1,6 +1,6 @@
 ﻿using BachelorThesis.Bussiness.DataModels;
 
-namespace BachelorThesis.ConsoleTest
+namespace BachelorThesis.Bussiness.Simulation
 {
     public class SimulationCompletionChangedStep : SimulationStep
     {
