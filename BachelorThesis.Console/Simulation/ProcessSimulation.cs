@@ -6,6 +6,8 @@ namespace BachelorThesis.ConsoleTest
     public abstract class ProcessSimulation
     {
         public ProcessInstance ProcessInstance { get; protected set; }
+        public List<Actor> Actors { get; protected set; }
+
         private int currentChunk = 0;
         private List<SimulationChunk> chunks;
 
@@ -15,6 +17,7 @@ namespace BachelorThesis.ConsoleTest
         protected ProcessSimulation()
         {
             chunks = new List<SimulationChunk>();
+            Actors = new List<Actor>();
         }
 
         public abstract void Prepare();

@@ -5,18 +5,26 @@ namespace BachelorThesis.ConsoleTest
 {
     public class RentalContractProcessDefinition : IProcessDefinition
     {
+        private readonly ActorKind actorRenter;
+        private readonly ActorKind actorCarIssuer;
+        private readonly ActorKind actorDriver;
+        private readonly ActorKind actorRentalContracter;
 
         public RentalContractProcessDefinition()
         {
+            actorRenter = new ActorKind("Renter");
+            actorDriver = new ActorKind("Driver");
+            actorCarIssuer = new ActorKind("Car issuer");
+            actorRentalContracter = new ActorKind("Rental contracter");
         }
 
         private List<TransactionKind> GetTransactionDefinitions(ProcessKind process)
         {
-            var t1 = new TransactionKind("T1", "Rental contracting", process.Id);
-            var t2 = new TransactionKind("T2", "Rental payment", process.Id);
-            var t3 = new TransactionKind("T3", "Car pick up", process.Id);
-            var t4 = new TransactionKind("T4", "Car drop off", process.Id);
-            var t5 = new TransactionKind("T5", "Penalty payment", process.Id);
+            var t1 = new TransactionKind("T1", "Rental contracting", process.Id, actorRenter.Id, actorRentalContracter.Id);
+            var t2 = new TransactionKind("T2", "Rental payment", process.Id, actorRentalContracter.Id, actorRenter.Id);
+            var t3 = new TransactionKind("T3", "Car pick up", process.Id, actorDriver.Id, actorCarIssuer.Id);
+            var t4 = new TransactionKind("T4", "Car drop off", process.Id, actorCarIssuer.Id, actorDriver.Id);
+            var t5 = new TransactionKind("T5", "Penalty payment", process.Id, actorCarIssuer.Id, actorDriver.Id);
 
             t1.AddChild(t2);
             t3.AddChild(t4);
@@ -65,5 +73,7 @@ namespace BachelorThesis.ConsoleTest
 
             return process;
         }
+
+        public List<ActorKind> GetActorKinds() => new  List<ActorKind>() { actorRenter, actorDriver, actorRentalContracter, actorCarIssuer };
     }
 }
