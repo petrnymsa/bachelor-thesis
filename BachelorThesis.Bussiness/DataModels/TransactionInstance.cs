@@ -5,21 +5,7 @@ using Newtonsoft.Json;
 
 namespace BachelorThesis.Bussiness.DataModels
 {
-    public enum TransactionCompletion
-    {
-        None,
-        Requested,
-        Declined,
-        Quitted,
-        Promised,
-        Executed,
-        Stated,
-        Rejected,
-        Stopped,
-        Accepted
-    }
-
-    public class TransactionInstance : IIdentifiable, IChildrenAware<TransactionInstance>
+    public class TransactionInstance : IChildrenAware<TransactionInstance>
     {
         private static int nextId;
 

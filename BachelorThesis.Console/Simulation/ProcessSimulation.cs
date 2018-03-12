@@ -36,5 +36,8 @@ namespace BachelorThesis.ConsoleTest
             chunks.Add(chunk);
             return this;
         }
+
+
+        public Actor FindActorById(int raisedByActorId) => Actors.Find(x => x.Id == raisedByActorId);
     }
 }

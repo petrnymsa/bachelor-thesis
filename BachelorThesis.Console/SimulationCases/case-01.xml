@@ -17,19 +17,20 @@
             <TransactionInstance Id="5" KindId="5" Identificator="T5" CompletionType="0" ProcessInstanceId="1" InitiatorId="null" ExecutorId="null" ParentId="3"  />
         </TransactionInstance>
     </ProcessInstance>
-
-  <Actors>
-    <Actor Id="1" FirstName="" />
-  </Actors>
     
     <Chunks>
         <Chunk>
             <Event Type="0" TransactionId="1" RaisedById="1" Created="01-02-2018 18:34:23">
-                <CompletionChanged OldCompletion="Requested" NewCompletion="Promised" />
+                <CompletionChanged Completion="Promised" />
             </Event>
             <Event Type="0" TransactionId="2" RaisedById="1" Created="01-02-2018 18:34:23">
-              <CompletionChanged OldCompletion="Requested" NewCompletion="Promised" />
+              <CompletionChanged Completion="Promised" />
             </Event>
         </Chunk> 
+        <Chunk>
+            <Event Type="0" TransactionId="1" RaisedById="3" Created="01-02-2018 18:34:23">
+                <CompletionChanged Completion="Stated" />
+            </Event>
+        </Chunk>
     </Chunks>
 </Simulation>

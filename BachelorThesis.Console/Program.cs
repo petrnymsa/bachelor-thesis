@@ -18,50 +18,77 @@ using Console = Colorful.Console;
 
 namespace BachelorThesis.ConsoleTest
 {
-    class Program
+    public static class SimulatorPrinter
     {
-        static void DisplayProcess(ProcessKind process)
+        private static void PrintLineWithMarker(string marker, string line, Color markerColor)
         {
-            Console.WriteLine(process.Name);
+            StyleSheet styleSheet = new StyleSheet(Color.MintCream);
+            styleSheet.AddStyle(@"\[.*\]", markerColor);
 
-            foreach (var transaction in process.GetTransactions())
+            Console.WriteLineStyled($"[{marker}] {line}", styleSheet);
+        }
+
+        public static void PrintInfo(string line) => PrintLineWithMarker("INFO", line, Color.Aquamarine);
+        public static void PrintWarning(string line) => PrintLineWithMarker("WARNING", line, Color.Yellow);
+        public static void PrintError(string line) => PrintLineWithMarker("ERROR", line, Color.DarkRed);
+        public static void PrintEvent(string line) => PrintLineWithMarker("EVENT", line, Color.DarkSalmon);
+    }
+
+
+    internal class Simulator
+    {
+        private readonly ProcessSimulation simulation;
+
+        public Simulator(ProcessSimulation simulation)
+        {
+            this.simulation = simulation;
+        }
+
+        public void Start()
+        {
+            simulation.Prepare();
+
+            Console.WriteLine($"Simulation {simulation.Name} prepared");
+
+            PrintTransactions(simulation.ProcessInstance);
+
+            while (simulation.CanContinue)
             {
-                DisplayTransaction(process, transaction);
+                var results = simulation.SimulateNextChunk();
+
+                foreach (var transactionEvent in results)
+                {
+                    var transaction = simulation.ProcessInstance.GetTransactionById(transactionEvent.TransactionInstanceId);
+                    var actor = simulation.FindActorById(transactionEvent.RaisedByActorId);
+                    //    Console.WriteLine($"[{transactionEvent.Created}] Event '{transactionEvent.EventType}' affected transaction '{transaction.Identificator}'. Raised by '{actor.Fullname}'");
+                    Console.WriteLineFormatted("[{0}] Event '{1}' affected transaction '{2}'. Raised by '{3}'", Color.Moccasin, Color.WhiteSmoke, new[]
+                    {
+                        transactionEvent.Created.ToString(),
+                        transactionEvent.EventType.ToString(),
+                        transaction.Identificator,
+                        actor.Fullname
+                    });
+
+                    switch (transactionEvent.EventType)
+                    {
+                        case TransactionEventType.CompletionChanged:
+                            var cEvent = (CompletionChangedTransactionEvent)transactionEvent;
+                            Console.Write($"\tTransaction's state changed to ");
+                            Console.WriteLine(cEvent.NewCompletion, Color.Salmon);
+                            break;
+                        case TransactionEventType.InitiatorAssigned:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+
+                    Console.WriteLine();
+                }
+                NextCmd(simulation.ProcessInstance);
             }
         }
 
-        static void DisplayTransaction(ProcessKind process, TransactionKind kind, int depth = 0)
-        {
-            for (int i = 0; i < depth*2; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.WriteLine($"-{kind.Name}");
-            foreach (var link in process.GetLinksAsSourceForTransaction(kind.Id))
-            {
-                DisplayLink(link);
-            }
-            foreach (var child in kind.GetChildren())
-            {
-                DisplayTransaction(process, child, depth + 1);
-            }
-        }
-
-        static void DisplayLink(TransactionLink link)
-        {
-           // Console.WriteLine($" {link.SourceEventKindId} -> {link.DestinationEventKindId} ");
-        }
-
-        static void IterateChildren(TransactionInstance instance, DataTable table)
-        {
-            foreach (var child in instance.GetChildren())
-            {
-                table.Rows.Add(child.Id, child.Identificator, child.Completion, child.CompletionType,child.ParentId);
-                IterateChildren(child,table);
-            }
-        }
-
-        static DataTable CreateDataTable(List<TransactionInstance> transactions)
+        private static DataTable CreateDataTable(List<TransactionInstance> transactions)
         {
             var table = new DataTable();
             table.Columns.Add("Id", typeof(int));
@@ -74,25 +101,15 @@ namespace BachelorThesis.ConsoleTest
 
             foreach (var root in transactions)
             {
-                table.Rows.Add(root.Id, root.Identificator, root.Completion, root.CompletionType,root.ParentId);
-
-             //   IterateChildren(root,table);
-                //TreeStructureHelper.IterateThrough<TransactionInstance,DataTable,object>(root,table, (node, t) =>
-                //{
-                //    t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId);
-                //} );
-
-                TreeStructureHelper.Traverse(root,table, (node, t) =>
-                {
-                    t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId);
-                });
+                table.Rows.Add(root.Id, root.Identificator, root.Completion, root.CompletionType, root.ParentId);
+                TreeStructureHelper.Traverse(root, table, (node, t) => t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId));
             }
 
             return table;
 
         }
 
-        static void PrintTransaction(ProcessInstance process)
+        private static void PrintTransactions(ProcessInstance process)
         {
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("----------------------------TRANSACTIONS---------------------------------");
@@ -104,143 +121,32 @@ namespace BachelorThesis.ConsoleTest
 
         }
 
-        static void NextCmd(ProcessInstance process)
+        private static void NextCmd(ProcessInstance process)
         {
-            Console.WriteLine("T: transaction view. <other> continue", Color.LawnGreen);
+            SimulatorPrinter.PrintInfo("T: transaction view. <other> continue");
+            //Console.Write("T: transaction view. <other> continue", Color.LawnGreen);
             var key = Console.ReadKey(true);
-            if(key.Key == ConsoleKey.T)
-                PrintTransaction(process);
+            if (key.Key == ConsoleKey.T)
+                PrintTransactions(process);
         }
 
-        
 
+
+    }
+
+    internal class Program
+    {
       
 
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            //var def = new RentalContractProcessDefinition();
-            //var process = def.GetDefinition();
-
-            //var doc = PrepareProcessDocument(process);
-            //System.Console.WriteLine(doc.ToString());
-
-            //doc.Save("TestCases/definition.xml");
-
-
-            //  Console.WriteLine(DateTime.ParseExact("01-02-2018 15:34:23", XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture));
-
             var simulation = new RentalContractSimulationFromXml("SimulationCases/case-01.xml");
+            var simulator = new Simulator(simulation);
 
-            simulation.Prepare();
+            SimulatorPrinter.PrintInfo("blablabla balbla");
 
-            Console.WriteLine($"Simulation {simulation.Name} prepared");
-            Console.ReadKey(true);
-            
-            PrintTransaction(simulation.ProcessInstance);
-
-            while (simulation.CanContinue)
-            {
-                var results = simulation.SimulateNextChunk();
-
-                foreach (var transactionEvent in results)
-                {
-                    var transaction = simulation.ProcessInstance.GetTransactionById(transactionEvent.TransactionInstanceId);
-
-                    Console.WriteLine($"Event '{transactionEvent.EventType}' affected transaction #{transaction.Id} and occured at {transactionEvent.Created}. Raised by #{transactionEvent.RaisedByActorId}");
-                    Console.WriteLine();
-                }
-                NextCmd(simulation.ProcessInstance);
-            }
-
-            //var eventDefinition = new RentalContractEventDefinitions();
-            //var definition = new RentalContractProcessDefinition();
-            //var processKind = definition.GetDefinition();
-
-            //var rentalInstance = processKind.NewInstance(DateTime.Now);
-
-            //var t1 = processKind.GetTransactionByIdentifier("T1").NewInstance(rentalInstance.Id);
-            //var t2 = processKind.GetTransactionByIdentifier("T2").NewInstance(rentalInstance.Id);
-            //var t3 = processKind.GetTransactionByIdentifier("T3").NewInstance(rentalInstance.Id);
-            //var t4 = processKind.GetTransactionByIdentifier("T4").NewInstance(rentalInstance.Id);
-            //var t5 = processKind.GetTransactionByIdentifier("T5").NewInstance(rentalInstance.Id);
-
-            //rentalInstance.AddTransaction(t1);
-            //rentalInstance.AddTransaction(t2);
-            //rentalInstance.AddTransaction(t3);
-            //rentalInstance.AddTransaction(t4);
-            //rentalInstance.AddTransaction(t5);
-
-
-
-            //var jsonModel = JsonConvert.SerializeObject(processKind, Formatting.Indented);
-            //   var jsonInstance = JsonConvert.SerializeObject(rentalInstance, Formatting.Indented);
-
-            ////  Console.WriteLine(jsonModel);
-            // Console.WriteLine(jsonInstance);
-
-
-
-
-            //Console.WriteLine("---- SIMULATION --- ");
-            //var simulation = new RentalContractSimulation(rentalInstance);
-            //simulation.Prepare();
-
-            //while (simulation.CanContinue)
-            //{
-            //    var results = simulation.SimulateNextChunk();
-
-            //    foreach (var step in results)
-            //    {
-            //        Console.WriteLine(JsonConvert.SerializeObject(step, Formatting.Indented));
-            //        var eventInstance = step.Event;
-            //        var eventName = eventDefinition.FindById(eventInstance.TransactionEventKindId).FirstName;
-
-            //        Console.WriteLine($"For '{step.AffectedTransaction.Identificator} 'Event '{eventName}' occured {eventInstance.Created.ToShortDateString()} and raisedBy {eventInstance.RaisedByActorId}");
-            //        if (eventInstance is CompletionChangedTransactionEvent @completionChangedEvent)
-            //        {
-            //            Console.WriteLine($"\t -- changed from {completionChangedEvent.OldCompletion} to {completionChangedEvent.NewCompletion}");
-            //        }
-
-            //    }
-
-            //    Console.WriteLine();
-            //    Console.WriteLine("...");
-            //    Console.ReadKey();
-            //    Console.WriteLine();
-            //}
-
-
-            //            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
-            //<Simulation FirstName=""Case01"">
-            //    <SimulationChunk>
-            //        <SimulationStep>
-            //            <EventInstance Type=""CompletionChanged"" TransactionId=""1"" RaisedById=""1"" Created=""Date"">
-            //                <CompletionChanged OldCompletion=""Request"" NewCompletion=""Promise"" />
-            //            </EventInstance>
-            //        </SimulationStep>        
-            //    </SimulationChunk>
-            //</Simulation>";
-
-            //            var xdoc = XDocument.Parse(xml);
-            //            var chunks = xdoc.Descendants("SimulationChunk");
-            //            foreach (var chunk in chunks)
-            //            {
-            //                var steps = chunk.Elements("SimulationStep");
-            //                foreach (var step in steps)
-            //                {
-            //                    var ev = step.Element("EventInstance");
-            //                    var evType = ev.Attribute("Type").Value;
-
-            //                    if (evType == "CompletionChanged")
-            //                    {
-            //                        var evArgs = ev.Element("CompletionChanged");
-            //                        Console.WriteLine(evArgs.Attribute("OldCompletion").Value);
-            //                        Console.WriteLine(evArgs.Attribute("NewCompletion").Value);
-            //                    }
-            //                    Console.WriteLine(evType);
-            //                }
-            //            }
+            simulator.Start();
 
             Console.WriteLine("---- END ----");
             Console.ReadKey();

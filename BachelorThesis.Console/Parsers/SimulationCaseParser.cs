@@ -38,30 +38,32 @@ namespace BachelorThesis.ConsoleTest.Parsers
 
             var actorsElement = doc.Root.Element("Actors");
 
-            var actorElements = actorsElement.Elements("Actor");
-            foreach (var actorElement in actorElements)
-            {
-                var id = int.Parse(actorElement.Attribute("Id").Value);
-                var kindId = int.Parse(actorElement.Attribute("ActorKindId").Value);
-                var firstName = actorElement.Attribute("FirstName").Value;
-                var lastName = actorElement.Attribute("LastName").Value;
+            var actors = ParseActorElements(actorsElement);
 
-                var actor = new Actor()
+
+            result.Actors = actors;
+            result.ProcessInstance = instance;
+            result.Chunks = chunks;
+
+            return result;
+        }
+
+        private static List<Actor> ParseActorElements(XElement actorsElement)
+        {
+            var actorElements = actorsElement.Elements("Actor");
+
+            return (from actorElement in actorElements
+                let id = int.Parse(actorElement.Attribute("Id").Value)
+                let kindId = int.Parse(actorElement.Attribute("ActorKindId").Value)
+                let firstName = actorElement.Attribute("FirstName").Value
+                let lastName = actorElement.Attribute("LastName").Value
+                select new Actor()
                 {
                     Id = id,
                     ActorKindId = kindId,
                     FirstName = firstName,
                     LastName = lastName
-                };
-
-                result.Actors.Add(actor);
-
-            }
-
-            result.ProcessInstance = instance;
-            result.Chunks = chunks;
-
-            return result;
+                }).ToList();
         }
     }
 }

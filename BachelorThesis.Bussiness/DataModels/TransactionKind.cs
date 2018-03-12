@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace BachelorThesis.Bussiness.DataModels
 {
-    public class TransactionKind : IIdentifiable, IChildrenAware<TransactionKind>
+    public class TransactionKind : IChildrenAware<TransactionKind>
     {
         private static int nextId = 0;
 

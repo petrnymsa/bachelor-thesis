@@ -34,5 +34,7 @@ namespace BachelorThesis.ConsoleTest
             foreach (var chunk in result.Chunks)
                 AddChunk(chunk);
         }
+
+       
     }
 }

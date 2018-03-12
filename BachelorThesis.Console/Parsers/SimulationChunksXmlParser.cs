@@ -44,11 +44,12 @@ namespace BachelorThesis.ConsoleTest.Parsers
                 case TransactionEventType.CompletionChanged:
                     var completionChangedElement = eventElement.Element("CompletionChanged");
 
-                    var oldCompletion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute("OldCompletion")?.Value);
-                    var newCompletion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute("NewCompletion")?.Value);
+                    //    var oldCompletion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute("OldCompletion")?.Value);
+                    // var newCompletion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute("NewCompletion")?.Value);
+                    var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute("Completion")?.Value);
 
 
-                    return new CompletionChangedTransactionEvent(transsactionId, raisedBy, created, oldCompletion, newCompletion);
+                    return new CompletionChangedTransactionEvent(transsactionId, raisedBy, created, completion);
                 case TransactionEventType.InitiatorAssigned:
                     break;
                 default:
