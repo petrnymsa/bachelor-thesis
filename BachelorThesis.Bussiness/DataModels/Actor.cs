@@ -25,7 +25,7 @@ namespace BachelorThesis.Bussiness.DataModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public string Fullname => $"{FirstName} {LastName}";
+        public string FullName => $"{FirstName} {LastName}";
 
         public Actor()
         {

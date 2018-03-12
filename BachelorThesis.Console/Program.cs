@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.Bussiness.Simulation;
 using Colorful;
 using ConsoleTableExt;
 using Newtonsoft.Json;
@@ -60,13 +61,13 @@ namespace BachelorThesis.ConsoleTest
                 {
                     var transaction = simulation.ProcessInstance.GetTransactionById(transactionEvent.TransactionInstanceId);
                     var actor = simulation.FindActorById(transactionEvent.RaisedByActorId);
-                    //    Console.WriteLine($"[{transactionEvent.Created}] Event '{transactionEvent.EventType}' affected transaction '{transaction.Identificator}'. Raised by '{actor.Fullname}'");
+                    //    Console.WriteLine($"[{transactionEvent.Created}] Event '{transactionEvent.EventType}' affected transaction '{transaction.Identificator}'. Raised by '{actor.FullName}'");
                     Console.WriteLineFormatted("[{0}] Event '{1}' affected transaction '{2}'. Raised by '{3}'", Color.Moccasin, Color.WhiteSmoke, new[]
                     {
                         transactionEvent.Created.ToString(),
                         transactionEvent.EventType.ToString(),
                         transaction.Identificator,
-                        actor.Fullname
+                        actor.FullName
                     });
 
                     switch (transactionEvent.EventType)
