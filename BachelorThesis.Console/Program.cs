@@ -74,7 +74,7 @@ namespace BachelorThesis.ConsoleTest
                         case TransactionEventType.CompletionChanged:
                             var cEvent = (CompletionChangedTransactionEvent)transactionEvent;
                             Console.Write($"\tTransaction's state changed to ");
-                            Console.WriteLine(cEvent.NewCompletion, Color.Salmon);
+                            Console.WriteLine(cEvent.Completion, Color.Salmon);
                             break;
                         case TransactionEventType.InitiatorAssigned:
                             break;
@@ -101,8 +101,8 @@ namespace BachelorThesis.ConsoleTest
 
             foreach (var root in transactions)
             {
-                table.Rows.Add(root.Id, root.Identificator, root.Completion, root.CompletionType, root.ParentId);
-                TreeStructureHelper.Traverse(root, table, (node, t) => t.Rows.Add(node.Id, node.Identificator, node.Completion, node.CompletionType, node.ParentId));
+                table.Rows.Add(root.Id, root.Identificator, root.CompletionNumber, root.Completion, root.ParentId);
+                TreeStructureHelper.Traverse(root, table, (node, t) => t.Rows.Add(node.Id, node.Identificator, node.CompletionNumber, node.Completion, node.ParentId));
             }
 
             return table;

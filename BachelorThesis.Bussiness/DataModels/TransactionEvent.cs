@@ -29,36 +29,48 @@ namespace BachelorThesis.Bussiness.DataModels
             RaisedByActorId = raisedByActorId;
             Created = created;
         }
+
+        public abstract void DoTransactionAction(TransactionInstance instance);
     }
 
     public class CompletionChangedTransactionEvent : TransactionEvent
     {
-        public TransactionCompletion OldCompletion { get; }
-        public TransactionCompletion NewCompletion { get; }
+    //    public TransactionCompletion OldCompletion { get; }
+     //   public TransactionCompletion NewCompletion { get; }
+        public TransactionCompletion Completion { get; }
 
-        public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion oldCompletion, TransactionCompletion newCompletion) 
-            : base(TransactionEventType.CompletionChanged,transactionInstanceId, raisedByActorId, created)
-        {
-            OldCompletion = oldCompletion;
-            NewCompletion = newCompletion;
-        }
+        //public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion oldCompletion, TransactionCompletion newCompletion) 
+        //    : base(TransactionEventType.CompletionChanged,transactionInstanceId, raisedByActorId, created)
+        //{
+        //    OldCompletion = oldCompletion;
+        //    NewCompletion = newCompletion;
+        //}
 
         public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion completion)
             : base(TransactionEventType.CompletionChanged, transactionInstanceId, raisedByActorId, created)
         {
-            OldCompletion = completion;
-            NewCompletion = completion;
+            Completion = completion;
+        }
+
+        public override void DoTransactionAction(TransactionInstance instance)
+        {
+            instance.Completion = Completion;
         }
     }
 
     public class InitiatorAssigned : TransactionEvent
     {
-        public int IntiatorId { get; set; }
+        public int InitiatorId { get; set; }
 
         public InitiatorAssigned(int transactionInstanceId, int raisedByActorId, DateTime created, int initiatorId) 
             : base(TransactionEventType.InitiatorAssigned, transactionInstanceId, raisedByActorId, created)
         {
-            this.IntiatorId = initiatorId;
+            this.InitiatorId = initiatorId;
+        }
+
+        public override void DoTransactionAction(TransactionInstance instance)
+        {
+            instance.InitiatorId = InitiatorId;
         }
     }
 }
