@@ -42,6 +42,13 @@ namespace BachelorThesis.Bussiness.DataModels
             OldCompletion = oldCompletion;
             NewCompletion = newCompletion;
         }
+
+        public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion completion)
+            : base(TransactionEventType.CompletionChanged, transactionInstanceId, raisedByActorId, created)
+        {
+            OldCompletion = completion;
+            NewCompletion = completion;
+        }
     }
 
     public class InitiatorAssigned : TransactionEvent

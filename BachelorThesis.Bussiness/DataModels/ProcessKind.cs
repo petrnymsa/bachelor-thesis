@@ -40,24 +40,14 @@ namespace BachelorThesis.Bussiness.DataModels
             transactions.Add(transaction);
         }
 
-        public void AddTransactions(params TransactionKind[] transactionParams)
-        {
-            foreach (var kind in transactionParams)
-            {
-                kind.ProcessKindId = Id;
-                transactions.Add(kind);
-            }
-        }
 
         public List<TransactionKind> GetTransactions() => transactions;
 
-        public TransactionKind GetTransactionById(int id) => transactions.Find(x => x.Id == id);
-
-        public TransactionKind GetTransactionByIdentifier(string identifier)
+        public TransactionKind GetTransactionById(int id)
         {
             foreach (var root in transactions)
             {
-                var found = TreeStructureHelper.FindByIdentificator(root, identifier);
+                var found = TreeStructureHelper.Find(root, x => x.Id == id);
                 if (found != null)
                     return found;
             }
@@ -65,23 +55,17 @@ namespace BachelorThesis.Bussiness.DataModels
             return null;
         }
 
-        //private TransactionKind FindByIndetifier(TransactionKind node, string identifier)
-        //{
-        //    if (node == null)
-        //        return null;
+        public TransactionKind GetTransactionByIdentifier(string identifier)
+        {
+            foreach (var root in transactions)
+            {
+                var found = TreeStructureHelper.Find(root, x => string.Equals(x.Identificator, identifier, StringComparison.InvariantCulture));
+                if (found != null)
+                    return found;
+            }
 
-        //    if (string.Equals(node.Identificator, identifier, StringComparison.InvariantCulture))
-        //        return node;
-
-        //    foreach (var child in node.GetChildren())
-        //    {
-        //        var found = FindByIndetifier(child, identifier);
-        //        if (found != null)
-        //            return found;
-        //    }
-
-        //    return null;
-        //}
+            return null;
+        }
 
         public void AddTransactionLink(TransactionKind sourceTransaction, TransactionKind destinationTransaction,TransactionCompletion sourceCompletion, TransactionCompletion destinationCompletion, TransactionLinkType linkType)
         {
@@ -106,20 +90,6 @@ namespace BachelorThesis.Bussiness.DataModels
         {
             return links.Where(x => x.SourceTransactionKindId == transactionKindId).ToList();
         }
-
-        //public void AddProcessInstance(ProcessInstance process)
-        //{
-        //    process.ProcessKindId = Id;
-        //    processes.Add(process);
-        //}
-
-        //public void RemoveProcessInstance(ProcessInstance process)
-        //{
-        //    processes.Remove(process);
-        //}
-
-        //public List<ProcessInstance> GetProcessInstances() => processes;
-      
 
         public ProcessInstance NewInstance(DateTime startTime, float completion = 0f)
         {
