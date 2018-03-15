@@ -55,10 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProcessDefinition.cs" />
-    <Compile Include="IProcessEventDefinitions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RentalContractEventDefinitions.cs" />
     <Compile Include="RentalContractProcessDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
