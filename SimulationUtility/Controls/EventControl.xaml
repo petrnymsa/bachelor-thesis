@@ -5,37 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimulationUtility.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
+             d:DesignHeight="450" d:DesignWidth="920">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Event type" />
-            <ComboBox ItemsSource="{Binding TransactionEventTypes}" SelectedItem="{Binding SelectedEventType, Mode=TwoWay}"  />
+            <ComboBox ItemsSource="{Binding TransactionEventTypes}" SelectedItem="{Binding SelectedEventType, Mode=TwoWay}" IsEnabled="False" MinWidth="60"  />
             <Label  Content="TransactionId" />
-            <ComboBox ItemsSource="{Binding TransactionInstances}" SelectedItem="{Binding SelectedTransactionInstance}" >
+            <ComboBox ItemsSource="{Binding TransactionInstances}" SelectedItem="{Binding SelectedTransactionInstance}" MinWidth="60" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Label Content="{Binding Identificator}" />
+                            <TextBlock Padding="0" Text="{Binding Identificator}" />
                         </Grid>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <Label Content="Raised by" />
-            <ComboBox ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor, Mode=TwoWay}" >
+            <ComboBox ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor, Mode=TwoWay}" MinWidth="100" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Label Content="{Binding FullName}" />
+                            <TextBlock Padding="0" Text="{Binding FullName}" />
                         </Grid>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <Label Content="Creation time" />
             <TextBox Text="{Binding CreationTime, Mode=TwoWay}" Width="120" />
-            <StackPanel Orientation="Horizontal">
-                <Label  Content="Completion "/>
-                <ComboBox ItemsSource="{Binding TransactionCompletions}" SelectedItem="{Binding SelectedCompletion, Mode=TwoWay}" />
-            </StackPanel>
+
+            <Label  Content="Completion "/>
+            <ComboBox ItemsSource="{Binding TransactionCompletions}" SelectedItem="{Binding SelectedCompletion, Mode=TwoWay}" MinWidth="80" />
+
             <Button Command="{Binding RemoveMeCommand}" Background="LightSalmon" Content="Remove" Padding="2" Margin="20,0,0,0" />
         </StackPanel>
 

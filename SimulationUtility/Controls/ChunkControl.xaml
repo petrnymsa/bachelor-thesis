@@ -9,18 +9,46 @@
     <!--<UserControl.DataContext>
         <local:ChunkControlViewModel />
     </UserControl.DataContext>-->
+    <Border BorderThickness="0.5" BorderBrush="Black" Margin="0,2">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
-            <StackPanel Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Background="#FFEBFFF1">
                 <Label Content="Chunk" />
-                <Button Content="Add" Command="{Binding AddEventCommand}" />
-                <Button Content="Remove chunk" Command="{Binding RemoveMeCommand}" />
-        </StackPanel>
-            
-            <ListView Grid.Row="1" ItemsSource="{Binding Events}" />
+                <Button Content="Add" Command="{Binding AddEventCommand}" Margin="10,0" Padding="5,0" />
+                <Button Content="Remove chunk" Command="{Binding RemoveMeCommand}" Margin="10,0" Padding="5,0" Background="RosyBrown" Foreground="Black" />
+            </StackPanel>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Events}" VirtualizingStackPanel.IsVirtualizing="True"
+                      ScrollViewer.CanContentScroll="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <Border
+                        BorderThickness="{TemplateBinding Border.BorderThickness}"
+                        Padding="{TemplateBinding Control.Padding}"
+                        BorderBrush="{TemplateBinding Border.BorderBrush}"
+                        Background="{TemplateBinding Panel.Background}"
+                        SnapsToDevicePixels="True">
+                            <!--<ScrollViewer
+                            Padding="{TemplateBinding Control.Padding}"
+                            Focusable="False">
+                            <ItemsPresenter
+                                SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </ScrollViewer>-->
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>
         </Grid>
+    </Border>
+      
 </UserControl>
