@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 using BachelorThesis.Bussiness.DataModels;
 using BachelorThesis.Bussiness.Simulation;
 using Colorful;
 using ConsoleTableExt;
-using Newtonsoft.Json;
-using Formatting = Newtonsoft.Json.Formatting;
 using Console = Colorful.Console;
 
 namespace BachelorThesis.ConsoleTest
