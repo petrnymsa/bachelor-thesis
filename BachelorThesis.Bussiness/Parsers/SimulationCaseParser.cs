@@ -2,24 +2,9 @@
 using System.Linq;
 using System.Xml.Linq;
 using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Simulation;
 
 namespace BachelorThesis.Bussiness.Parsers
 {
-    public class SimulationCaseParserResult
-    {
-        public string Name { get; set; }
-        public ProcessInstance ProcessInstance { get; set; }
-        public List<SimulationChunk> Chunks { get; set; }
-        public List<Actor> Actors { get; set; }
-
-        public SimulationCaseParserResult()
-        {
-            Chunks = new List<SimulationChunk>();
-            Actors = new List<Actor>();
-        }
-    }
-
     public class SimulationCaseParser
     {
         private const string ElementActor = "Actor";
@@ -28,6 +13,8 @@ namespace BachelorThesis.Bussiness.Parsers
         private const string AttributeActorKindId = "ActorKindId";
         private const string AttributeFirstName = "FirstName";
         private const string AttributeLastName = "LastName";
+        private const string AttributeName = "Name";
+        private const string ElementSimulation = "Simulation";
 
         public SimulationCaseParserResult Parse(string xmlPath)
         {
@@ -39,7 +26,7 @@ namespace BachelorThesis.Bussiness.Parsers
             var instance = processParser.Parse(doc.Root);
             var chunks = chunksParser.Parse(instance, doc.Root);
 
-            result.Name = doc.Root.Attribute("Name").Value;
+            result.Name = doc.Root.Attribute(AttributeName).Value;
 
             var actorsElement = doc.Root.Element(ElementActors);
 
@@ -55,9 +42,9 @@ namespace BachelorThesis.Bussiness.Parsers
 
         public XDocument Create(SimulationCaseParserResult data)
         {
-            var root = new XElement("Simulation", new XAttribute("Name", data.Name));
+            var root = new XElement(ElementSimulation, new XAttribute(AttributeName, data.Name));
 
-            var actorsElement = new XElement("Actors");
+            var actorsElement = new XElement(ElementActors);
 
             foreach (var actor in data.Actors)
             {
@@ -80,7 +67,7 @@ namespace BachelorThesis.Bussiness.Parsers
 
         private XElement CreateActorElement(Actor actor)
         {
-            return new XElement("Actor",
+            return new XElement(ElementActor,
                 new XAttribute(AttributeId, actor.Id),
                 new XAttribute(AttributeActorKindId, actor.ActorKindId),
                 new XAttribute(AttributeFirstName, actor.FirstName),
