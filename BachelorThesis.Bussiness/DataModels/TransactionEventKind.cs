@@ -31,36 +31,5 @@ namespace BachelorThesis.Bussiness.DataModels
             Name = name;
             Description = description;
         }
-
-    
     }
-
-    //public class CompletionChangedEvent : TransactionEventKind
-    //{
-    //    public int InstanceId { get; }
-    //    public TransactionCompletion OldCompletion { get; }
-    //    public TransactionCompletion NewCompletion { get; }
-
-    //    public CompletionChangedEvent(int instanceId, TransactionCompletion oldCompletion, TransactionCompletion newCompletion)
-    //        :base("Completion changed")
-    //    {
-    //        this.InstanceId = instanceId;
-    //        this.OldCompletion = oldCompletion;
-    //        this.NewCompletion = newCompletion;
-    //    }
-    //}
-
-    //public class ExecutorAssignedEvent : TransactionEventKind
-    //{
-    //    public ExecutorAssignedEvent(string name, TransactionEventInternalName internalName) : base(name)
-    //    {
-    //    }
-    //}
-
-    //public class InitiatorAssignedEvent : TransactionEventKind
-    //{
-    //    public InitiatorAssignedEvent(string name, TransactionEventInternalName internalName) : base(name)
-    //    {
-    //    }
-    //}
 }

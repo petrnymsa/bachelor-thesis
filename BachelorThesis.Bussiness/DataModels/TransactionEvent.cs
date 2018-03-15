@@ -15,7 +15,6 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public int Id { get; set; }
         public TransactionEventType EventType { get; set; }
-        public int TransactionEventKindId { get; set; }
         public int TransactionInstanceId { get; set; }
         public int RaisedByActorId { get; set; }
         public DateTime Created { get; set; }
@@ -24,7 +23,6 @@ namespace BachelorThesis.Bussiness.DataModels
         {
             Id = Interlocked.Increment(ref nextId);
             EventType = eventType;
-            //TransactionEventKindId = transactionEventKindId;
             TransactionInstanceId = transactionInstanceId;
             RaisedByActorId = raisedByActorId;
             Created = created;
@@ -35,16 +33,7 @@ namespace BachelorThesis.Bussiness.DataModels
 
     public class CompletionChangedTransactionEvent : TransactionEvent
     {
-    //    public TransactionCompletion OldCompletion { get; }
-     //   public TransactionCompletion NewCompletion { get; }
         public TransactionCompletion Completion { get; }
-
-        //public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion oldCompletion, TransactionCompletion newCompletion) 
-        //    : base(TransactionEventType.CompletionChanged,transactionInstanceId, raisedByActorId, created)
-        //{
-        //    OldCompletion = oldCompletion;
-        //    NewCompletion = newCompletion;
-        //}
 
         public CompletionChangedTransactionEvent(int transactionInstanceId, int raisedByActorId, DateTime created, TransactionCompletion completion)
             : base(TransactionEventType.CompletionChanged, transactionInstanceId, raisedByActorId, created)
