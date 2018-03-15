@@ -1,9 +1,9 @@
 ﻿<ProcessKind Id="1" FirstName="Rental contract">
   <Actors>
-    <ActorKind Id="1" Name="Renter" />
-    <ActorKind Id="2" Name="Driver" />
-    <ActorKind Id="3" Name="Car issuer" />
-    <ActorKind Id="4" Name="Rental contracter" />
+    <ActorRole Id="1" Name="Renter" />
+    <ActorRole Id="2" Name="Driver" />
+    <ActorRole Id="3" Name="Car issuer" />
+    <ActorRole Id="4" Name="Rental contracter" />
   </Actors>
   <Transactions>
     <TransactionKind Id="1" Identificator="T1" FirstName="Rental contracting" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorKindId="1" ExecutorKindId="4">

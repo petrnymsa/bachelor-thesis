@@ -19,7 +19,7 @@ namespace BachelorThesis.Bussiness.Parsers
         private const string AttributeExecutorKindId = "ExecutorKindId";
         private const string ElementProcessKind = "ProcessKind";
         private const string ElementActors = "Actors";
-        private const string ElementActorKind = "ActorKind";
+        private const string ElementActorKind = "ActorRole";
         private const string AttributeName = "Name";
         private const string ElementTransactions = "Transactions";
         private const string ElementLinks = "Links";
@@ -52,7 +52,7 @@ namespace BachelorThesis.Bussiness.Parsers
             return kindElement;
         }
 
-        public static XDocument CreateDocument(ProcessKind process, List<ActorKind> actors)
+        public XDocument CreateDocument(ProcessKind process, List<ActorRole> actors)
         {
             var processElement = new XElement(ElementProcessKind);
             processElement.Add(new XAttribute(AttributeId, process.Id));

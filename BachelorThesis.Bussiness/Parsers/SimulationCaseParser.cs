@@ -10,7 +10,7 @@ namespace BachelorThesis.Bussiness.Parsers
         private const string ElementActor = "Actor";
         private const string ElementActors = "Actors";
         private const string AttributeId = "Id";
-        private const string AttributeActorKindId = "ActorKindId";
+        private const string AttributeActorRoleId = "ActorRoleId";
         private const string AttributeFirstName = "FirstName";
         private const string AttributeLastName = "LastName";
         private const string AttributeName = "Name";
@@ -69,7 +69,7 @@ namespace BachelorThesis.Bussiness.Parsers
         {
             return new XElement(ElementActor,
                 new XAttribute(AttributeId, actor.Id),
-                new XAttribute(AttributeActorKindId, actor.ActorKindId),
+                new XAttribute(AttributeActorRoleId, actor.ActorKindId),
                 new XAttribute(AttributeFirstName, actor.FirstName),
                 new XAttribute(AttributeLastName, actor.LastName));
         }
@@ -80,7 +80,7 @@ namespace BachelorThesis.Bussiness.Parsers
 
             return (from actorElement in actorElements
                 let id = int.Parse(actorElement.Attribute(AttributeId).Value)
-                let kindId = int.Parse(actorElement.Attribute(AttributeActorKindId).Value)
+                let kindId = int.Parse(actorElement.Attribute(AttributeActorRoleId).Value)
                 let firstName = actorElement.Attribute(AttributeFirstName).Value
                 let lastName = actorElement.Attribute(AttributeLastName).Value
                 select new Actor()

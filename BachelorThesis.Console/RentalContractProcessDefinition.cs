@@ -5,17 +5,17 @@ namespace BachelorThesis.ConsoleTest
 {
     public class RentalContractProcessDefinition : IProcessDefinition
     {
-        private readonly ActorKind actorRenter;
-        private readonly ActorKind actorCarIssuer;
-        private readonly ActorKind actorDriver;
-        private readonly ActorKind actorRentalContracter;
+        private readonly ActorRole actorRenter;
+        private readonly ActorRole actorCarIssuer;
+        private readonly ActorRole actorDriver;
+        private readonly ActorRole actorRentalContracter;
 
         public RentalContractProcessDefinition()
         {
-            actorRenter = new ActorKind("Renter");
-            actorDriver = new ActorKind("Driver");
-            actorCarIssuer = new ActorKind("Car issuer");
-            actorRentalContracter = new ActorKind("Rental contracter");
+            actorRenter = new ActorRole("Renter");
+            actorDriver = new ActorRole("Driver");
+            actorCarIssuer = new ActorRole("Car issuer");
+            actorRentalContracter = new ActorRole("Rental contracter");
         }
 
         private List<TransactionKind> GetTransactionDefinitions(ProcessKind process)
@@ -74,6 +74,6 @@ namespace BachelorThesis.ConsoleTest
             return process;
         }
 
-        public List<ActorKind> GetActorKinds() => new  List<ActorKind>() { actorRenter, actorDriver, actorRentalContracter, actorCarIssuer };
+        public List<ActorRole> GetActorKinds() => new  List<ActorRole>() { actorRenter, actorDriver, actorRentalContracter, actorCarIssuer };
     }
 }

@@ -2,20 +2,6 @@
 
 namespace BachelorThesis.Bussiness.DataModels
 {
-    public class ActorKind
-    {
-        private static int nextId;
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public ActorKind(string name)
-        {
-            Id = Interlocked.Increment(ref nextId);
-            Name = name;
-        }
-    }
-
     public class Actor
     {
         private static int nextId;
