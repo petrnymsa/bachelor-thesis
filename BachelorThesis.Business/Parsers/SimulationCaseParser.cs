@@ -7,15 +7,6 @@ namespace BachelorThesis.Business.Parsers
 {
     public class SimulationCaseParser
     {
-        //private const string ElementActor = "Actor";
-        //private const string ElementActors = "Actors";
-        //private const string AttributeId = "Id";
-        //private const string AttributeActorRoleId = "ActorRoleId";
-        //private const string AttributeFirstName = "FirstName";
-        //private const string AttributeLastName = "LastName";
-        //private const string AttributeName = "Name";
-        //private const string ElementSimulation = "Simulation";
-
         public SimulationCaseParserResult Parse(string xmlPath)
         {
             var result = new SimulationCaseParserResult();

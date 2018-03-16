@@ -19,6 +19,10 @@
         public const string ElementActor = "Actor";
         public const string ElementActors = "Actors";
         public const string ElementSimulation = "Simulation";
+        public const string ElementChunks = "Chunks";
+        public const string ElementChunk = "Chunk";
+        public const string ElementEvent = "Event";
+        public const string ElementCompletionChanged = "CompletionChanged";
 
         public const string AttributeId = "Id";
         public const string AttributeKindId = "KindId";
@@ -48,7 +52,10 @@
         public const string AttributeExecutorId = "ExecutorId";
         public const string AttributeActorRoleId = "ActorRoleId";
         public const string AttributeLastName = "LastName";
-
+        public const string AttributeTransactionId = "TransactionId";
+        public const string AttributeRaisedById = "RaisedById";
+        public const string AttributeCreate = "Created";
+        public const string AttributeCompletion = "Completion";
 
 
     }

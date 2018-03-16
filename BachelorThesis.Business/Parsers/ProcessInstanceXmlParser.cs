@@ -7,19 +7,6 @@ namespace BachelorThesis.Business.Parsers
 {
     public class ProcessInstanceXmlParser
     {
-        //private const string IdAttribute = "Id";
-        //private const string KindIdAttribute = "KindId";
-        //private const string StartTimeAttribute = "StartTime";
-        //private const string ExpectedEndTimeAttribute = "ExpectedEndTime";
-        //private const string IdentificatorAttribute = "Identificator";
-        //private const string CompletionTypeAttribute = "CompletionType";
-        //private const string ProcessInstanceIdAttribute = "ProcessInstanceId";
-        //private const string InitiatorIdAttribute = "InitiatorId";
-        //private const string ExecutorIdAttribute = "ExecutorId";
-        //private const string ParentIdAttribute = "ParentId";
-
-        //private const string TransactionInstanceElement = "TransactionInstance";
-        //private const string ProcessInstanceElement = "ProcessInstance";
 
         public ProcessInstance Parse(XElement root)
         {
