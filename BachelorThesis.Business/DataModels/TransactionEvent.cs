@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace BachelorThesis.Bussiness.DataModels
+namespace BachelorThesis.Business.DataModels
 {
 
     public enum TransactionEventType

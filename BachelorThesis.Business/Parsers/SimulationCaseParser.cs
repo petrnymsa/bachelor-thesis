@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.Business.DataModels;
 
-namespace BachelorThesis.Bussiness.Parsers
+namespace BachelorThesis.Business.Parsers
 {
     public class SimulationCaseParser
     {
-        private const string ElementActor = "Actor";
-        private const string ElementActors = "Actors";
-        private const string AttributeId = "Id";
-        private const string AttributeActorRoleId = "ActorRoleId";
-        private const string AttributeFirstName = "FirstName";
-        private const string AttributeLastName = "LastName";
-        private const string AttributeName = "Name";
-        private const string ElementSimulation = "Simulation";
+        //private const string ElementActor = "Actor";
+        //private const string ElementActors = "Actors";
+        //private const string AttributeId = "Id";
+        //private const string AttributeActorRoleId = "ActorRoleId";
+        //private const string AttributeFirstName = "FirstName";
+        //private const string AttributeLastName = "LastName";
+        //private const string AttributeName = "Name";
+        //private const string ElementSimulation = "Simulation";
 
         public SimulationCaseParserResult Parse(string xmlPath)
         {
@@ -26,9 +26,9 @@ namespace BachelorThesis.Bussiness.Parsers
             var instance = processParser.Parse(doc.Root);
             var chunks = chunksParser.Parse(instance, doc.Root);
 
-            result.Name = doc.Root.Attribute(AttributeName).Value;
+            result.Name = doc.Root.Attribute(XmlParsersConfig.AttributeName).Value;
 
-            var actorsElement = doc.Root.Element(ElementActors);
+            var actorsElement = doc.Root.Element(XmlParsersConfig.ElementActors);
 
             var actors = ParseActorElements(actorsElement);
 
@@ -42,9 +42,9 @@ namespace BachelorThesis.Bussiness.Parsers
 
         public XDocument Create(SimulationCaseParserResult data)
         {
-            var root = new XElement(ElementSimulation, new XAttribute(AttributeName, data.Name));
+            var root = new XElement(XmlParsersConfig.ElementSimulation, new XAttribute(XmlParsersConfig.AttributeName, data.Name));
 
-            var actorsElement = new XElement(ElementActors);
+            var actorsElement = new XElement(XmlParsersConfig.ElementActors);
 
             foreach (var actor in data.Actors)
             {
@@ -67,22 +67,22 @@ namespace BachelorThesis.Bussiness.Parsers
 
         private XElement CreateActorElement(Actor actor)
         {
-            return new XElement(ElementActor,
-                new XAttribute(AttributeId, actor.Id),
-                new XAttribute(AttributeActorRoleId, actor.ActorKindId),
-                new XAttribute(AttributeFirstName, actor.FirstName),
-                new XAttribute(AttributeLastName, actor.LastName));
+            return new XElement(XmlParsersConfig.ElementActor,
+                new XAttribute(XmlParsersConfig.AttributeId, actor.Id),
+                new XAttribute(XmlParsersConfig.AttributeActorRoleId, actor.ActorKindId),
+                new XAttribute(XmlParsersConfig.AttributeFirstName, actor.FirstName),
+                new XAttribute(XmlParsersConfig.AttributeLastName, actor.LastName));
         }
 
         private static List<Actor> ParseActorElements(XElement actorsElement)
         {
-            var actorElements = actorsElement.Elements(ElementActor);
+            var actorElements = actorsElement.Elements(XmlParsersConfig.ElementActor);
 
             return (from actorElement in actorElements
-                let id = int.Parse(actorElement.Attribute(AttributeId).Value)
-                let kindId = int.Parse(actorElement.Attribute(AttributeActorRoleId).Value)
-                let firstName = actorElement.Attribute(AttributeFirstName).Value
-                let lastName = actorElement.Attribute(AttributeLastName).Value
+                let id = int.Parse(actorElement.Attribute(XmlParsersConfig.AttributeId).Value)
+                let kindId = int.Parse(actorElement.Attribute(XmlParsersConfig.AttributeActorRoleId).Value)
+                let firstName = actorElement.Attribute(XmlParsersConfig.AttributeFirstName).Value
+                let lastName = actorElement.Attribute(XmlParsersConfig.AttributeLastName).Value
                 select new Actor()
                 {
                     Id = id,

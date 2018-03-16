@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Simulation;
+using BachelorThesis.Business.DataModels;
+using BachelorThesis.Business.Simulation;
 
-namespace BachelorThesis.Bussiness.Parsers
+namespace BachelorThesis.Business.Parsers
 {
     public class SimulationCaseParserResult
     {

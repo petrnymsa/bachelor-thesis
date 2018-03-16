@@ -4,9 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
-namespace BachelorThesis.Bussiness.DataModels
+namespace BachelorThesis.Business.DataModels
 {
     [DataContract]
     public class ProcessKind

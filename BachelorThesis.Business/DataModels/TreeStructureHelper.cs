@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BachelorThesis.Bussiness.DataModels
+namespace BachelorThesis.Business.DataModels
 {
     public static class TreeStructureHelper
     {

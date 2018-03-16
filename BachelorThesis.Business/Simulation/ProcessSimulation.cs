@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.Business.DataModels;
 
-namespace BachelorThesis.Bussiness.Simulation
+namespace BachelorThesis.Business.Simulation
 {
     public abstract class ProcessSimulation
     {

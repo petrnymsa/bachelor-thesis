@@ -1,7 +1,7 @@
-﻿using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Parsers;
+﻿using BachelorThesis.Business.DataModels;
+using BachelorThesis.Business.Parsers;
 
-namespace BachelorThesis.Bussiness.Simulation
+namespace BachelorThesis.Business.Simulation
 {
     public class RentalContractSimulationFromXml : ProcessSimulation
     {

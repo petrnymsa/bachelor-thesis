@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BachelorThesis.Bussiness.DataModels
+namespace BachelorThesis.Business.DataModels
 {
     public interface IChildrenAware<T>
     {

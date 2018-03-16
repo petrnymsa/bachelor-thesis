@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Newtonsoft.Json;
 
-namespace BachelorThesis.Bussiness.DataModels
+namespace BachelorThesis.Business.DataModels
 {
     public class ProcessInstance
     {

@@ -18,9 +18,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.Console", "B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{ED0DEECE-B2C6-425C-8209-6E65530D9109}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6AB7176D-77DC-4E16-8F9F-127F8D45912A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6AB7176D-77DC-4E16-8F9F-127F8D45912A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorThesis.Bussiness", "BachelorThesis.Bussiness\BachelorThesis.Bussiness.csproj", "{9F124C03-DE85-4D77-902C-55E0C7A3F9BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BachelorThesis.Business", "BachelorThesis.Business\BachelorThesis.Business.csproj", "{9F124C03-DE85-4D77-902C-55E0C7A3F9BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E63115D5-8B0F-4619-8E4E-1ACFACDEEA96}"
 EndProject
