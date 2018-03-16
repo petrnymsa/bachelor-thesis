@@ -59,7 +59,7 @@ namespace BachelorThesis.Business.Parsers
             var kindId = int.Parse(element.Attribute(XmlParsersConfig.AttributeKindId).Value);
             var identificator = element.Attribute(XmlParsersConfig.AttributeIdentificator).Value;
             var completionType = (TransactionCompletion)int.Parse(element.Attribute(XmlParsersConfig.AttributeCompletionType).Value);
-            var processInstanceId = int.Parse(element.Attribute(XmlParsersConfig.ElementProcessInstance).Value);
+            var processInstanceId = int.Parse(element.Attribute(XmlParsersConfig.AttributeProcessInstanceId).Value);
 
             var initiatorId = Int32.TryParse(element.Attribute(XmlParsersConfig.AttributeInitiatorId).Value, out var tmpInitiatorId) ? tmpInitiatorId : (int?)null;
             var executorId = Int32.TryParse(element.Attribute(XmlParsersConfig.AttributeExecutorId).Value, out var tmpExecutorId) ? tmpExecutorId : (int?)null;
