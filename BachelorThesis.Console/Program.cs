@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Simulation;
+using BachelorThesis.Business.DataModels;
+using BachelorThesis.Business.Simulation;
 using Colorful;
 using ConsoleTableExt;
 using Console = Colorful.Console;
