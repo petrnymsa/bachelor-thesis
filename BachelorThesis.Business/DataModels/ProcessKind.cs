@@ -23,7 +23,13 @@ namespace BachelorThesis.Business.DataModels
         [DataMember]
         private List<TransactionLink> links;
 
-        public ProcessKind() { Id = Interlocked.Increment(ref nextId); }
+        public ProcessKind()
+        {
+            Id = Interlocked.Increment(ref nextId);
+            transactions = new List<TransactionKind>();
+            links = new List<TransactionLink>();
+
+        }
 
         public ProcessKind(string name)
         {
