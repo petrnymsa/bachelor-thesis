@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BachelorThesis.Bussiness.DataModels;
+using BachelorThesis.Business.DataModels;
 
 namespace BachelorThesis.ConsoleTest
 {
