@@ -18,8 +18,8 @@ namespace BachelorThesis.Business.DataModels
         public double PesimisticTimeEstimate { get; private set; }
         public double ExpectedTimeEstimate { get; private set; }
 
-        public int InitiatorKindId { get; set; }
-        public int ExecutorKindId { get; set; }
+        public int? InitiatorKindId { get; set; }
+        public int? ExecutorKindId { get; set; }
 
         public int? ParentId { get; set; }
 
@@ -36,7 +36,7 @@ namespace BachelorThesis.Business.DataModels
 
         public TransactionKind()
         {
-               
+               children = new List<TransactionKind>();
         }
 
         public TransactionKind(string identificator, string name, int processKindId, int initiatorKindId, int executorKindId)

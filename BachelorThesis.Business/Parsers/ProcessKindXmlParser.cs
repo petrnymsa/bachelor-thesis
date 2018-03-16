@@ -166,9 +166,9 @@ namespace BachelorThesis.Business.Parsers
                 Identificator = xElement.Attribute(XmlParsersConfig.AttributeIdentificator).Value,
                 Name = xElement.Attribute(XmlParsersConfig.AttributeName).Value,
                 ProcessKindId = int.Parse(xElement.Attribute(XmlParsersConfig.AttributeProcessKindId).Value),
-                InitiatorKindId = int.Parse(xElement.Attribute(XmlParsersConfig.AttributeInitiatorRoleId).Value),
-                ExecutorKindId = int.Parse(xElement.Attribute(XmlParsersConfig.AttributeExecutorRoleId).Value),
-                ParentId = int.Parse(xElement.Attribute(XmlParsersConfig.AttributeParentid).Value)
+                InitiatorKindId = xElement.Attribute(XmlParsersConfig.AttributeInitiatorRoleId).Value.ToNullableInt(),
+                ExecutorKindId = xElement.Attribute(XmlParsersConfig.AttributeExecutorRoleId).Value.ToNullableInt(),
+                ParentId = xElement.Attribute(XmlParsersConfig.AttributeParentid).Value.ToNullableInt()
             };
 
             var optimisticTime = double.Parse(xElement.Attribute(XmlParsersConfig.AttributeOptimisticTimeEstimate).Value);
