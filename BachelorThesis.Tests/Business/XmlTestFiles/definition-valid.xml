@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<ProcessKind Id="1" Name="Rental contract">
+  <ActorRoles>
+    <ActorRole Id="1" Name="Renter" />
+    <ActorRole Id="2" Name="Driver" />
+    <ActorRole Id="3" Name="Car issuer" />
+    <ActorRole Id="4" Name="Rental contracter" />
+  </ActorRoles>
+  <Transactions>
+    <TransactionKind Id="1" Identificator="T1" Name="Rental contracting" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorRoleId="1" ExecutorRoleId="4" ParentId="">
+      <TransactionKind Id="2" Identificator="T2" Name="Rental payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorRoleId="4" ExecutorRoleId="1" ParentId="1" />
+    </TransactionKind>
+    <TransactionKind Id="3" Identificator="T3" Name="Car pick up" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorRoleId="2" ExecutorRoleId="3" ParentId="">
+      <TransactionKind Id="4" Identificator="T4" Name="Car drop off" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorRoleId="3" ExecutorRoleId="2" ParentId="3" />
+      <TransactionKind Id="5" Identificator="T5" Name="Penalty payment" OptimisticTimeEstimate="0" NormalTimeEstimate="0" PesimisticTimeEstimate="0" ProcessKindId="1" InitiatorRoleId="3" ExecutorRoleId="2" ParentId="3" />
+    </TransactionKind>
+  </Transactions>
+  <Links>
+    <TransactionLink Id="1" Type="Response" SourceTransactionId="1" DestinationTransactionId="2" SourceCompletion="Requested" DestinationCompletion="Promised">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="2" Type="Waiting" SourceTransactionId="2" DestinationTransactionId="1" SourceCompletion="Promised" DestinationCompletion="Promised">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="3" Type="Waiting" SourceTransactionId="2" DestinationTransactionId="1" SourceCompletion="Accepted" DestinationCompletion="Executed">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="4" Type="Response" SourceTransactionId="3" DestinationTransactionId="4" SourceCompletion="Promised" DestinationCompletion="Requested">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="5" Type="Waiting" SourceTransactionId="4" DestinationTransactionId="3" SourceCompletion="Promised" DestinationCompletion="Executed">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="6" Type="Response" SourceTransactionId="4" DestinationTransactionId="5" SourceCompletion="Rejected" DestinationCompletion="Requested">
+      <SourceCardinality Cardinality="ZeroToOne" />
+      <DestinationCardinality Cardinality="One" />
+    </TransactionLink>
+    <TransactionLink Id="7" Type="Waiting" SourceTransactionId="5" DestinationTransactionId="4" SourceCompletion="Accepted" DestinationCompletion="Accepted">
+      <SourceCardinality Cardinality="One" />
+      <DestinationCardinality Cardinality="ZeroToOne" />
+    </TransactionLink>
+  </Links>
+</ProcessKind>
