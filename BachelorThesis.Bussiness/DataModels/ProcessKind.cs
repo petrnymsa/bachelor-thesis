@@ -13,7 +13,7 @@ namespace BachelorThesis.Bussiness.DataModels
     {
         private static int nextId;
 
-        public int Id { get; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
         [JsonProperty(Order = 3)]

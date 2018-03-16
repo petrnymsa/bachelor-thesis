@@ -34,6 +34,11 @@ namespace BachelorThesis.Bussiness.DataModels
 
         public List<TransactionKind> GetChildren() => children;
 
+        public TransactionKind()
+        {
+               
+        }
+
         public TransactionKind(string identificator, string name, int processKindId, int initiatorKindId, int executorKindId)
         {
             Id = Interlocked.Increment(ref nextId);
