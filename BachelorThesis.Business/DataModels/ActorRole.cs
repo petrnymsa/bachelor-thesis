@@ -19,5 +19,10 @@ namespace BachelorThesis.Business.DataModels
             Id = Interlocked.Increment(ref nextId);
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return $"Id: {Id} Name: {Name}";
+        }
     }
 }

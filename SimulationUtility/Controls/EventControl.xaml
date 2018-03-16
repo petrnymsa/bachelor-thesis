@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="920">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Label Content="Event type" />
-            <ComboBox ItemsSource="{Binding TransactionEventTypes}" SelectedItem="{Binding SelectedEventType, Mode=TwoWay}" IsEnabled="False" MinWidth="60"  />
+            <!--<Label Content="Event type" />
+            <ComboBox ItemsSource="{Binding TransactionEventTypes}" SelectedItem="{Binding SelectedEventType, Mode=TwoWay}" IsEnabled="False" MinWidth="60"  />-->
             <Label  Content="TransactionId" />
             <ComboBox ItemsSource="{Binding TransactionInstances}" SelectedItem="{Binding SelectedTransactionInstance}" MinWidth="60" >
                 <ComboBox.ItemTemplate>
@@ -24,9 +24,15 @@
             <ComboBox ItemsSource="{Binding Actors}" SelectedItem="{Binding SelectedActor, Mode=TwoWay}" MinWidth="100" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <TextBlock Padding="0" Text="{Binding FullName}" />
-                        </Grid>
+                        <TextBlock Padding="0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}({1})">
+                                    <Binding Path="FullName" />
+                                    <Binding Path="Role" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                       
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

@@ -62,13 +62,14 @@
     <Compile Include="Controls\ChunkControl.xaml.cs">
       <DependentUpon>ChunkControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ChunkControlViewModel.cs" />
+    <Compile Include="ViewModels\ActorViewModel.cs" />
+    <Compile Include="ViewModels\ChunkControlViewModel.cs" />
     <Compile Include="Controls\EventControl.xaml.cs">
       <DependentUpon>EventControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\BaseViewModel.cs" />
     <Compile Include="Common\Command.cs" />
-    <Compile Include="Controls\EventControlViewModel.cs" />
+    <Compile Include="ViewModels\EventControlViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Page Include="Controls\ChunkControl.xaml">
       <SubType>Designer</SubType>
@@ -122,7 +123,7 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BachelorThesis.Bussiness\BachelorThesis.Bussiness.csproj">
+    <ProjectReference Include="..\BachelorThesis.Business\BachelorThesis.Business.csproj">
       <Project>{9f124c03-de85-4d77-902c-55e0c7a3f9bb}</Project>
       <Name>BachelorThesis.Bussiness</Name>
     </ProjectReference>

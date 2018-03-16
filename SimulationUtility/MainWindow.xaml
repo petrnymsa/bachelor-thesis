@@ -5,18 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimulationUtility"
         xmlns:vm="clr-namespace:SimulationUtility.ViewModels"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1080">
+        Title="{Binding SimulationName}" Height="450" Width="1080">
     <Window.DataContext>
         <vm:MainPageViewModel />
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{} Process {0} ({1})">
+                        <Binding Source="{x:Static vm:MainPageViewModel.ProcessKind}" Path="Name" />
+                        <Binding Source="{x:Static vm:MainPageViewModel.ProcessKind}" Path="Id" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Label Content="Actor roles" />
+            <ItemsControl ItemsSource="{Binding Source={x:Static vm:MainPageViewModel.ActorRoles}}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}({0}) {1}">
+                                    <Binding Path="Id" />
+                                    <Binding Path="Name" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding ChunkControls}"  VirtualizingStackPanel.IsVirtualizing="True"
+        <ItemsControl Grid.Row="0"  Grid.Column="1" ItemsSource="{Binding ChunkControls}"  VirtualizingStackPanel.IsVirtualizing="True"
                       ScrollViewer.CanContentScroll="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -43,12 +75,19 @@
         </ItemsControl>
        
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button  Content="Add chunk " Command="{Binding AddChunk}" />
-            <Button Content="Load simulation" Command="{Binding LoadCommand}"  Margin="35,0,0,0" />
-            <Button Content="Save simulation" Command="{Binding SaveCommand}" Margin="35,0,0,0" />
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                    <Setter Property="Padding" Value="5,0" />
+                </Style>
+            </StackPanel.Resources>
+            <Button  Content="Add chunk " Command="{Binding AddChunkCommand}" />
+            <Button Content="Load model" Command="{Binding LoadModelCommand}" />
+            <Button Content="Load simulation" Command="{Binding LoadSimulationCommand}" />
+            <Button Content="Save simulation" Command="{Binding SaveSimulationCommand}" />
             <Label Content="Simulation name" Margin="35,0,0,0" />
-            <TextBox Text="{Binding SimulationName, Mode=TwoWay}" Width="200"  Margin="10,0,0,0"/>
+            <TextBox Text="{Binding SimulationName, Mode=TwoWay}" Width="200"/>
         </StackPanel>
 
     </Grid>

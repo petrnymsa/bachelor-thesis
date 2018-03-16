@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Parsers;
-using BachelorThesis.Bussiness.Simulation;
+using System.Xml.Linq;
+using BachelorThesis.Business.DataModels;
+using BachelorThesis.Business.Parsers;
+using BachelorThesis.Business.Simulation;
 using Microsoft.Win32;
 using SimulationUtility.Common;
 using SimulationUtility.Controls;
@@ -16,16 +17,19 @@ namespace SimulationUtility.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        private SimulationCaseParser simulationCaseParser;
+        private readonly SimulationCaseParser simulationCaseParser;
         private string xmlPath;
+
+        public static ProcessKind ProcessKind { get; set; } //= new ProcessKind("not loaded");
+        public static ObservableCollection<ActorRole> ActorRoles { get; set; } = new ObservableCollection<ActorRole>();
 
 
         public ObservableCollection<ChunkControl> ChunkControls { get; set; }
 
-        public Command AddChunk { get; set; }
-        public Command SaveCommand { get; set; }
-
-        public Command LoadCommand { get; set; }
+        public Command AddChunkCommand { get; set; }
+        public Command SaveSimulationCommand { get; set; }
+        public Command LoadSimulationCommand { get; set; }
+        public Command LoadModelCommand { get; set; }
 
         public static SimulationCaseParserResult ParserResult { get; set; }
 
@@ -36,13 +40,32 @@ namespace SimulationUtility.ViewModels
             simulationCaseParser = new SimulationCaseParser();
             ChunkControls = new ObservableCollection<ChunkControl>();
 
-            AddChunk = new Command(AddChunkExecute, obj => ParserResult != null );
-            LoadCommand = new Command(LoadCommandExecute);
+            AddChunkCommand = new Command(AddChunkCommandExecute, obj => ParserResult != null );
+            LoadSimulationCommand = new Command(LoadSimulationCommandExecute, obj => ProcessKind != null);
+            LoadModelCommand = new Command(LoadModelCommandExecute);
 
-            SaveCommand = new Command(SaveCommandExecute, obj => ParserResult != null);
+            SaveSimulationCommand = new Command(SaveSimulationCommandExecute, obj => ParserResult != null);
         }
 
-        private void SaveCommandExecute(object obj)
+        private void LoadModelCommandExecute(object obj)
+        {
+            var dialog = new OpenFileDialog()
+            {
+                DefaultExt = ".xml",
+                Filter = "XML Files (.xml)|*.xml"
+            };
+            if(dialog.ShowDialog() != true) return;
+            
+
+            var parser = new ProcessKindXmlParser();
+            var result = parser.ParseDefinition(XDocument.Load(dialog.FileName));
+
+            ProcessKind = result.ProcessKind;
+            result.ActorRoles.ForEach(x => ActorRoles.Add(x));
+
+        }
+
+        private void SaveSimulationCommandExecute(object obj)
         {
             ParserResult.Chunks.Clear();
 
@@ -67,51 +90,56 @@ namespace SimulationUtility.ViewModels
                 DefaultExt = ".xml",
                 Filter = "XML Files (.xml)|*.xml"
             };
-            if (saveDialog.ShowDialog() == true)
-            {
-                doc.Save(saveDialog.FileName);
+            if (saveDialog.ShowDialog() != true) return;
 
-                MessageBox.Show("Oki doki, file saved");
-            }
+            doc.Save(saveDialog.FileName);
+            MessageBox.Show("Oki doki, file saved");
         }
 
-        private void LoadCommandExecute(object obj)
+        private void LoadSimulationCommandExecute(object obj)
         {
-         
-            var dialog = new OpenFileDialog();
-           
-            if (dialog.ShowDialog() == true)
+
+            var dialog = new OpenFileDialog()
             {
-                ChunkControls.Clear();
-                xmlPath = dialog.FileName;
-                ParserResult = simulationCaseParser.Parse(xmlPath);
+                DefaultExt = ".xml",
+                Filter = "XML Files (.xml)|*.xml"
+            };
 
-                SimulationName = ParserResult.Name;
+            if (dialog.ShowDialog() != true) return;
 
-                foreach (var chunk in ParserResult.Chunks)
+            ChunkControls.Clear();
+            xmlPath = dialog.FileName;
+            ParserResult = simulationCaseParser.Parse(xmlPath);
+
+            SimulationName = ParserResult.Name;
+
+            foreach (var chunk in ParserResult.Chunks)
+            {
+                var chunkVm = new ChunkControlViewModel(this);
+
+                foreach (var tEvent in chunk.GetEvents())
                 {
-                    var chunkVm = new ChunkControlViewModel(this);
-
-                    foreach (var tEvent in chunk.GetEvents())
+                    var actor = ParserResult.Actors.Find(x => x.Id == tEvent.RaisedByActorId);
+                    var role = GetActorRole(actor.ActorKindId);
+                    var actorVm = new ActorViewModel(actor.Id,actor.FullName,role.Name, role.Id);
+                    var eventVm = new EventControlViewModel(chunkVm)
                     {
-                        var eventVm = new EventControlViewModel(chunkVm);
-                        eventVm.CreationTime = tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat);
-                        eventVm.SelectedActor = ParserResult.Actors.Find(x => x.Id == tEvent.RaisedByActorId);
+                        CreationTime = tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat),
+                        SelectedActor = actorVm,
+                        SelectedCompletion = ((CompletionChangedTransactionEvent) tEvent).Completion,
+                        SelectedTransactionInstance = ParserResult.ProcessInstance.GetTransactionById(tEvent.Id)
+                    };
 
-                        eventVm.SelectedCompletion = ((CompletionChangedTransactionEvent) tEvent).Completion;
-                        eventVm.SelectedTransactionInstance =
-                            ParserResult.ProcessInstance.GetTransactionById(tEvent.Id);
 
-                        chunkVm.Events.Add(new EventControl(eventVm));
-                    }
-
-                    ChunkControls.Add(new ChunkControl(chunkVm));
-
+                    chunkVm.Events.Add(new EventControl(eventVm));
                 }
+
+                ChunkControls.Add(new ChunkControl(chunkVm));
+
             }
         }
 
-        private void AddChunkExecute(object obj)
+        private void AddChunkCommandExecute(object obj)
         {
             ChunkControls.Add(new ChunkControl(this));
         }
@@ -120,5 +148,7 @@ namespace SimulationUtility.ViewModels
         {
             ChunkControls.Remove(chunkControl);
         }
+
+        public static ActorRole GetActorRole(int id) => ActorRoles.First(x => x.Id == id);
     }
 }

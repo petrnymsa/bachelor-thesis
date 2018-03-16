@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BachelorThesis.Bussiness.DataModels;
-using BachelorThesis.Bussiness.Parsers;
+using BachelorThesis.Business.DataModels;
+using BachelorThesis.Business.Parsers;
 using SimulationUtility.Common;
-using SimulationUtility.ViewModels;
+using SimulationUtility.Controls;
 
-namespace SimulationUtility.Controls
+namespace SimulationUtility.ViewModels
 {
     public class EventControlViewModel : BaseViewModel
     {
@@ -27,9 +25,9 @@ namespace SimulationUtility.Controls
 
         public TransactionEventType SelectedEventType { get; set; }
 
-        public ObservableCollection<Actor> Actors { get; set; }
+        public ObservableCollection<ActorViewModel> Actors { get; set; }
 
-        public Actor SelectedActor { get; set; }
+        public ActorViewModel SelectedActor { get; set; }
 
         public string CreationTime { get; set; }
 
@@ -47,10 +45,13 @@ namespace SimulationUtility.Controls
             TransactionEventTypes = new List<TransactionEventType>(Enum.GetValues(typeof(TransactionEventType)).Cast<TransactionEventType>());
             TransactionCompletions = new List<TransactionCompletion>(Enum.GetValues(typeof(TransactionCompletion)).Cast<TransactionCompletion>());
 
-            Actors = new ObservableCollection<Actor>();
+            Actors = new ObservableCollection<ActorViewModel>();
 
             foreach (var actor in MainPageViewModel.ParserResult.Actors)
-                Actors.Add(actor);
+            {
+                var role = MainPageViewModel.GetActorRole(actor.ActorKindId);
+                Actors.Add(new ActorViewModel(actor.Id, actor.FullName, role.Name, role.Id));
+            }
 
             TransactionInstances = new ObservableCollection<TransactionInstance>();
 
