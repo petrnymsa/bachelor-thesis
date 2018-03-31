@@ -119,17 +119,23 @@ namespace SimulationUtility.ViewModels
 
                 foreach (var tEvent in chunk.GetEvents())
                 {
-                    var actor = ParserResult.Actors.Find(x => x.Id == tEvent.RaisedByActorId);
-                    var role = GetActorRole(actor.ActorKindId);
-                    var actorVm = new ActorViewModel(actor.Id,actor.FullName,role.Name, role.Id);
+                //    var actor = ParserResult.Actors.Find(x => x.Id == tEvent.RaisedByActorId);
+                 //   var role = GetActorRole(actor.ActorKindId);
+                  //  var actorVm = new ActorViewModel(actor.Id,actor.FullName,role.Name, role.Id);
+
+                    var tInstance = ParserResult.ProcessInstance.GetTransactionById(tEvent.TransactionInstanceId);
+                //    var tKind = ProcessKind.GetTransactionById(tInstance.TransactionKindId);
+
                     var eventVm = new EventControlViewModel(chunkVm)
                     {
                         CreationTime = tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat),
-                        SelectedActor = actorVm,
-                        SelectedCompletion = ((CompletionChangedTransactionEvent) tEvent).Completion,
-                        SelectedTransactionInstance = ParserResult.ProcessInstance.GetTransactionById(tEvent.Id)
+                        SelectedCompletion = ((CompletionChangedTransactionEvent) tEvent).Completion
                     };
 
+
+                    //  eventVm.SelectedTransactionInstance = new TransactionViewModel(tInstance, tKind.Name);
+                    eventVm.SetSelectedTransactionInstance(tInstance.Id);
+                    eventVm.SetSelectedActor(tEvent.RaisedByActorId);
 
                     chunkVm.Events.Add(new EventControl(eventVm));
                 }

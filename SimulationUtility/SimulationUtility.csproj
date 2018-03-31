@@ -71,6 +71,7 @@
     <Compile Include="Common\Command.cs" />
     <Compile Include="ViewModels\EventControlViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Page Include="Controls\ChunkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

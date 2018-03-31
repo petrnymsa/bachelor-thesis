@@ -4,13 +4,13 @@
     {
         None,
         Requested,
+        Promised,
+        Stated,
+        Executed,
+        Accepted,
         Declined,
         Quitted,
-        Promised,
-        Executed,
-        Stated,
         Rejected,
         Stopped,
-        Accepted
     }
 }

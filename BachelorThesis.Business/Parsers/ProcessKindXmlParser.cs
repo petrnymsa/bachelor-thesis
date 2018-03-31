@@ -146,16 +146,24 @@ namespace BachelorThesis.Business.Parsers
             {
                 var transactionKind = ParseTransactionKind(transactionElement);
 
-                TreeStructureHelper.Traverse(transactionKind, transactionElement, (kind, node) =>
-                {
-                    var transactionChild = ParseTransactionKind(node);
-                    kind.AddChild(transactionChild);
-;                });
+                ParseTransactionChildren(transactionElement, transactionKind);
 
                 result.Add(transactionKind);
             }
 
             return result;
+        }
+
+        private void ParseTransactionChildren(XElement xElement, TransactionKind transactionKind)
+        {
+            var childElements = xElement.Elements(XmlParsersConfig.ElementTransactionKind);
+            foreach (var childElement in childElements)
+            {
+                var childKind = ParseTransactionKind(childElement);
+                transactionKind.AddChild(childKind);
+
+                ParseTransactionChildren(childElement, childKind);
+            }
         }
 
         private TransactionKind ParseTransactionKind(XElement xElement)

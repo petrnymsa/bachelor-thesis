@@ -48,7 +48,7 @@
             </ItemsControl>
         </StackPanel>
 
-        <ItemsControl Grid.Row="0"  Grid.Column="1" ItemsSource="{Binding ChunkControls}"  VirtualizingStackPanel.IsVirtualizing="True"
+        <ItemsControl Grid.Row="0"  Grid.Column="1" Margin="5,0,0,5" ItemsSource="{Binding ChunkControls}"  VirtualizingStackPanel.IsVirtualizing="True"
                       ScrollViewer.CanContentScroll="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -75,7 +75,7 @@
         </ItemsControl>
        
 
-        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,5">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="5,0,0,0" />

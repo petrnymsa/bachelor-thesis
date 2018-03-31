@@ -15,6 +15,7 @@ namespace BachelorThesis.Business.DataModels
 
         public int Id { get; set; }
         public TransactionEventType EventType { get; set; }
+        public int ProcessInstanceId { get; set; } //TODO parsers must recognize it
         public int TransactionInstanceId { get; set; }
         public int RaisedByActorId { get; set; }
         public DateTime Created { get; set; }

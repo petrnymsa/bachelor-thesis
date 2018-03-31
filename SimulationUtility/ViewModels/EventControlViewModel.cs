@@ -31,9 +31,9 @@ namespace SimulationUtility.ViewModels
 
         public string CreationTime { get; set; }
 
-        public ObservableCollection<TransactionInstance> TransactionInstances { get; set; }
+        public ObservableCollection<TransactionViewModel> TransactionInstances { get; set; }
 
-        public TransactionInstance SelectedTransactionInstance { get; set; }
+        public TransactionViewModel SelectedTransactionInstance { get; set; }
 
 
         public EventControlViewModel(ChunkControlViewModel chunkControlViewModel)
@@ -53,16 +53,28 @@ namespace SimulationUtility.ViewModels
                 Actors.Add(new ActorViewModel(actor.Id, actor.FullName, role.Name, role.Id));
             }
 
-            TransactionInstances = new ObservableCollection<TransactionInstance>();
+            TransactionInstances = new ObservableCollection<TransactionViewModel>();
 
             foreach (var instance in MainPageViewModel.ParserResult.ProcessInstance.GetTransactions())
             {
-                TransactionInstances.Add(instance);
-                TreeStructureHelper.Traverse(instance, TransactionInstances, (i, list) => list.Add(i));
+                var kind = MainPageViewModel.ProcessKind.GetTransactionById(instance.TransactionKindId);
+                var vm = new TransactionViewModel(instance, kind.Name);
+                TransactionInstances.Add(vm);
+
+                TreeStructureHelper.Traverse(instance, TransactionInstances, (i, list) =>
+                {
+                    var tKind = MainPageViewModel.ProcessKind.GetTransactionById(i.TransactionKindId);
+                    list.Add(new TransactionViewModel(i, tKind.Name));
+                });
 
             }
 
             CreationTime = "01-02-2018 15:34:23";
+        }
+
+        public void SetSelectedActor(int actorId)
+        {
+            SelectedActor = Actors.First(x => x.Id == actorId);
         }
 
         private void RemoveMeCommandExecute(object obj)
@@ -72,8 +84,13 @@ namespace SimulationUtility.ViewModels
 
         public TransactionEvent GetTransactionEvent()
         {
-            return new CompletionChangedTransactionEvent(SelectedTransactionInstance.Id, SelectedActor.Id,
+            return new CompletionChangedTransactionEvent(SelectedTransactionInstance.Instance.Id, SelectedActor.Id,
                 DateTime.ParseExact(CreationTime, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture), SelectedCompletion);
+        }
+
+        public void SetSelectedTransactionInstance(int id)
+        {
+            SelectedTransactionInstance = TransactionInstances.First(x => x.Instance.Id == id);
         }
     }
 }
