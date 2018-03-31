@@ -120,6 +120,7 @@ namespace BachelorThesis.ConsoleTest
             var key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.T)
                 PrintTransactions(process);
+            else Console.WriteLine("\n -#--#--#--#--#--#--#--#--#--#--#--#--#--#--#--#- \n", Color.MediumSeaGreen);
         }
 
 
