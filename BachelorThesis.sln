@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.Android", "BachelorThesis\BachelorThesis.Android\BachelorThesis.Android.csproj", "{8AEC0116-B3F7-4A55-9A09-77F682CC5400}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9ECC6A4B-AA78-4D29-9A40-1AF8510959A5} = {9ECC6A4B-AA78-4D29-9A40-1AF8510959A5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BachelorThesis.UWP", "BachelorThesis\BachelorThesis.UWP\BachelorThesis.UWP.csproj", "{54213F53-9E7A-4B48-ABF3-91DC3FFC606E}"
 EndProject

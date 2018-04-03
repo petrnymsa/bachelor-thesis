@@ -4,9 +4,89 @@
              xmlns:local="clr-namespace:BachelorThesis"
              xmlns:controls="clr-namespace:BachelorThesis.Controls"
              x:Class="BachelorThesis.MainPage">
-    <StackLayout VerticalOptions="FillAndExpand">
+    <!--<StackLayout VerticalOptions="FillAndExpand">
         <Slider x:Name="slider" Maximum="1"  Minimum="0" Value="0.2" />
         <Label BindingContext="{x:Reference slider}" Text="{Binding Value}" />
         <controls:CustomProgressBar WidthRequest="200" BindingContext="{x:Reference slider}" BarHeight="10" Progress="{Binding Value}" VerticalOptions="StartAndExpand" />
-    </StackLayout>
+    </StackLayout>-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="BarHeight">30</x:Double>
+            <x:Double x:Key="BarSpacing">60</x:Double>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid ColumnSpacing="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+     
+        <StackLayout x:Name="fooGrid" Grid.ColumnSpan="2" BackgroundColor="AliceBlue">
+            <Label Text="Timeline" HorizontalOptions="Center" VerticalOptions="Center" />
+        </StackLayout>
+ 
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="Khaki" Padding="0,0,0,10" Orientation="Both">
+            <RelativeLayout>
+                <RelativeLayout x:Name="treeLayout" WidthRequest="100" BackgroundColor="AntiqueWhite" >
+                    <!--HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">-->
+                    <Label x:Name="lbT1" Text="Rental&#x0a;contracting" HorizontalTextAlignment="Center"
+                           RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                           RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.1}"/>
+
+                    <Label x:Name="lbT2" Text="Rental&#x0a;payment" HorizontalTextAlignment="Center"
+                           RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                           RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT1, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
+
+                    <Label x:Name="lbT3" Text="Car&#x0a;pick up" HorizontalTextAlignment="Center"
+                           RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                           RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT2, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
+
+                    <Label x:Name="lbT4" Text="Car&#x0a;drop off" HorizontalTextAlignment="Center"
+                           RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                           RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT3, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
+
+                    <Label x:Name="lbT5" Text="Penalty&#x0a;payment" HorizontalTextAlignment="Center"
+                           RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
+                           RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT4, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
+                </RelativeLayout>
+                <RelativeLayout x:Name="chartLayout" 
+                                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}">
+                    
+                    <BoxView x:Name="boxT1"  Color="Green" WidthRequest="160" HeightRequest="{StaticResource BarHeight}"
+                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0,  Constant=0}"
+                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.1,  Constant=0}" />
+                    
+                    <controls:TransactionLinkControl SourceText="Rq" TargetText="Rq" 
+                                                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=X, Factor=1,  Constant=30}"
+                                                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=Y, Factor=1,  Constant=10}" />
+                                                     
+
+                    <BoxView x:Name="boxT2"  Color="CadetBlue" WidthRequest="100" HeightRequest="{StaticResource BarHeight}"
+                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=X, Factor=1,  Constant=20}"
+                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
+
+                    <BoxView x:Name="boxT3"  Color="IndianRed" WidthRequest="220" HeightRequest="{StaticResource BarHeight}"
+                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=X, Factor=1,  Constant=160}"
+                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT2, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
+
+                    <BoxView x:Name="boxT4"  Color="DarkOrange" WidthRequest="220" HeightRequest="{StaticResource BarHeight}"
+                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT3, Property=X, Factor=1,  Constant=40}"
+                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT3, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
+
+                    <BoxView x:Name="boxT5"  Color="MidnightBlue" WidthRequest="120" HeightRequest="{StaticResource BarHeight}"
+                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT4, Property=X, Factor=1,  Constant=60}"
+                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT4, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+          
+        </ScrollView>
+
+    </Grid>
+   
 </ContentPage>

@@ -47,6 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NControl">
+      <Version>0.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="NControl.Controls">
+      <Version>0.9.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
+      <Version>2.3.6</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="25.4.0.2" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="25.4.0.2" />

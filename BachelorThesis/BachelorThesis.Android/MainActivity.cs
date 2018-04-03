@@ -6,6 +6,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using FFImageLoading.Forms.Droid;
+using NControl.Controls.Droid;
+using NControl.Droid;
+
 
 namespace BachelorThesis.Droid
 {
@@ -20,6 +24,12 @@ namespace BachelorThesis.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            //   TwinTechsForms.NControl.SvgImageView.Init();
+            CachedImageRenderer.Init(false);
+            NControlViewRenderer.Init();
+            NControls.Init();
+          //  CachedImageRenderer.Init();
+
             LoadApplication(new App());
         }
     }

@@ -13,7 +13,7 @@ namespace BachelorThesis
 		{
 			InitializeComponent();
 
-			MainPage = new BachelorThesis.MainPage();
+		    MainPage = new MainPage();
 		}
 
 		protected override void OnStart ()
