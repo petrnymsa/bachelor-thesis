@@ -5,18 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\response-link.svg" />
     <None Remove="response-link.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ApplicationDefinition Include="Resources\response-link.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\response-link.svg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

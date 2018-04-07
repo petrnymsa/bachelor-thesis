@@ -14,6 +14,9 @@
             <BoxView  WidthRequest="20" HeightRequest="20" BackgroundColor="Red" HorizontalOptions="Start" VerticalOptions="Start"/>
             
         </Grid>-->
-           
+           <StackLayout Margin="15">
+               <controls:TransactionBoxControl x:Name="boxControl" HeightRequest="30" WidthRequest="200" Progress="0.5" />
+               <Button Text="Progress"  Clicked="Button_OnClicked" />
+           </StackLayout>
     </ContentPage.Content>
 </ContentPage>

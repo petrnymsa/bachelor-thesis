@@ -14,6 +14,11 @@ namespace BachelorThesis.Controls
 
     public class TransactionLinkControl : SKCanvasView
     {
+        private const int ShapeRadius = 8;
+        private const int LineLength = 44;
+        private const int ArrowLength = 8;
+        private const int ArrowAngle = 35;
+
         #region Properties
         public static BindableProperty SourceTextProperty =
             BindableProperty.Create(nameof(SourceText), typeof(string), typeof(TransactionLinkControl), string.Empty,
@@ -60,20 +65,31 @@ namespace BachelorThesis.Controls
         }
 
 
-        #endregion
+        public static BindableProperty LinkStyleProperty =
+            BindableProperty.Create(nameof(LinkStyle), typeof(int), typeof(TransactionLinkControl), 0,
+                BindingMode.TwoWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
 
+        private readonly float arrowX;
+        private readonly float arrowY;
+
+        public int LinkStyle
+        {
+            get => (int)GetValue(LinkStyleProperty);
+            set => SetValue(LinkStyleProperty, value);
+        }
+
+        #endregion
+        public TransactionLinkControl()
+        {
+            this.HeightRequest = 100;
+            arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
+            arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
+        }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
             base.OnPaintSurface(e);
-            var shapeRadius = 8;
-            var lineLength = 44;
-            var arrowLength = 8;
-            var arrowAngle = 35;
-            var arrowX = (float)(arrowLength * Math.Sin(arrowAngle * (Math.PI / 180)));
-            var arrowY = (float)(arrowLength * Math.Cos(arrowAngle * (Math.PI / 180)));
-
-            
 
             var canvas = e.Surface.Canvas;
             var paint = new SKPaint
@@ -91,125 +107,130 @@ namespace BachelorThesis.Controls
                 IsAntialias = true
             };
 
+            var dashedPaint = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.Black,
+                StrokeWidth = 1,
+                StrokeCap = SKStrokeCap.Round,
+                PathEffect = SKPathEffect.CreateDash(new float[] { 4, 3 }, 1)
+            };
+
             canvas.Clear();
 
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
-            if (LinkOrientation == 0)
+            if (LinkStyle == 0)
             {
-                // circle
-                canvas.Translate(shapeRadius + 1, shapeRadius + 1);
-                canvas.DrawCircle(0, 0, shapeRadius, paint);
-                canvas.Translate(0, shapeRadius);
+                HeightRequest = 78;
+                if (LinkOrientation == 0)
+                    DrawDownSide(canvas, paint, textPaint, dashedPaint);
+                else
+                    DrawUpSide(canvas, paint, textPaint, dashedPaint);
+            }
+            else // State - Request
+            {
+                HeightRequest = 90;
+                //circle
+                canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+                canvas.DrawCircle(0, 0, ShapeRadius, paint);
+                canvas.Translate(0, ShapeRadius);
+
                 // source text
                 canvas.Save();
-                canvas.Translate(shapeRadius, 5);
+                canvas.Translate(ShapeRadius, 5);
                 canvas.DrawText(SourceText, 0, 0, textPaint);
                 canvas.Restore();
-                // line
-                if (IsDashed)
-                    DrawDashedLine(canvas, lineLength);
-                else
-                    canvas.DrawLine(0, 0, 0, lineLength, paint);
-                //arrow
-                canvas.Translate(0, lineLength);
+                //line
+                canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
+                canvas.Translate(0, LineLength);
+                canvas.DrawLine(0, 0, 0, ShapeRadius*3, IsDashed ? dashedPaint : paint);
+
+                // line - arrow head
+                canvas.Translate(0,ShapeRadius * 3);
+                canvas.DrawLine(0,0,16,0, IsDashed ? dashedPaint : paint);
+                // arrow
+                canvas.Translate(16,0);
+                canvas.DrawLine(0, 0, -arrowY, arrowX, paint);
+                canvas.DrawLine(0, 0, -arrowY, -arrowX, paint);
+            }
+
+            paint.Dispose();
+            textPaint.Dispose();
+            dashedPaint.Dispose();
+        }
+
+        protected void DrawUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        {
+            // square
+            canvas.Translate(1, 1);
+            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
+            canvas.Translate(ShapeRadius, ShapeRadius * 2);
+            // target text
+            canvas.Save();
+            canvas.Translate(ShapeRadius / 2f + 5, ShapeRadius + 5);
+            canvas.DrawText(TargetText, 0, 0, textPaint);
+            canvas.Restore();
+
+            //arrow
+            DrawArrow(canvas, paint,false);
+
+            // line
+            canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
+
+            canvas.Translate(0, LineLength);
+
+            // source text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, 0);
+            canvas.DrawText(SourceText, 0, 0, textPaint);
+            canvas.Restore();
+            // circle
+            canvas.Translate(0, ShapeRadius);
+            canvas.DrawCircle(0, 0, ShapeRadius, paint);
+        }
+
+        protected void DrawArrow(SKCanvas canvas, SKPaint paint, bool downSide = true)
+        {
+          //  var arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
+         //   var arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
+            if (downSide)
+            {
                 canvas.DrawLine(0, 0, -arrowX, -arrowY, paint);
                 canvas.DrawLine(0, 0, arrowX, -arrowY, paint);
-                // target text
-                canvas.Save();
-                canvas.Translate(shapeRadius, -5);
-                canvas.DrawText(TargetText, 0, 0, textPaint);
-                canvas.Restore();
-                // square
-                canvas.Translate(-shapeRadius, 0);
-                canvas.DrawRect(new SKRect(0, 0, shapeRadius * 2, shapeRadius * 2), paint);
             }
             else
             {
-                // square
-                canvas.Translate(1, 1);
-                canvas.DrawRect(new SKRect(0, 0, shapeRadius * 2, shapeRadius * 2), paint);
-                canvas.Translate(shapeRadius, shapeRadius * 2);
-                // target text
-                canvas.Save();
-                canvas.Translate(shapeRadius / 2f + 5, shapeRadius + 5);
-                canvas.DrawText(TargetText, 0, 0, textPaint);
-                canvas.Restore();
-
-                //arrow
                 canvas.DrawLine(0, 0, -arrowX, arrowY, paint);
                 canvas.DrawLine(0, 0, arrowX, arrowY, paint);
-
-                // line
-                if (IsDashed)
-                    DrawDashedLine(canvas, lineLength);
-                else
-                    canvas.DrawLine(0, 0, 0, lineLength, paint);
-
-                canvas.Translate(0,lineLength);
-
-                // source text
-                canvas.Save();
-                canvas.Translate(shapeRadius, 0);
-                canvas.DrawText(SourceText, 0, 0, textPaint);
-                canvas.Restore();
-                // circle
-                canvas.Translate(0, shapeRadius);
-                canvas.DrawCircle(0, 0, shapeRadius, paint);
-
             }
-
-
-
         }
 
-        private static void DrawSquare(SKCanvas canvas, int shapeRadius, SKPaint paint)
+        protected void DrawDownSide(SKCanvas canvas,SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
-          
-        }
-
-        private void DrawTargetText(SKCanvas canvas, int shapeRadius, SKPaint textPaint)
-        {
-         
-        }
-
-        private void DrawSourceText(SKCanvas canvas, int shapeRadius, SKPaint textPaint)
-        {
-           
-        }
-
-        private static void DrawCircle(SKCanvas canvas, int shapeRadius, SKPaint paint)
-        {
-           
-        }
-
-        protected void DrawDashedLine(SKCanvas canvas, int totalLength)
-        {
-            var piecesCount = 10;
-            var pieceLength = totalLength / piecesCount;
-            var gapLength = pieceLength / 2;
-
-            var length = 0;
-
+            // circle
+            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+            canvas.DrawCircle(0, 0, ShapeRadius, paint);
+            canvas.Translate(0, ShapeRadius);
+            // source text
             canvas.Save();
-            for (var i = 0; i < piecesCount && length < totalLength; i++)
-            {
-                var translateY = pieceLength + gapLength;
-               
-                canvas.DrawLine(0, 0, 0, pieceLength,new SKPaint()
-                {
-                    Style = SKPaintStyle.Stroke,
-                    Color = Color.Black.ToSKColor(),
-                    StrokeWidth = 1
-                });
-
-                canvas.Translate(0, translateY);
-
-                length += translateY;
-            }
-
+            canvas.Translate(ShapeRadius, 5);
+            canvas.DrawText(SourceText, 0, 0, textPaint);
             canvas.Restore();
+            //line
+            canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
+            //arrow
+            canvas.Translate(0, LineLength);
+            DrawArrow(canvas, paint);
+            // target text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, -5);
+            canvas.DrawText(TargetText, 0, 0, textPaint);
+            canvas.Restore();
+            // square
+            canvas.Translate(-ShapeRadius, 0);
+            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
         }
     }
 }
