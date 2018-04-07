@@ -15,17 +15,30 @@ namespace BachelorThesis
 		{
 			InitializeComponent ();
 
-		    //Content = new Grid()
-		    //{
-      //          Padding = 20,
-		    //    Children =
-		    //    {
-		    //        new TransactionLinkControl()
-		    //        {
-		    //            BackgroundColor = Color.PeachPuff,
-		    //        }
-		    //    }
-		    //};
-		}
+            Content = new Grid()
+            {
+                BackgroundColor = Color.Azure,
+                Padding = 20,
+                Children =
+                {
+                    new BoxView()
+                    {
+                        WidthRequest = 80,
+                        HeightRequest = 80,
+                        BackgroundColor = Color.LightGreen,
+                        HorizontalOptions = LayoutOptions.Start,
+                        VerticalOptions = LayoutOptions.Start
+                    },
+                    new TransactionLinkControl()
+                    {
+                       BackgroundColor = Color.Transparent,
+                        SourceText = "Rq",
+                        TargetText = "Pm"
+                    }
+
+
+                }
+            };
+        }
 	}
 }
