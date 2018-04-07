@@ -1,5 +1,4 @@
 ﻿using System;
-using NControl.Abstractions;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
