@@ -5,7 +5,7 @@ namespace BachelorThesis.Business.Simulation
 {
     public class RentalContractSimulationFromXml : ProcessSimulation
     {
-        private readonly string xmlPath;
+        private readonly string xml;
 
         private TransactionInstance rentalContracting;
         private TransactionInstance rentalPayment;
@@ -13,16 +13,16 @@ namespace BachelorThesis.Business.Simulation
         private TransactionInstance carDropOff;
         private TransactionInstance penaltyPayment;
 
-        public RentalContractSimulationFromXml(string xmlPath)
+        public RentalContractSimulationFromXml(string xml)
         {
-            this.xmlPath = xmlPath;
+            this.xml = xml;
         }
 
 
         public override void Prepare()
         {
             var parser = new SimulationCaseParser();
-            var result = parser.Parse(xmlPath);
+            var result = parser.Parse(xml);
 
             ProcessInstance = result.ProcessInstance;
             Name = result.Name;

@@ -7,10 +7,10 @@ namespace BachelorThesis.Business.Parsers
 {
     public class SimulationCaseParser
     {
-        public SimulationCaseParserResult Parse(string xmlPath)
+        public SimulationCaseParserResult Parse(string xml)
         {
             var result = new SimulationCaseParserResult();
-            var doc = XDocument.Load(xmlPath);
+            var doc = XDocument.Parse(xml);
             var processParser = new ProcessInstanceXmlParser();
             var chunksParser = new SimulationChunksXmlParser();
 

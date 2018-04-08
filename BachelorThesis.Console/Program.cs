@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using BachelorThesis.Business.DataModels;
 using BachelorThesis.Business.Simulation;
 using Colorful;
@@ -134,7 +135,8 @@ namespace BachelorThesis.ConsoleTest
         [STAThread]
         private static void Main(string[] args)
         {
-            var simulation = new RentalContractSimulationFromXml("SimulationCases/case-01.xml");
+            var xml = File.ReadAllText("SimulationCases/case-01.xml");
+            var simulation = new RentalContractSimulationFromXml(xml);
             var simulator = new Simulator(simulation);
 
             SimulatorPrinter.PrintInfo("blablabla balbla");
