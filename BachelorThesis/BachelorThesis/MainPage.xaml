@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:BachelorThesis"
              xmlns:controls="clr-namespace:BachelorThesis.Controls"
+             xmlns:xForms="clr-namespace:Syncfusion.SfNavigationDrawer.XForms;assembly=Syncfusion.SfNavigationDrawer.XForms"
+
              x:Class="BachelorThesis.MainPage">
     <!--<StackLayout VerticalOptions="FillAndExpand">
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.SfNavigationDrawer.XForms;assembly=Syncfusion.SfNavigationDrawer.XForms"
         <Slider x:Name="slider" Maximum="1"  Minimum="0" Value="0.2" />
         <Label BindingContext="{x:Reference slider}" Text="{Binding Value}" />
         <controls:CustomProgressBar WidthRequest="200" BindingContext="{x:Reference slider}" BarHeight="10" Progress="{Binding Value}" VerticalOptions="StartAndExpand" />
@@ -12,115 +15,184 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:Double x:Key="BarHeight">30</x:Double>
-            <x:Double x:Key="BarSpacing">90</x:Double> <!-- 60 + BarHeight -->
+            <x:Double x:Key="BarSpacing">90</x:Double>
+            <!-- 60 + BarHeight -->
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid ColumnSpacing="2" RowSpacing="0">
+    <Grid RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80" />
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-     
-        <StackLayout x:Name="fooGrid" Grid.ColumnSpan="2" BackgroundColor="AliceBlue">
-            <Label Text="Timeline" HorizontalOptions="Center" VerticalOptions="Center" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>-->
+        <StackLayout Orientation="Horizontal" BackgroundColor="Transparent" Padding="0" Margin="0">
+            <!--<Button Text="Next" />-->
+            <Button x:Name="btnNextStep" Text="Next" Clicked="BtnNextStep_OnClicked" />
         </StackLayout>
- 
-        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="Transparent"  Orientation="Both">
-            <RelativeLayout>
-                <RelativeLayout x:Name="treeLayout" WidthRequest="100" BackgroundColor="WhiteSmoke" >
-                    <BoxView Color="SlateGray"  WidthRequest="0.3"
+
+       
+
+        
+
+
+        <RelativeLayout Grid.Column="0" Grid.Row="1" BackgroundColor="Transparent" >
+            <ScrollView BackgroundColor="Transparent"  Orientation="Both" Margin="0" Padding="0"
+                     
+                        RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=0}"
+                        RelativeLayout.WidthConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+                <RelativeLayout>
+                    <!-- Left panel -->
+                    <RelativeLayout x:Name="treeLayout" WidthRequest="100" BackgroundColor="Transparent" 
+                                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Y, Factor=1, Constant=40}"
+                                >
+                        <BoxView Color="SlateGray"  WidthRequest="0.3"
                              RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-1}"
                              RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"/>
-                    <!--HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">-->
-                    <Label x:Name="lbT1" Text="Rental&#x0a;contracting" HorizontalTextAlignment="Center"
+                        <!--HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">-->
+                        <Label x:Name="lbT1" Text="Rental&#x0a;contracting" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.05}"/>
 
-                    <Label x:Name="lbT2" Text="Rental&#x0a;payment" HorizontalTextAlignment="Center"
+                        <Label x:Name="lbT2" Text="Rental&#x0a;payment" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT1, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
 
-                    <Label x:Name="lbT3" Text="Car&#x0a;pick up" HorizontalTextAlignment="Center"
+                        <Label x:Name="lbT3" Text="Car&#x0a;pick up" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT2, Property=Y, Factor=1, Constant=60}"/>
 
-                    <Label x:Name="lbT4" Text="Car&#x0a;drop off" HorizontalTextAlignment="Center"
+                        <Label x:Name="lbT4" Text="Car&#x0a;drop off" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT3, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
 
-                    <Label x:Name="lbT5" Text="Penalty&#x0a;payment" HorizontalTextAlignment="Center"
+                        <Label x:Name="lbT5" Text="Penalty&#x0a;payment" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=lbT4, Property=Y, Factor=1, Constant={StaticResource BarSpacing}}"/>
-                </RelativeLayout>
-                <RelativeLayout x:Name="chartLayout" Padding="0,50,30,0"
-                                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}">
+                    </RelativeLayout>
 
-                    <controls:TransactionBoxControl x:Name="boxT1"  WidthRequest="220" HeightRequest="{StaticResource BarHeight}" IsActive="False"
+
+                    <!-- Gantt chart -->
+                    <RelativeLayout x:Name="chartLayout" Margin="0,0,30,50" BackgroundColor="Transparent"
+                                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
+                                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,ElementName=timeLineLayout, Property=Height, Factor=1, Constant=0}"
+                                >
+
+                        <controls:TransactionBoxControl x:Name="boxT1"  WidthRequest="220" HeightRequest="{StaticResource BarHeight}" IsActive="False"
                                                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0,  Constant=2}"
                                                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.05,  Constant=0}" />
-                    <!--<BoxView x:Name="boxT1"  Color="Green" WidthRequest="220" HeightRequest="{StaticResource BarHeight}"
-                     RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0,  Constant=2}"
-                     RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.05,  Constant=0}" />-->
 
-
-                    <controls:TransactionBoxControl x:Name="boxT2" WidthRequest="160" HeightRequest="{StaticResource BarHeight}" IsActive="False"
+                        <controls:TransactionBoxControl x:Name="boxT2" WidthRequest="160" HeightRequest="{StaticResource BarHeight}" IsActive="False"
                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=X, Factor=1,  Constant=36}"
                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
 
-                    <controls:TransactionBoxControl x:Name="boxT3"  WidthRequest="160" HeightRequest="{StaticResource BarHeight}" IsActive="False"
+                        <controls:TransactionBoxControl x:Name="boxT3"  WidthRequest="160" HeightRequest="{StaticResource BarHeight}" IsActive="False"
                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT1, Property=X, Factor=1,  Constant=220}"
                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT2, Property=Y, Factor=1,  Constant=60}" />
 
-                    <controls:TransactionBoxControl x:Name="boxT4"  WidthRequest="260" HeightRequest="{StaticResource BarHeight}" IsActive="False"
+                        <controls:TransactionBoxControl x:Name="boxT4"  WidthRequest="260" HeightRequest="{StaticResource BarHeight}" IsActive="False"
                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT3, Property=X, Factor=1,  Constant=62}"
                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT3, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
 
-                    <controls:TransactionBoxControl x:Name="boxT5"  WidthRequest="100" HeightRequest="{StaticResource BarHeight}" IsActive="False"
+                        <controls:TransactionBoxControl x:Name="boxT5"  WidthRequest="100" HeightRequest="{StaticResource BarHeight}" IsActive="False"
                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT4, Property=X, Factor=1,  Constant=130}"
                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView,ElementName=boxT4, Property=Y, Factor=1,  Constant={StaticResource BarSpacing}}" />
-                 
-                    <!-- T1 (rq) -> T2[rq] - -->
-                    <controls:TransactionLinkControl SourceText="Rq" TargetText="Rq" LinkOrientation="0" LinkStyle="1"
+
+                        <!-- T1 (rq) -> T2[rq] - -->
+                        <controls:TransactionLinkControl SourceText="Rq" TargetText="Rq" LinkOrientation="0" LinkStyle="1"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=X, Factor=1,  Constant=10}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=Y, Factor=1,  Constant=22}" />
-                    <!-- T2 (pm) -> T1[pm] - -->
-                    <controls:TransactionLinkControl SourceText="Pm" TargetText="Pm" LinkOrientation="1" IsDashed="True"
+                        <!-- T2 (pm) -> T1[pm] - -->
+                        <controls:TransactionLinkControl SourceText="Pm" TargetText="Pm" LinkOrientation="1" IsDashed="True"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=X, Factor=1,  Constant=60}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=Y, Factor=1,  Constant=22}" />
-                    <!-- T2 (ac) -> T1[ex] - -->
-                    <controls:TransactionLinkControl SourceText="Ac" TargetText="Ex" LinkOrientation="1" IsDashed="True"
+                        <!-- T2 (ac) -> T1[ex] - -->
+                        <controls:TransactionLinkControl SourceText="Ac" TargetText="Ex" LinkOrientation="1" IsDashed="True"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=X, Factor=1,  Constant=130}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT1, Property=Y, Factor=1,  Constant=22}" />
-                    <!-- T3 (pm) -> T4[rq] - -->
-                    <controls:TransactionLinkControl SourceText="Pm" TargetText="Rq" LinkOrientation="0" IsDashed="False" LinkStyle="1"
+                        <!-- T3 (pm) -> T4[rq] - -->
+                        <controls:TransactionLinkControl SourceText="Pm" TargetText="Rq" LinkOrientation="0" IsDashed="False" LinkStyle="1"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT3, Property=X, Factor=1,  Constant=36}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT3, Property=Y, Factor=1,  Constant=22}" />
-                    <!-- T4 (pm) -> T3[Ex] - -->
-                    <controls:TransactionLinkControl SourceText="Pm" TargetText="Ex" LinkOrientation="1" IsDashed="True"
+                        <!-- T4 (pm) -> T3[Ex] - -->
+                        <controls:TransactionLinkControl SourceText="Pm" TargetText="Ex" LinkOrientation="1" IsDashed="True"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT3, Property=X, Factor=1,  Constant=90}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT3, Property=Y, Factor=1,  Constant=22}" />
 
-                    <!-- T4 (rj) -> T5[rq] - -->
-                    <controls:TransactionLinkControl SourceText="Rj" TargetText="Rq" LinkOrientation="0" IsDashed="False" LinkStyle="1"
+                        <!-- T4 (rj) -> T5[rq] - -->
+                        <controls:TransactionLinkControl SourceText="Rj" TargetText="Rq" LinkOrientation="0" IsDashed="False" LinkStyle="1"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT4, Property=X, Factor=1,  Constant=105}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT4, Property=Y, Factor=1,  Constant=22}" />
 
-                    <!-- T5 (rj) -> T4[rq] - -->
-                    <controls:TransactionLinkControl SourceText="Ac" TargetText="Ac" HeightRequest="78" LinkOrientation="1" IsDashed="True"
+                        <!-- T5 (rj) -> T4[rq] - -->
+                        <controls:TransactionLinkControl SourceText="Ac" TargetText="Ac" HeightRequest="78" LinkOrientation="1" IsDashed="True"
                                                      RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT4, Property=X, Factor=1,  Constant=200}"
                                                      RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToView, ElementName=boxT4, Property=Y, Factor=1,  Constant=22}" />
+                    </RelativeLayout>
 
+                    <!--TimeLine-->
+                    <RelativeLayout x:Name="timeLineLayout" HeightRequest="40" BackgroundColor="Lavender" 
+                                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
+                                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-100}"
+                               >
+
+                    </RelativeLayout>
+
+                    <!--<navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" DrawerWidth ="200" EnableSwipeGesture="True" TouchThreshold="70" Transition="SlideOnTop"
+                                                     RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                                                     >
+                    -->
+                    <!--<navigationdrawer:SfNavigationDrawer.ContentView>
+                        <Grid x:Name="mainContentView" BackgroundColor="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackLayout BackgroundColor="#1aa1d6" Orientation="Horizontal">
+                                <Button x:Name="hamburgerButton" HeightRequest="50" WidthRequest="50" HorizontalOptions="Start" FontSize="20" BackgroundColor="#1aa1d6" Clicked="HamburgerButton_OnClicked"/>
+                                -->
+                    <!--<Label x:Name="headerLabel" HeightRequest="50" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Home" FontSize="16" TextColor="White" BackgroundColor="#1aa1d6"/>-->
+                    <!--
+                            </StackLayout>
+                            <Label Grid.Row="1" x:Name="contentLabel" VerticalOptions="Center" HorizontalOptions="Center" Text="Content View" FontSize="14" TextColor="Black"/>
+                        </Grid>
+                    </navigationdrawer:SfNavigationDrawer.ContentView>-->
+                    <!--
+                </navigationdrawer:SfNavigationDrawer>
+                
+                <Button Text="OPEN" Clicked="HamburgerButton_OnClicked" />-->
 
                 </RelativeLayout>
-            </RelativeLayout>
-          
-        </ScrollView>
+
+            </ScrollView>
+        </RelativeLayout>
+
+
+        <!--<xForms:SfNavigationDrawer Grid.Row="0" Grid.RowSpan="2" x:Name="navigationDrawer" DrawerWidth ="200" EnableSwipeGesture="True" TouchThreshold="70" Transition="SlideOnTop" >
+
+            --><!--<xForms:SfNavigationDrawer.ContentView>
+                <Grid x:Name="mainContentView" BackgroundColor="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackLayout BackgroundColor="#1aa1d6" Orientation="Horizontal">
+                        <Button x:Name="hamburgerButton" HeightRequest="50" WidthRequest="50" HorizontalOptions="Start" FontSize="20" BackgroundColor="#1aa1d6" Clicked="HamburgerButton_OnClicked"/>
+
+                        <Label x:Name="headerLabel" HeightRequest="50" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Home" FontSize="16" TextColor="White" BackgroundColor="#1aa1d6"/>
+
+                    </StackLayout>
+                    <Label Grid.Row="1" x:Name="contentLabel" VerticalOptions="Center" HorizontalOptions="Center" Text="Content View" FontSize="14" TextColor="Black"/>
+                </Grid>
+            </xForms:SfNavigationDrawer.ContentView>--><!--
+
+        </xForms:SfNavigationDrawer>-->
 
     </Grid>
-   
+
 </ContentPage>
+
+
+

@@ -18,7 +18,12 @@ namespace BachelorThesis.Controls
         public float Progress
         {
             get => (float)GetValue(ProgressProperty);
-            set => SetValue(ProgressProperty, value);
+            set
+            {
+                IsActive = value > 0;
+
+                SetValue(ProgressProperty, value);
+            }
         }
 
         public static BindableProperty IsActiveProperty =
@@ -74,7 +79,7 @@ namespace BachelorThesis.Controls
             
             if (Math.Abs(Progress) > 0.0) 
                 canvas.DrawRect(new SKRect(1, 1, Progress * 100 * progressWidth - 2, height - 2), paintProgress);
-            Debug.WriteLine($"Progress: {Progress}");
+          //  Debug.WriteLine($"Progress: {Progress}");
            // canvas.DrawText(progressWidth.ToString(),60,60, paintText);
          
             paintBorder.Dispose();
