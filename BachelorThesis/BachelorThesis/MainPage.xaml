@@ -32,12 +32,7 @@
             <!--<Button Text="Next" />-->
             <Button x:Name="btnNextStep" Text="Next" Clicked="BtnNextStep_OnClicked" />
         </StackLayout>
-
-       
-
         
-
-
         <RelativeLayout Grid.Column="0" Grid.Row="1" BackgroundColor="Transparent" >
             <ScrollView BackgroundColor="Transparent"  Orientation="Both" Margin="0" Padding="0"
                      
@@ -172,7 +167,8 @@
 
         <!--<xForms:SfNavigationDrawer Grid.Row="0" Grid.RowSpan="2" x:Name="navigationDrawer" DrawerWidth ="200" EnableSwipeGesture="True" TouchThreshold="70" Transition="SlideOnTop" >
 
-            --><!--<xForms:SfNavigationDrawer.ContentView>
+            -->
+        <!--<xForms:SfNavigationDrawer.ContentView>
                 <Grid x:Name="mainContentView" BackgroundColor="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -186,7 +182,8 @@
                     </StackLayout>
                     <Label Grid.Row="1" x:Name="contentLabel" VerticalOptions="Center" HorizontalOptions="Center" Text="Content View" FontSize="14" TextColor="Black"/>
                 </Grid>
-            </xForms:SfNavigationDrawer.ContentView>--><!--
+            </xForms:SfNavigationDrawer.ContentView>-->
+        <!--
 
         </xForms:SfNavigationDrawer>-->
 

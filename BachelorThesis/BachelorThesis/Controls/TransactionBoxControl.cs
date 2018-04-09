@@ -29,12 +29,28 @@ namespace BachelorThesis.Controls
         public static BindableProperty IsActiveProperty =
             BindableProperty.Create(nameof(IsActive), typeof(bool), typeof(TransactionLinkControl), true,
                 BindingMode.OneWay, null,
-                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+                (bindable, oldValue, newValue) => {
+                    if (oldValue != newValue)
+                        (bindable as TransactionBoxControl).InvalidateSurface();
+                });
 
         public bool IsActive
         {
             get => (bool)GetValue(IsActiveProperty);
             set => SetValue(IsActiveProperty, value);
+        }
+
+        
+
+        public static BindableProperty TransactionIdProperty =
+            BindableProperty.Create(nameof(Progress), typeof(int?), typeof(TransactionLinkControl), null,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public int? TransactionId
+        {
+            get => (int?)GetValue(TransactionIdProperty);
+            set => SetValue(TransactionIdProperty, value);
         }
 
         public TransactionBoxControl()
