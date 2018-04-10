@@ -20,6 +20,8 @@
       <Event Type="0" TransactionId="1" RaisedById="1" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Requested" />
       </Event>
+    </Chunk>
+    <Chunk>
       <Event Type="0" TransactionId="2" RaisedById="4" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Requested" />
       </Event>
@@ -28,6 +30,8 @@
       <Event Type="0" TransactionId="2" RaisedById="1" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Promised" />
       </Event>
+    </Chunk>
+    <Chunk>
       <Event Type="0" TransactionId="1" RaisedById="4" Created="01-02-2018 18:34:23">
         <CompletionChanged Completion="Promised" />
       </Event>
@@ -44,6 +48,8 @@
       <Event Type="0" TransactionId="2" RaisedById="4" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Accepted" />
       </Event>
+    </Chunk>
+    <Chunk>
       <Event Type="0" TransactionId="1" RaisedById="4" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Executed" />
       </Event>
@@ -67,6 +73,8 @@
       <Event Type="0" TransactionId="3" RaisedById="3" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Promised" />
       </Event>
+    </Chunk>
+    <Chunk>
       <Event Type="0" TransactionId="4" RaisedById="3" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Requested" />
       </Event>
@@ -93,6 +101,8 @@
       <Event Type="0" TransactionId="4" RaisedById="2" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Executed" />
       </Event>
+    </Chunk>
+    <Chunk>
       <Event Type="0" TransactionId="4" RaisedById="2" Created="01-02-2018 15:34:23">
         <CompletionChanged Completion="Stated" />
       </Event>
