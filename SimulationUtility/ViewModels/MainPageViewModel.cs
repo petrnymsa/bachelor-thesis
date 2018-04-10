@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,7 +110,9 @@ namespace SimulationUtility.ViewModels
 
             ChunkControls.Clear();
             xmlPath = dialog.FileName;
-            ParserResult = simulationCaseParser.Parse(xmlPath);
+
+            var xml = File.ReadAllText(xmlPath);
+            ParserResult = simulationCaseParser.Parse(xml);
 
             SimulationName = ParserResult.Name;
 
