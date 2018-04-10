@@ -118,7 +118,7 @@ namespace BachelorThesis.Controls
         {
             var start = Progress;
             var end = TransactionCompletionHelper.GetNumberValue(completion);
-            this.Animate("ProgressAnimation", x => Progress = (float)x,start, end,4,2000,Easing.Linear);
+            this.Animate("ProgressAnimation", x => Progress = (float) x, start, end, 4, 1200, Easing.SinInOut);
         }
 
         public float GetCompletionPosition(TransactionCompletion completion)

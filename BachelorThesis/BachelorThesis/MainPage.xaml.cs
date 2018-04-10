@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using BachelorThesis.Business;
+using BachelorThesis.Business.DataModels;
 using BachelorThesis.Business.Simulation;
 using BachelorThesis.Controls;
 using Xamarin.Forms;
@@ -41,46 +43,46 @@ namespace BachelorThesis
         {
             base.OnAppearing();
 
-         //   var assembly = typeof(MainPage).GetTypeInfo().Assembly;
+            var assembly = typeof(MainPage).GetTypeInfo().Assembly;
 
 
-         //   Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
+            Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
             
-            //string xml = "";
-            //using (var reader = new StreamReader(stream))
-            //    xml = await reader.ReadToEndAsync();
+            string xml = "";
+            using (var reader = new StreamReader(stream))
+                xml = await reader.ReadToEndAsync();
 
-            //rentalContractSimulation = new RentalContractSimulationFromXml(xml);
+            rentalContractSimulation = new RentalContractSimulationFromXml(xml);
 
-            //rentalContractSimulation.Prepare();
+            rentalContractSimulation.Prepare();
 
         }
 
         private void BtnNextStep_OnClicked(object sender, EventArgs e)
         {
-            //var results = rentalContractSimulation.SimulateNextChunk();
+            var results = rentalContractSimulation.SimulateNextChunk();
 
-            //if (results == null)
-            //    return;
+            if (results == null)
+                return;
 
 
-            //foreach (var evt in results)
-            //{
-            //    //var transaction = rentalContractSimulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
-            //    var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
-            //    if (evt.EventType != TransactionEventType.CompletionChanged) continue;
-
-            //    var evtCompletion = (CompletionChangedTransactionEvent) evt;
-            //    transactionControl.AddProgress(evtCompletion.Completion);
-            //    Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
-            //}
-
-            foreach (var box in transactionBoxControls)
+            foreach (var evt in results)
             {
-                var start = box.Progress;
-                var end = start + 0.20f;
-                box.Animate("aa", x => box.Progress = (float)x, start, end, 4, 2000, Easing.Linear);
+                //var transaction = rentalContractSimulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
+                var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
+                if (evt.EventType != TransactionEventType.CompletionChanged) continue;
+
+                var evtCompletion = (CompletionChangedTransactionEvent)evt;
+                transactionControl.AddProgress(evtCompletion.Completion);
+                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
             }
+
+            //foreach (var box in transactionBoxControls)
+            //{
+            //    var start = box.Progress;
+            //    var end = start + 0.20f;
+            //    box.Animate("aa", x => box.Progress = (float)x, start, end, 4, 2000, Easing.Linear);
+            //}
         }
     }
 }
