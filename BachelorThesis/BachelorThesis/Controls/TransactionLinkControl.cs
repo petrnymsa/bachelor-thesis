@@ -1,4 +1,6 @@
 ﻿using System;
+using BachelorThesis.Business;
+using BachelorThesis.Business.DataModels;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
@@ -14,8 +16,8 @@ namespace BachelorThesis.Controls
 
     public class TransactionLinkControl : SKCanvasView
     {
-        private const int ShapeRadius = 8;
-        private const int LineLength = 44;
+        public const float ShapeRadius = 4;
+        private readonly float spaceLength;
         private const int ArrowLength = 8;
         private const int ArrowAngle = 35;
 
@@ -70,21 +72,33 @@ namespace BachelorThesis.Controls
                 BindingMode.TwoWay, propertyChanged:
                 (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
 
-        private readonly float arrowX;
-        private readonly float arrowY;
-
         public int LinkStyle
         {
             get => (int)GetValue(LinkStyleProperty);
             set => SetValue(LinkStyleProperty, value);
         }
 
-        #endregion
-        public TransactionLinkControl()
+        public static BindableProperty BendWidthProperty =
+            BindableProperty.Create(nameof(BendWidth), typeof(float), typeof(TransactionLinkControl), 0f,
+                BindingMode.TwoWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+
+        public float BendWidth
         {
-            this.HeightRequest = 100;
+            get => (float)GetValue(BendWidthProperty);
+            set => SetValue(BendWidthProperty, value);
+        }
+
+        private readonly float arrowX;
+        private readonly float arrowY;
+
+        #endregion
+        public TransactionLinkControl(float space = 60f)
+        {
             arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
             arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
+
+            spaceLength = space - ShapeRadius*2;
         }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -117,43 +131,34 @@ namespace BachelorThesis.Controls
             };
 
             canvas.Clear();
+          //  BackgroundColor = Color.Aquamarine;
+            HeightRequest = 4 * ShapeRadius + spaceLength + paint.StrokeWidth;
+            WidthRequest = 3 * ShapeRadius + paint.MeasureText(SourceText); 
 
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
             if (LinkStyle == 0)
             {
-                HeightRequest = 78;
                 if (LinkOrientation == 0)
-                    DrawDownSide(canvas, paint, textPaint, dashedPaint);
+                    DrawStraightDownSide(canvas, paint, textPaint, dashedPaint);
                 else
-                    DrawUpSide(canvas, paint, textPaint, dashedPaint);
+                    DrawStraightUpSide(canvas, paint, textPaint, dashedPaint);
             }
-            else // State - Request
+            else if(LinkStyle == 1) // State - Request
             {
-                HeightRequest = 90;
-                //circle
-                canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
-                canvas.DrawCircle(0, 0, ShapeRadius, paint);
-                canvas.Translate(0, ShapeRadius);
+                HeightRequest += ShapeRadius + 1 + arrowY;
+                DrawStateToRequestDownSide(canvas, paint, textPaint, dashedPaint);
+            }
+            else // bended
+            {
+                WidthRequest = BendWidth + ShapeRadius * 5 + 5;
 
-                // source text
-                canvas.Save();
-                canvas.Translate(ShapeRadius, 5);
-                canvas.DrawText(SourceText, 0, 0, textPaint);
-                canvas.Restore();
-                //line
-                canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
-                canvas.Translate(0, LineLength);
-                canvas.DrawLine(0, 0, 0, ShapeRadius*3, IsDashed ? dashedPaint : paint);
+                if(LinkOrientation == 0)
+                    DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
+                else
+                    DrawBendedUpSide(canvas, paint, textPaint, dashedPaint);
 
-                // line - arrow head
-                canvas.Translate(0,ShapeRadius * 3);
-                canvas.DrawLine(0,0,16,0, IsDashed ? dashedPaint : paint);
-                // arrow
-                canvas.Translate(16,0);
-                canvas.DrawLine(0, 0, -arrowY, arrowX, paint);
-                canvas.DrawLine(0, 0, -arrowY, -arrowX, paint);
             }
 
             paint.Dispose();
@@ -161,10 +166,104 @@ namespace BachelorThesis.Controls
             dashedPaint.Dispose();
         }
 
-        protected void DrawUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        private void DrawBendedDownSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        {
+            //circle
+            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+            canvas.DrawCircle(0, 0, ShapeRadius, paint);
+            canvas.Translate(0, ShapeRadius);
+
+            // source text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, 5);
+            canvas.DrawText(SourceText, 0, 0, textPaint);
+            canvas.Restore();
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
+            // bend
+            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
+            canvas.Translate(BendWidth, 0);
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
+
+            //arrow
+            DrawArrow(canvas, paint);
+            // target text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, -5);
+            canvas.DrawText(TargetText, 0, 0, textPaint);
+            canvas.Restore();
+
+            // square
+            canvas.Translate(-ShapeRadius, 0);
+            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
+        }
+
+        private void DrawBendedUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        {
+            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
+            canvas.Translate(ShapeRadius, ShapeRadius * 2);
+            // target text
+            canvas.Save();
+            canvas.Translate(ShapeRadius / 2f + 5, ShapeRadius + 5);
+            canvas.DrawText(TargetText, 0, 0, textPaint);
+            canvas.Restore();
+
+            //arrow
+            DrawArrow(canvas, paint, false);
+
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
+            // bend
+            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
+            canvas.Translate(BendWidth, 0);
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
+
+            // source text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, 0);
+            canvas.DrawText(SourceText, 0, 0, textPaint);
+            canvas.Restore();
+            // circle
+            canvas.Translate(0, ShapeRadius);
+            canvas.DrawCircle(0, 0, ShapeRadius, paint);
+        }
+
+        private void DrawStateToRequestDownSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        {
+            //circle
+            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+            canvas.DrawCircle(0, 0, ShapeRadius, paint);
+            canvas.Translate(0, ShapeRadius);
+
+            // source text
+            canvas.Save();
+            canvas.Translate(ShapeRadius, 5);
+            canvas.DrawText(SourceText, 0, 0, textPaint);
+            canvas.Restore();
+            //line
+            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength);
+            canvas.DrawLine(0, 0, 0, ShapeRadius * 3, IsDashed ? dashedPaint : paint);
+
+            // line - arrow head
+            canvas.Translate(0, ShapeRadius * 3);
+            canvas.DrawLine(0, 0, 16, 0, IsDashed ? dashedPaint : paint);
+            // arrow
+            canvas.Translate(16, 0);
+            canvas.DrawLine(0, 0, -arrowY, arrowX, paint);
+            canvas.DrawLine(0, 0, -arrowY, -arrowX, paint);
+        }
+
+        protected void DrawStraightUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
             // square
-            canvas.Translate(1, 1);
+          //  canvas.Translate(1, 1);
             canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
             canvas.Translate(ShapeRadius, ShapeRadius * 2);
             // target text
@@ -177,9 +276,9 @@ namespace BachelorThesis.Controls
             DrawArrow(canvas, paint,false);
 
             // line
-            canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
+            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
 
-            canvas.Translate(0, LineLength);
+            canvas.Translate(0, spaceLength);
 
             // source text
             canvas.Save();
@@ -191,23 +290,7 @@ namespace BachelorThesis.Controls
             canvas.DrawCircle(0, 0, ShapeRadius, paint);
         }
 
-        protected void DrawArrow(SKCanvas canvas, SKPaint paint, bool downSide = true)
-        {
-          //  var arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
-         //   var arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
-            if (downSide)
-            {
-                canvas.DrawLine(0, 0, -arrowX, -arrowY, paint);
-                canvas.DrawLine(0, 0, arrowX, -arrowY, paint);
-            }
-            else
-            {
-                canvas.DrawLine(0, 0, -arrowX, arrowY, paint);
-                canvas.DrawLine(0, 0, arrowX, arrowY, paint);
-            }
-        }
-
-        protected void DrawDownSide(SKCanvas canvas,SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
+        protected void DrawStraightDownSide(SKCanvas canvas,SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
             // circle
             canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
@@ -219,9 +302,9 @@ namespace BachelorThesis.Controls
             canvas.DrawText(SourceText, 0, 0, textPaint);
             canvas.Restore();
             //line
-            canvas.DrawLine(0, 0, 0, LineLength, IsDashed ? dashedPaint : paint);
+            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
             //arrow
-            canvas.Translate(0, LineLength);
+            canvas.Translate(0, spaceLength);
             DrawArrow(canvas, paint);
             // target text
             canvas.Save();
@@ -231,6 +314,20 @@ namespace BachelorThesis.Controls
             // square
             canvas.Translate(-ShapeRadius, 0);
             canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
+        }
+
+        protected void DrawArrow(SKCanvas canvas, SKPaint paint, bool downSide = true)
+        {
+            if (downSide)
+            {
+                canvas.DrawLine(0, 0, -arrowX, -arrowY, paint);
+                canvas.DrawLine(0, 0, arrowX, -arrowY, paint);
+            }
+            else
+            {
+                canvas.DrawLine(0, 0, -arrowX, arrowY, paint);
+                canvas.DrawLine(0, 0, arrowX, arrowY, paint);
+            }
         }
     }
 }
