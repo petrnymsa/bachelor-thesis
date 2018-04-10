@@ -37,32 +37,7 @@ namespace BachelorThesis.Business.DataModels
 
         public List<TransactionInstance> GetChildren() => children;
 
-        private float GetCompletion()
-        {
-            switch (Completion)
-            {
-                case TransactionCompletion.None: return 0f;
-                case TransactionCompletion.Requested: return 0.25f;
-                case TransactionCompletion.Declined:
-                    return 0.25f;
-                case TransactionCompletion.Quitted:
-                    return 0.25f;
-                case TransactionCompletion.Promised:
-                    return 0.50f;
-                case TransactionCompletion.Executed:
-                    return 0.6f;
-                case TransactionCompletion.Stated:
-                    return 0.75f;
-                case TransactionCompletion.Rejected:
-                    return 0.5f;
-                case TransactionCompletion.Stopped:
-                    return 0.5f;
-                case TransactionCompletion.Accepted:
-                    return 1f;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        private float GetCompletion() => TransactionCompletionHelper.GetNumberValue(Completion);
 
 
         public string GetIdentificator()
