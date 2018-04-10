@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using BachelorThesis.Business;
+using BachelorThesis.Business.DataModels;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
@@ -94,13 +96,35 @@ namespace BachelorThesis.Controls
             canvas.DrawRect(new SKRect(0, 0, width-1, height-1), paintBorder);
             
             if (Math.Abs(Progress) > 0.0) 
-                canvas.DrawRect(new SKRect(1, 1, Progress * 100 * progressWidth - 2, height - 2), paintProgress);
-          //  Debug.WriteLine($"Progress: {Progress}");
-           // canvas.DrawText(progressWidth.ToString(),60,60, paintText);
-         
+                canvas.DrawRect(new SKRect(1, 1, Progress * width - 2f, height - 2), paintProgress);
+
+
+        
+            paintProgress.Color = Color.Chocolate.ToSKColor();
+            paintProgress.StrokeWidth = 2;
+
+            for (int i = 0; i < 5; i++)
+            {
+                canvas.Translate(0.2f * width, 0);
+                canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
+            }
+
             paintBorder.Dispose();
             paintProgress.Dispose();
           
+        }
+
+        public void AddProgress(TransactionCompletion completion)
+        {
+            var start = Progress;
+            var end = TransactionCompletionHelper.GetNumberValue(completion);
+            this.Animate("ProgressAnimation", x => Progress = (float)x,start, end,4,2000,Easing.Linear);
+        }
+
+        public float GetCompletionPosition(TransactionCompletion completion)
+        {
+            var percent = TransactionCompletionHelper.GetNumberValue(completion);
+            return (float)(this.WidthRequest * percent) - TransactionLinkControl.ShapeRadius;
         }
     }
 }
