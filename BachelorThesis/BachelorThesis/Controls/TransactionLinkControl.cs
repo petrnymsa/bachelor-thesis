@@ -14,9 +14,23 @@ namespace BachelorThesis.Controls
         Up = 1
     }
 
+    public enum TransactionLinkStyle
+    {
+        StateToState = 0,
+        StateToRequest = 1
+    }
+
     public class TransactionLinkControl : SKCanvasView
     {
         public const float ShapeRadius = 4;
+        public const float StateToRequestArrowHead = 16;
+
+        public const int LinkOrientationDown = (int)TransactionLinkOrientation.Down;
+        public const int LinkOrientationUp = (int)TransactionLinkOrientation.Up;
+
+        public const int StyleStateToState = (int)TransactionLinkStyle.StateToState;
+        public const int StyleStateToRequest = (int)TransactionLinkStyle.StateToRequest;
+
         private readonly float spaceLength;
         private const int ArrowLength = 8;
         private const int ArrowAngle = 35;
@@ -131,35 +145,27 @@ namespace BachelorThesis.Controls
             };
 
             canvas.Clear();
-          //  BackgroundColor = Color.Aquamarine;
             HeightRequest = 4 * ShapeRadius + spaceLength + paint.StrokeWidth;
             WidthRequest = 3 * ShapeRadius + paint.MeasureText(SourceText); 
 
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
-            if (LinkStyle == 0)
+            if (LinkStyle == StyleStateToState)
             {
+                WidthRequest = BendWidth + ShapeRadius * 5 + 5;
+
                 if (LinkOrientation == 0)
-                    DrawStraightDownSide(canvas, paint, textPaint, dashedPaint);
+                    DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
                 else
-                    DrawStraightUpSide(canvas, paint, textPaint, dashedPaint);
+                    DrawBendedUpSide(canvas, paint, textPaint, dashedPaint);
             }
-            else if(LinkStyle == 1) // State - Request
+            else // State - Request
             {
                 HeightRequest += ShapeRadius + 1 + arrowY;
                 DrawStateToRequestDownSide(canvas, paint, textPaint, dashedPaint);
             }
-            else // bended
-            {
-                WidthRequest = BendWidth + ShapeRadius * 5 + 5;
 
-                if(LinkOrientation == 0)
-                    DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
-                else
-                    DrawBendedUpSide(canvas, paint, textPaint, dashedPaint);
-
-            }
 
             paint.Dispose();
             textPaint.Dispose();
@@ -179,14 +185,7 @@ namespace BachelorThesis.Controls
             canvas.DrawText(SourceText, 0, 0, textPaint);
             canvas.Restore();
             // line
-            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
-            canvas.Translate(0, spaceLength / 2);
-            // bend
-            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
-            canvas.Translate(BendWidth, 0);
-            // line
-            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
-            canvas.Translate(0, spaceLength / 2);
+            DrawBendedLine(canvas, paint, dashedPaint);
 
             //arrow
             DrawArrow(canvas, paint);
@@ -213,16 +212,8 @@ namespace BachelorThesis.Controls
 
             //arrow
             DrawArrow(canvas, paint, false);
-
-            // line
-            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
-            canvas.Translate(0, spaceLength / 2);
-            // bend
-            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
-            canvas.Translate(BendWidth, 0);
-            // line
-            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
-            canvas.Translate(0, spaceLength / 2);
+             // line
+            DrawBendedLine(canvas, paint, dashedPaint);
 
             // source text
             canvas.Save();
@@ -232,6 +223,19 @@ namespace BachelorThesis.Controls
             // circle
             canvas.Translate(0, ShapeRadius);
             canvas.DrawCircle(0, 0, ShapeRadius, paint);
+        }
+
+        private void DrawBendedLine(SKCanvas canvas, SKPaint paint, SKPaint dashedPaint)
+        {
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
+            // bend
+            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
+            canvas.Translate(BendWidth, 0);
+            // line
+            canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength / 2);
         }
 
         private void DrawStateToRequestDownSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
@@ -253,67 +257,11 @@ namespace BachelorThesis.Controls
 
             // line - arrow head
             canvas.Translate(0, ShapeRadius * 3);
-            canvas.DrawLine(0, 0, 16, 0, IsDashed ? dashedPaint : paint);
+            canvas.DrawLine(0, 0, StateToRequestArrowHead, 0, IsDashed ? dashedPaint : paint);
             // arrow
-            canvas.Translate(16, 0);
+            canvas.Translate(StateToRequestArrowHead, 0);
             canvas.DrawLine(0, 0, -arrowY, arrowX, paint);
             canvas.DrawLine(0, 0, -arrowY, -arrowX, paint);
-        }
-
-        protected void DrawStraightUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
-        {
-            // square
-          //  canvas.Translate(1, 1);
-            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
-            canvas.Translate(ShapeRadius, ShapeRadius * 2);
-            // target text
-            canvas.Save();
-            canvas.Translate(ShapeRadius / 2f + 5, ShapeRadius + 5);
-            canvas.DrawText(TargetText, 0, 0, textPaint);
-            canvas.Restore();
-
-            //arrow
-            DrawArrow(canvas, paint,false);
-
-            // line
-            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
-
-            canvas.Translate(0, spaceLength);
-
-            // source text
-            canvas.Save();
-            canvas.Translate(ShapeRadius, 0);
-            canvas.DrawText(SourceText, 0, 0, textPaint);
-            canvas.Restore();
-            // circle
-            canvas.Translate(0, ShapeRadius);
-            canvas.DrawCircle(0, 0, ShapeRadius, paint);
-        }
-
-        protected void DrawStraightDownSide(SKCanvas canvas,SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
-        {
-            // circle
-            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
-            canvas.DrawCircle(0, 0, ShapeRadius, paint);
-            canvas.Translate(0, ShapeRadius);
-            // source text
-            canvas.Save();
-            canvas.Translate(ShapeRadius, 5);
-            canvas.DrawText(SourceText, 0, 0, textPaint);
-            canvas.Restore();
-            //line
-            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
-            //arrow
-            canvas.Translate(0, spaceLength);
-            DrawArrow(canvas, paint);
-            // target text
-            canvas.Save();
-            canvas.Translate(ShapeRadius, -5);
-            canvas.DrawText(TargetText, 0, 0, textPaint);
-            canvas.Restore();
-            // square
-            canvas.Translate(-ShapeRadius, 0);
-            canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
         }
 
         protected void DrawArrow(SKCanvas canvas, SKPaint paint, bool downSide = true)

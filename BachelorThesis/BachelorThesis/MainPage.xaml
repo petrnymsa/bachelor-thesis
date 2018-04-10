@@ -35,7 +35,6 @@
         
         <RelativeLayout Grid.Column="0" Grid.Row="1" BackgroundColor="Transparent" >
             <ScrollView BackgroundColor="Transparent"  Orientation="Both" Margin="0" Padding="0"
-                     
                         RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=0}"
                         RelativeLayout.WidthConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
                 <RelativeLayout BackgroundColor="Transparent">
