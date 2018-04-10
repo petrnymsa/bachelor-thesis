@@ -86,11 +86,11 @@ namespace BachelorThesis
                 yConstraint: Constraint.RelativeToView(t3, (parent, sibling) => sibling.Y + lineStart));
 
 
-            chartLayout.Children.Add(GetNewLink("Rj", "Rq", linkStyle: TransactionLinkStyle.StateToRequest),
+            chartLayout.Children.Add(GetNewLink("Rj", "Rq", linkStyle: TransactionLinkStyle.StateToRequest, sourceCardinality: "0..1"),
                 xConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.X + t4.GetCompletionPosition(TransactionCompletion.Rejected)),
                 yConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.Y + lineStart));
 
-            chartLayout.Children.Add(GetNewLink("Ac", "Ac", TransactionLinkOrientation.Up, dashed: true,
+            chartLayout.Children.Add(GetNewLink("Ac", "Ac", TransactionLinkOrientation.Up, dashed: true, sourceCardinality: "0..1", targetCardinality: "0..1",
                     bendWidth: GetBendWidth(t4, t5, TransactionCompletion.Rejected, TransactionCompletion.Accepted, TransactionCompletion.Accepted)),
                 xConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.X + t4.GetCompletionPosition(TransactionCompletion.Accepted)),
                 yConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.Y + lineStart));
@@ -109,7 +109,7 @@ namespace BachelorThesis
         }
 
         private static TransactionLinkControl GetNewLink(string sourceText, string targetText, TransactionLinkOrientation linkOrientation = TransactionLinkOrientation.Down,
-            TransactionLinkStyle linkStyle = TransactionLinkStyle.StateToState, bool dashed = false, float bendWidth = 0)
+            TransactionLinkStyle linkStyle = TransactionLinkStyle.StateToState, bool dashed = false, float bendWidth = 0, string sourceCardinality = null, string targetCardinality = null)
         {
             return new TransactionLinkControl()
             {
@@ -118,7 +118,9 @@ namespace BachelorThesis
                 LinkOrientation = (int)linkOrientation,
                 LinkStyle = (int)linkStyle,
                 IsDashed = dashed,
-                BendWidth = bendWidth
+                BendWidth = bendWidth,
+                SourceCardinality = sourceCardinality,
+                TargetCardinality = targetCardinality
 
             };
         }

@@ -58,6 +58,28 @@ namespace BachelorThesis.Controls
             set => SetValue(TargetTextProperty, value);
         }
 
+        public static BindableProperty SourceCardinalityProperty =
+            BindableProperty.Create(nameof(SourceCardinality), typeof(string), typeof(TransactionLinkControl), string.Empty,
+                BindingMode.OneWay, null,
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+
+        public string SourceCardinality
+        {
+            get => (string)GetValue(SourceCardinalityProperty);
+            set => SetValue(SourceCardinalityProperty, value);
+        }
+
+        public static BindableProperty TargetCardinalityProperty =
+            BindableProperty.Create(nameof(TargetCardinality), typeof(string), typeof(TransactionLinkControl), string.Empty,
+                BindingMode.OneWay, null,
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+
+        public string TargetCardinality
+        {
+            get => (string)GetValue(TargetCardinalityProperty);
+            set => SetValue(TargetCardinalityProperty, value);
+        }
+
         public static BindableProperty IsDashedProperty =
             BindableProperty.Create(nameof(IsDashed), typeof(bool), typeof(TransactionLinkControl), false,
                 BindingMode.OneWay, null,
@@ -126,7 +148,6 @@ namespace BachelorThesis.Controls
                 Color = Color.Black.ToSKColor(),
                 StrokeWidth = 1
             };
-            
 
             var textPaint = new SKPaint
             {
@@ -183,6 +204,13 @@ namespace BachelorThesis.Controls
             canvas.Save();
             canvas.Translate(ShapeRadius, 5);
             canvas.DrawText(SourceText, 0, 0, textPaint);
+
+            if (!string.IsNullOrEmpty(SourceCardinality))
+            {
+                canvas.Translate(0, textPaint.FontSpacing);
+                canvas.DrawText(SourceCardinality, 0, 0, textPaint);
+            }
+
             canvas.Restore();
             // line
             DrawBendedLine(canvas, paint, dashedPaint);
@@ -191,8 +219,14 @@ namespace BachelorThesis.Controls
             DrawArrow(canvas, paint);
             // target text
             canvas.Save();
-            canvas.Translate(ShapeRadius, -5);
+            canvas.Translate(ShapeRadius, -10);
             canvas.DrawText(TargetText, 0, 0, textPaint);
+
+            if (!string.IsNullOrEmpty(TargetCardinality))
+            {
+                canvas.Translate(0, textPaint.FontSpacing);
+                canvas.DrawText(TargetCardinality, 0, 0, textPaint);
+            }
             canvas.Restore();
 
             // square
@@ -208,6 +242,11 @@ namespace BachelorThesis.Controls
             canvas.Save();
             canvas.Translate(ShapeRadius / 2f + 5, ShapeRadius + 5);
             canvas.DrawText(TargetText, 0, 0, textPaint);
+            if (!string.IsNullOrEmpty(TargetCardinality))
+            {
+                canvas.Translate(0, textPaint.FontSpacing);
+                canvas.DrawText(TargetCardinality, 0, 0, textPaint);
+            }
             canvas.Restore();
 
             //arrow
@@ -217,8 +256,13 @@ namespace BachelorThesis.Controls
 
             // source text
             canvas.Save();
-            canvas.Translate(ShapeRadius, 0);
+            canvas.Translate(ShapeRadius, -10);
             canvas.DrawText(SourceText, 0, 0, textPaint);
+            if (!string.IsNullOrEmpty(SourceCardinality))
+            {
+                canvas.Translate(0, textPaint.FontSpacing);
+                canvas.DrawText(SourceCardinality, 0, 0, textPaint);
+            }
             canvas.Restore();
             // circle
             canvas.Translate(0, ShapeRadius);
@@ -249,7 +293,17 @@ namespace BachelorThesis.Controls
             canvas.Save();
             canvas.Translate(ShapeRadius, 5);
             canvas.DrawText(SourceText, 0, 0, textPaint);
+
+            if (!string.IsNullOrEmpty(SourceCardinality))
+            {
+                canvas.Translate(0, textPaint.FontSpacing);
+                canvas.DrawText(SourceCardinality,0,0,textPaint);
+            }
+
             canvas.Restore();
+
+            
+
             //line
             canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
             canvas.Translate(0, spaceLength);
