@@ -117,13 +117,13 @@ namespace BachelorThesis.Controls
         public void AddProgress(TransactionCompletion completion)
         {
             var start = Progress;
-            var end = TransactionCompletionHelper.GetNumberValue(completion);
+            var end = completion.ToProgressCoefficient();
             this.Animate("ProgressAnimation", x => Progress = (float) x, start, end, 4, 1200, Easing.SinInOut);
         }
 
         public float GetCompletionPosition(TransactionCompletion completion)
         {
-            var percent = TransactionCompletionHelper.GetNumberValue(completion);
+            var percent = completion.ToProgressCoefficient();
             return (float)(this.WidthRequest * percent) - TransactionLinkControl.ShapeRadius;
         }
     }
