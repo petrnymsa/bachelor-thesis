@@ -5,18 +5,11 @@
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              x:Class="BachelorThesis.TestPage">
     <ContentPage.Content>
-        <!-- SECOND APPROACH (PCL EmbeddedResource): -->
-        <!--<ffsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="resource://BachelorThesis.Resources.response-link.svg"/>-->
-
-        <!--<controls:RoundedBorderControl CornerRadius="50" BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="100" WidthRequest="100" />-->
-        <!--<Grid Padding="20">
-            <BoxView  WidthRequest="40" HeightRequest="40" BackgroundColor="LightGreen" HorizontalOptions="Start" VerticalOptions="Start"/>
-            <BoxView  WidthRequest="20" HeightRequest="20" BackgroundColor="Red" HorizontalOptions="Start" VerticalOptions="Start"/>
-            
-        </Grid>-->
-           <StackLayout Margin="15">
-               <controls:TransactionBoxControl x:Name="boxControl" HeightRequest="30" WidthRequest="200" Progress="0.5" />
-               <Button Text="Progress"  Clicked="Button_OnClicked" />
-           </StackLayout>
+        <StackLayout>
+            <controls:TransactionEventControl x:Name="eventControl" TopLabel="pm" />
+            <Entry x:Name="transactionId" />
+            <Button Text="Set" Clicked="Button_OnClicked" />
+        </StackLayout>
+       
     </ContentPage.Content>
 </ContentPage>
