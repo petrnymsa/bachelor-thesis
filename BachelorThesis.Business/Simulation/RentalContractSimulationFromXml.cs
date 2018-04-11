@@ -34,6 +34,12 @@ namespace BachelorThesis.Business.Simulation
                 AddChunk(chunk);
         }
 
-       
+        public void Reset()
+        {
+            base.ResetChunks();
+            Actors.Clear();
+            Prepare();
+            
+        }
     }
 }

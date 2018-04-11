@@ -37,6 +37,12 @@ namespace BachelorThesis.Business.Simulation
             return this;
         }
 
+        protected void ResetChunks()
+        {
+            chunks.Clear();
+            currentChunk = 0;
+        }
+
 
         public Actor FindActorById(int raisedByActorId) => Actors.Find(x => x.Id == raisedByActorId);
     }
