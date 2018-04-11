@@ -43,18 +43,18 @@ namespace BachelorThesis
         {
             base.OnAppearing();
 
-            //var assembly = typeof(MainPage).GetTypeInfo().Assembly;
+            var assembly = typeof(MainPage).GetTypeInfo().Assembly;
 
 
-            //Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
-            
-            //string xml = "";
-            //using (var reader = new StreamReader(stream))
-            //    xml = await reader.ReadToEndAsync();
-
-            //rentalContractSimulation = new RentalContractSimulationFromXml(xml);
-
-            //rentalContractSimulation.Prepare();
+//            Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
+//
+//            string xml = "";
+//            using (var reader = new StreamReader(stream))
+//                xml = await reader.ReadToEndAsync();
+//
+//            rentalContractSimulation = new RentalContractSimulationFromXml(xml);
+//
+//            rentalContractSimulation.Prepare();
 
         }
 
@@ -83,6 +83,28 @@ namespace BachelorThesis
                 var end = start + 0.20f;
                 box.Animate("aa", x => box.Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
             }
+        }
+
+        private void BtnClear_OnClicked(object sender, EventArgs e)
+        {
+            foreach (var boxControl in transactionBoxControls)
+            {
+                boxControl.Progress = 0;
+            }
+
+            rentalContractSimulation.Reset();
+        }
+
+        private void ScrollView_OnScrolled(object sender, ScrolledEventArgs e)
+        {
+            Debug.WriteLine($"[info] Scroll x: {e.ScrollX} y: {e.ScrollY}");
+            Debug.WriteLine($"[info] timeLine y: {timeLineLayout.Y}");
+            Debug.WriteLine($"[info] main y: {mainLayout.Y}");
+
+            // timeLineLayout.TranslateTo(mainLayout.Y + e.ScrollY, e.ScrollY, 0);
+
+            RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
+           // RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
         }
     }
 }

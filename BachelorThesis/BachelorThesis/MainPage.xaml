@@ -31,21 +31,22 @@
         <StackLayout Orientation="Horizontal" BackgroundColor="Transparent" Padding="0" Margin="0">
             <!--<Button Text="Next" />-->
             <Button x:Name="btnNextStep" Text="Next" Clicked="BtnNextStep_OnClicked" />
+            <Button x:Name="btnClear" Text="Clear" Clicked="BtnClear_OnClicked" />
         </StackLayout>
         
         <RelativeLayout Grid.Column="0" Grid.Row="1" BackgroundColor="Transparent" >
-            <ScrollView BackgroundColor="Transparent"  Orientation="Both" Margin="0" Padding="0"
+            <ScrollView BackgroundColor="Transparent"  Orientation="Both" Scrolled="ScrollView_OnScrolled"
                         RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=0}"
                         RelativeLayout.WidthConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
-                <RelativeLayout BackgroundColor="Transparent">
-                    <!-- Left panel -->
+                <RelativeLayout x:Name="mainLayout" BackgroundColor="Transparent">
+                     <!--Left panel--> 
                     <RelativeLayout x:Name="treeLayout" WidthRequest="100" BackgroundColor="Transparent" 
                                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Y, Factor=1, Constant=40}"
                                 >
                         <BoxView Color="SlateGray"  WidthRequest="0.3"
                              RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-1}"
                              RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"/>
-                        <!--HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">-->
+
                         <Label x:Name="lbT1" Text="Rental&#x0a;contracting" HorizontalTextAlignment="Center"
                            RelativeLayout.XConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.2}"
                            RelativeLayout.YConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.05}"/>
@@ -68,17 +69,29 @@
                     </RelativeLayout>
 
 
-                    <!-- Gantt chart -->
-                    <RelativeLayout x:Name="chartLayout" Margin="0,0,30,60" BackgroundColor="Transparent"
+<!--                     Gantt chart -->
+                    <RelativeLayout x:Name="chartLayout" Margin="0,0,300,60" BackgroundColor="Transparent"
                                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
                                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,ElementName=timeLineLayout, Property=Height, Factor=1, Constant=0}">
                     </RelativeLayout>
 
                     <!--TimeLine-->
-                    <RelativeLayout x:Name="timeLineLayout" HeightRequest="40" BackgroundColor="Lavender" 
+                    <!--<RelativeLayout x:Name="timeLineLayout" HeightRequest="40" BackgroundColor="Lavender" 
                                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
                                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-100}">
+                    </RelativeLayout>-->
+                    
+                    <!--<ScrollView x:Name="timeLineLayout" HeightRequest="40" Orientation="Horizontal" BackgroundColor="Aquamarine"
+                                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
+                                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-100}"
+                                >-->
+                        <RelativeLayout x:Name="timeLineLayout" HeightRequest="40" BackgroundColor="LightGoldenrodYellow"
+                                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
+                                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-100}">
+
+                         
                     </RelativeLayout>
+                    <!--</ScrollView>-->
 
                 </RelativeLayout>
 
