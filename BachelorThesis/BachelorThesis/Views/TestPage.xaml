@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              xmlns:skiaSharp="clr-namespace:SkiaSharp;assembly=SkiaSharp"
              xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             x:Class="BachelorThesis.TestPage">
+             x:Class="BachelorThesis.Views.TestPage">
     <ContentPage.Content>
         
         <!--<StackLayout>

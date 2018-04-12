@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using BachelorThesis.Business.DataModels;
-using BachelorThesis.Controls;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Color = Xamarin.Forms.Color;
 
-namespace BachelorThesis
+namespace BachelorThesis.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TestPage : ContentPage

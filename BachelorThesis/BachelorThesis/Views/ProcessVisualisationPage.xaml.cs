@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using BachelorThesis.Business;
@@ -11,7 +10,7 @@ using BachelorThesis.Business.Simulation;
 using BachelorThesis.Controls;
 using Xamarin.Forms;
 
-namespace BachelorThesis
+namespace BachelorThesis.Views
 {
     public partial class ProcessVisualisationPage : ContentPage
     {
