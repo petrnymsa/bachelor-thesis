@@ -133,10 +133,10 @@ namespace BachelorThesis
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            var id = entryHour.Text;
-            //var act = entryMinute.Text;
-            var act = new Random().Next(0, 6);
-            timeline.AddEvent(id,(TransactionCompletion)act, Color.Red);
+            //var id = entryHour.Text;
+            ////var act = entryMinute.Text;
+            //var act = new Random().Next(0, 6);
+            //timeline.AddEvent(id,(TransactionCompletion)act, Color.Red);
         }
     }
 }

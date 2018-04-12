@@ -132,7 +132,7 @@ namespace BachelorThesis
 
                 transactionControl.AssociateEvent(eventControl);
 
-               AddEvent(move, transaction.Identificator, evtCompletion, Color.Red);
+               timeLineLayout.AddEvent(move, transaction.Identificator, evtCompletion, Color.Red);
 
                 //timeLineLayout.Children.Add(eventControl,
                 //    xConstraint: Constraint.RelativeToParent(p => move - eventControl.Width / 2),
@@ -147,50 +147,6 @@ namespace BachelorThesis
                 //);
             }
 
-        }
-
-        protected TimeLineItem IsOverllap(int hour, int minute)
-        {
-            return items.FirstOrDefault(x => x.Hour == hour && x.Minute == minute);
-        }
-
-        public void AddEvent(double offset, string identifier, CompletionChangedTransactionEvent transactionEvent, Color color)
-        {
-            //todo get offset for layout
-            var month = transactionEvent.Created.Month;
-            var day = transactionEvent.Created.Day;
-            var hour = transactionEvent.Created.Hour;
-            var minute = transactionEvent.Created.Minute;
-
-            //if (lastDay == null)
-            //{
-            //    lastDay = day;
-            //    lastMonth = month;
-            //}
-            //else if (day != lastDay || month != lastMonth)
-            //{
-            //    //todo add separator 
-
-            //}
-
-            var overlap = IsOverllap(hour, minute);
-
-            if (overlap == null)
-            {
-                var item = new TimeLineItem(hour, minute);
-                item.BackgroundColor = Color.Goldenrod;
-                item.AddEvent(identifier, transactionEvent.Completion, color);
-
-                items.Add(item);
-
-                //todo add TimeLineItem to layout with offset
-
-                timeLineLayout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => offset - item.WidthRequest / 2f));
-            }
-            else
-            {
-                overlap.AddEvent(identifier, transactionEvent.Completion, color);
-            }
         }
 
         private void BtnClear_OnClicked(object sender, EventArgs e)

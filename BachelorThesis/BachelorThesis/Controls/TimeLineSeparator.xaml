@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BachelorThesis.Controls.TimeLineSeparator"
+             x:Name="self" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="30" HeightRequest="50"
+             >
+    <Grid HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <BoxView Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+        <Label Grid.Row="1" TextColor="LightSlateGray" HorizontalTextAlignment="Center" FontSize="10" Text="{Binding FormattedString,Source={x:Reference self}}"  />
+        <BoxView Grid.Row="2" Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+    </Grid>
+</ContentView>

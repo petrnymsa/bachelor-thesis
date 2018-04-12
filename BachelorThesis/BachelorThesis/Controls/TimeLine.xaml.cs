@@ -31,24 +31,12 @@ namespace BachelorThesis.Controls
 
 	    public void AddEvent(double offset,string identifier, CompletionChangedTransactionEvent transactionEvent, Color color)
 	    {
-            //todo get offset for layout
 	        var month = transactionEvent.Created.Month;
 	        var day = transactionEvent.Created.Day;
 	        var hour = transactionEvent.Created.Hour;
 	        var minute = transactionEvent.Created.Minute;
 
-	        if (lastDay == null)
-	        {
-	            lastDay = day;
-	            lastMonth = month;
-	        }
-            else if (day != lastDay || month != lastMonth)
-	        {
-                //todo add separator 
-
-	        }
-
-	        var overlap = IsOverllap(hour, minute);
+            var overlap = IsOverllap(hour, minute);
 
 	        if (overlap == null)
 	        {
@@ -57,14 +45,39 @@ namespace BachelorThesis.Controls
 
                 items.Add(item);
 
-                //todo add TimeLineItem to layout with offset
+	            if (lastDay == null)
+	            {
+	                lastDay = day;
+	                lastMonth = month;
 
-                layout.Children.Add(item,xConstraint: Constraint.RelativeToParent(p => offset));
+	                AddSeparator(offset, day, month, item);
+
+                }
+                else if (day != lastDay || month != lastMonth)
+	            {
+	                lastDay = day;
+	                lastMonth = month;
+
+	                AddSeparator(offset, day, month, item);
+	            }
+
+                layout.Children.Add(item,xConstraint: Constraint.RelativeToParent(p => offset - item.WidthRequest / 2f));
 	        }
 	        else
 	        {
                 overlap.AddEvent(identifier, transactionEvent.Completion,color);
 	        }
+	    }
+
+	    private void AddSeparator(double offset, int day, int month, TimeLineItem item)
+	    {
+	        var separator = new TimeLineSeparator()
+	        {
+	            Day = day,
+	            Month = month
+	        };
+	        layout.Children.Add(separator,
+	            xConstraint: Constraint.RelativeToParent(p => offset - item.WidthRequest / 2f - separator.WidthRequest /2f));
 	    }
 	}
 }

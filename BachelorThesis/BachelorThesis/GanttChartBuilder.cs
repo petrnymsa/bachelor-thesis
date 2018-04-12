@@ -20,11 +20,11 @@ namespace BachelorThesis
         public void Build(RelativeLayout chartLayout)
         {
 
-            var t1 = GetNewBox(380, 1);
+            var t1 = GetNewBox(350, 1);
             var t2 = GetNewBox(200, 2);
-            var t3 = GetNewBox(160, 3);
-            var t4 = GetNewBox(200, 4);
-            var t5 = GetNewBox(120, 5);
+            var t3 = GetNewBox(200, 3);
+            var t4 = GetNewBox(260, 4);
+            var t5 = GetNewBox(160, 5);
 
             TransactionBoxControls = new List<TransactionBoxControl>() { t1, t2, t3, t4, t5 };
 
@@ -44,8 +44,6 @@ namespace BachelorThesis
                 xConstraint: Constraint.RelativeToView(t1, (parent, element) => element.X + element.WidthRequest),
                 yConstraint: Constraint.RelativeToView(t2, (parent, element) => element.Y + 60)
             );
-
-            //   t4.WidthRequest = t3.WidthRequest - (LeftSpace(t3, TransactionCompletion.Requested) + RightSpace(t3, TransactionCompletion.Accepted));
 
             chartLayout.Children.Add(t4,
                 xConstraint: Constraint.RelativeToView(t3, (parent, element) => element.X + LeftSpace(t3, TransactionCompletion.Promised)),

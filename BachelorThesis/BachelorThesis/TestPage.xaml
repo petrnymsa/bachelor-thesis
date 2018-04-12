@@ -8,12 +8,23 @@
              x:Class="BachelorThesis.TestPage">
     <ContentPage.Content>
         
-        <StackLayout>
+        <!--<StackLayout>
             <controls:TimeLineItem x:Name="timeline" Minute="48" Hour="8" />
             <Entry x:Name="entryHour" Placeholder="ID" />
             <Entry x:Name="entryMinute" Placeholder="Act" />
             <Button Text="Add" Clicked="Button_OnClicked" />
-        </StackLayout>
+        </StackLayout>-->
+
+        <Grid HeightRequest="50" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <BoxView Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+            <Label Grid.Row="1" TextColor="LightSlateGray" Text="28.12" HorizontalTextAlignment="Center" FontSize="10" />
+            <BoxView Grid.Row="2" Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+        </Grid>
 
         <!--<StackLayout Orientation="Horizontal" HeightRequest="60" VerticalOptions="Center" BackgroundColor="AntiqueWhite">
             <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="5,0,0,0">
