@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace BachelorThesis
 {
-    public partial class MainPage : ContentPage
+    public partial class ProcessVisualisationPage : ContentPage
     {
         private RentalContractSimulationFromXml rentalContractSimulation;
 
@@ -22,7 +22,7 @@ namespace BachelorThesis
         private bool livePreview = false;
         private List<TimeLineItem> items = new List<TimeLineItem>();
 
-        public MainPage()
+        public ProcessVisualisationPage()
 		{
 		   
             InitializeComponent();
@@ -67,7 +67,7 @@ namespace BachelorThesis
 
         private async Task PrepareSimulation()
         {
-            var assembly = typeof(MainPage).GetTypeInfo().Assembly;
+            var assembly = typeof(ProcessVisualisationPage).GetTypeInfo().Assembly;
             Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
 
             string xml = "";
