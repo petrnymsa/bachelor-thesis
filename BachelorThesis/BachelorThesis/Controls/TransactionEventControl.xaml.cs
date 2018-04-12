@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BachelorThesis.Business.DataModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,17 +13,6 @@ namespace BachelorThesis.Controls
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TransactionEventControl : ContentView
     {
-        //public static readonly BindableProperty TransactionIdentifierProperty =
-        //    BindableProperty.Create(nameof(TransactionIdentifier), typeof(string), typeof(TransactionEventControl), string.Empty, 
-        //       BindingMode.TwoWay, propertyChanged: (b, o, n) => {    });
-
-        //public string TransactionIdentifier
-        //{
-        //    get => (string)GetValue(TransactionIdentifierProperty);
-        //    set => SetValue(TransactionIdentifierProperty, value);
-        //}
-
-
         public static readonly BindableProperty TopLabelProperty = BindableProperty.Create(nameof(TopLabel), typeof(string), typeof(TransactionEventControl), default(string));
 
         public string TopLabel
@@ -40,23 +29,36 @@ namespace BachelorThesis.Controls
             set => SetValue(BottomLabelProperty, value);
         }
 
+        public static readonly BindableProperty IsRevealedProperty = BindableProperty.Create(nameof(IsRevealed), typeof(bool), 
+            typeof(TransactionEventControl), false, propertyChanged: (bindable, old, newValue) =>
+            {
+
+            });
+
+        public bool IsRevealed
+        {
+            get => (bool)GetValue(IsRevealedProperty);
+            set => SetValue(IsRevealedProperty, value);
+        }
+
+        public TransactionCompletion Completion { get; set; }
+
 
         public TransactionEventControl ()
 		{
 			InitializeComponent ();
 
-            
-
-		    //this.Content = new StackLayout()
-		    //{
-		    //    Children =
-		    //    {
-		    //        new Label() {Text = "T1[pm]"},
-		    //        new BoxView() {Color = Color.LightBlue, WidthRequest = 20, HorizontalOptions = LayoutOptions.Center},
-		    //        new Label() {Text = "8.4"},
-		    //        new Label() {Text = "14:12:42"}
-		    //    }
-		    //};
+            this.SizeChanged += OnSizeChanged;
 		}
-	}
+
+        private void OnSizeChanged(object sender, EventArgs eventArgs)
+        {
+
+        //    var height = (double)GetValue(He);
+
+            DebugHelper.Info($"IsRevealedChanged = {IsRevealed}");
+            DebugHelper.Info($"Height = {Height}");
+            RelativeLayout.SetYConstraint(this, Constraint.RelativeToParent(p => p.Height * 0.5f - Height / 2f));
+        }
+    }
 }

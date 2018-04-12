@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Linq;
 using BachelorThesis.Business.DataModels;
@@ -38,6 +39,9 @@ namespace BachelorThesis.Business.Parsers
             var eventType = (TransactionEventType)int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeType)?.Value);
             var transsactionId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeTransactionId)?.Value);
             var raisedBy = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeRaisedById)?.Value);
+
+     //       Debug.WriteLine($"[info] eventType: {eventType}, transactionId: {transsactionId}, raisedBy: {raisedBy}");
+
             var created = DateTime.ParseExact(eventElement.Attribute(XmlParsersConfig.AttributeCreate)?.Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
 
             switch (eventType)

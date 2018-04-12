@@ -3,13 +3,137 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
+             xmlns:skiaSharp="clr-namespace:SkiaSharp;assembly=SkiaSharp"
+             xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="BachelorThesis.TestPage">
     <ContentPage.Content>
+        
         <StackLayout>
-            <controls:TransactionEventControl x:Name="eventControl" TopLabel="pm" />
-            <Entry x:Name="transactionId" />
-            <Button Text="Set" Clicked="Button_OnClicked" />
+            <controls:TimeLineItem x:Name="timeline" Minute="48" Hour="8" />
+            <Entry x:Name="entryHour" Placeholder="ID" />
+            <Entry x:Name="entryMinute" Placeholder="Act" />
+            <Button Text="Add" Clicked="Button_OnClicked" />
         </StackLayout>
-       
+
+        <!--<StackLayout Orientation="Horizontal" HeightRequest="60" VerticalOptions="Center" BackgroundColor="AntiqueWhite">
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="5,0,0,0">
+                <BoxView HeightRequest="20" WidthRequest="1" Color="LightGray" />
+                <Label Text="2.1" FontSize="18" VerticalOptions="Center" />
+                <BoxView HeightRequest="20" WidthRequest="1" Color="Black" />
+            </StackLayout>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Text="8:45" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" Margin="0,0,5,0" />
+                <StackLayout Grid.Row="1">
+                    <Label Text="T1[pm]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10"  />
+                </StackLayout>
+            </Grid>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Text="8:47" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" Margin="0,0,5,0" />
+                <ScrollView Grid.Row="1">
+                    <StackLayout  Spacing="1">
+                        <Label Text="T1[st]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+
+                    </StackLayout>
+                </ScrollView>
+
+            </Grid>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="8" FontSize="14" FontAttributes="Bold" Margin="0"/>
+                    <Label Text=":" FontSize="14" FontAttributes="Bold" Margin="0"/>
+                    <Label Text="47" FontSize="14" FontAttributes="Bold" Margin="0"/>
+                </StackLayout>
+                <ScrollView Grid.Row="1">
+                    <StackLayout  Spacing="1">
+                        <Label Text="T1[st]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+
+                    </StackLayout>
+                </ScrollView>
+
+            </Grid>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Text="8:47" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" Margin="0,0,5,0" />
+                <ScrollView Grid.Row="1">
+                    <StackLayout  Spacing="1">
+                        <Label Text="T1[st]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+
+                    </StackLayout>
+                </ScrollView>
+
+            </Grid>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Text="8:47" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" Margin="0,0,5,0" />
+                <ScrollView Grid.Row="1">
+                    <StackLayout  Spacing="1">
+                        <Label Text="T1[st]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+                        <Label Text="T2[rq]" HorizontalOptions="Center" TextColor="Red" FontSize="10" />
+
+                    </StackLayout>
+                </ScrollView>
+
+            </Grid>
+
+            <Grid Padding="0,1,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Text="9:55" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14" FontAttributes="Bold" Margin="0,0,5,0" />
+                <StackLayout Grid.Row="1">
+                    <Label Text="T1[ac]" HorizontalOptions="Center" TextColor="DarkGreen" FontSize="10"  />
+                </StackLayout>
+            </Grid>-->
+
+        <!--</StackLayout>-->
     </ContentPage.Content>
 </ContentPage>

@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using FFImageLoading.Forms.Droid;
+using Xamarin.Forms;
 
 
 namespace BachelorThesis.Droid
@@ -14,6 +15,9 @@ namespace BachelorThesis.Droid
     [Activity(Label = "BachelorThesis", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+
+
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -26,6 +30,19 @@ namespace BachelorThesis.Droid
             CachedImageRenderer.Init(false);
 
             LoadApplication(new App());
+
+
+            //allowing the device to change the screen orientation based on the rotation
+            MessagingCenter.Subscribe<MainPage>(this, "setLandscape", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Landscape;
+            });
+
+            //during page close setting back to portrait
+            MessagingCenter.Subscribe<MainPage>(this, "unlockOrientation", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Unspecified;
+            });
         }
     }
 }

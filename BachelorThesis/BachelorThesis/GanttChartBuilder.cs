@@ -20,8 +20,8 @@ namespace BachelorThesis
         public void Build(RelativeLayout chartLayout)
         {
 
-            var t1 = GetNewBox(280, 1);
-            var t2 = GetNewBox(110, 2);
+            var t1 = GetNewBox(380, 1);
+            var t2 = GetNewBox(200, 2);
             var t3 = GetNewBox(160, 3);
             var t4 = GetNewBox(200, 4);
             var t5 = GetNewBox(120, 5);

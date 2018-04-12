@@ -5,7 +5,7 @@ namespace BachelorThesis.Business
 {
     public static class TransactionCompletionExtensions
     {
-        public static float ToProgressCoefficient(this TransactionCompletion completion)
+        public static float ToPercentValue(this TransactionCompletion completion)
         {
             switch (completion)
             {

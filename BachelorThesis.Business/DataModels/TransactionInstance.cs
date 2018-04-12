@@ -37,7 +37,7 @@ namespace BachelorThesis.Business.DataModels
 
         public List<TransactionInstance> GetChildren() => children;
 
-        private float GetCompletion() => Completion.ToProgressCoefficient();
+        private float GetCompletion() => Completion.ToPercentValue();
 
 
         public string GetIdentificator()

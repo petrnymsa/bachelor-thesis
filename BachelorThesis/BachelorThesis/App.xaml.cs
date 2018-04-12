@@ -13,8 +13,8 @@ namespace BachelorThesis
 		{
 			InitializeComponent();
 
-		    //MainPage = new MainPage();
-		   MainPage = new TestPage();
+		    MainPage = new NavigationPage(new MainPage());
+		  // MainPage = new TestPage();
 
         }
 
