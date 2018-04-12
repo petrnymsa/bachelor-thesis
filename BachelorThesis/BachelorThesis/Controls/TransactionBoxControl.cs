@@ -158,7 +158,7 @@ namespace BachelorThesis.Controls
             {
                 IsAntialias = true,
                 StrokeWidth = 1,
-                Color = Color.LightGreen.ToSKColor(),
+                Color = SKColor.Parse("#8BC34A"),
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
