@@ -4,7 +4,7 @@
              xmlns:converters="clr-namespace:BachelorThesis.Converters"
              x:Class="BachelorThesis.Controls.TimeLineItem"
              x:Name="self" 
-             HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="48" HeightRequest="50">
+             HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="50" HeightRequest="50">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />

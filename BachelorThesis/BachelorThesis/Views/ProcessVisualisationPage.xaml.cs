@@ -68,7 +68,7 @@ namespace BachelorThesis.Views
         private async Task PrepareSimulation()
         {
             var assembly = typeof(ProcessVisualisationPage).GetTypeInfo().Assembly;
-            Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-01.xml");
+            Stream stream = assembly.GetManifestResourceStream("BachelorThesis.SimulationFiles.case-02.xml");
 
             string xml = "";
             using (var reader = new StreamReader(stream))

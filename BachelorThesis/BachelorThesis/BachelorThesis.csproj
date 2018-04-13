@@ -7,9 +7,13 @@
   <ItemGroup>
     <None Remove="response-link.svg" />
     <None Remove="SimulationFiles\case-01.xml" />
+    <None Remove="SimulationFiles\case-02.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SimulationFiles\case-02.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="SimulationFiles\case-01.xml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -11,8 +11,8 @@ namespace BachelorThesis.Business
             {
                 case TransactionCompletion.None: return 0f;
                 case TransactionCompletion.Requested: return 0.20f;
-                case TransactionCompletion.Declined: return 0.25f;
-                case TransactionCompletion.Quitted: return 0.25f;
+                case TransactionCompletion.Declined: return 0.40f;
+                case TransactionCompletion.Quitted: return 0.40f;
                 case TransactionCompletion.Promised: return 0.40f;
                 case TransactionCompletion.Executed: return 0.60f;
                 case TransactionCompletion.Stated: return 0.80f;
@@ -23,6 +23,7 @@ namespace BachelorThesis.Business
                     throw new ArgumentOutOfRangeException();
             }
         }
+
 
         public static string AsAbbreviation(this TransactionCompletion completion)
         {

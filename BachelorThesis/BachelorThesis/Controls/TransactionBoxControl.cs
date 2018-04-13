@@ -124,6 +124,7 @@ namespace BachelorThesis.Controls
         private SKPoint lastTouch;
 
         private bool isPressed = false;
+        private bool stopped = false;
         private SKImageInfo info;
 
 
@@ -148,7 +149,7 @@ namespace BachelorThesis.Controls
             {
                 IsAntialias = true,
                 StrokeWidth = 1,
-                Color = SKColor.Parse("#8BC34A"),
+                Color = !stopped ? SKColor.Parse("#8BC34A") : Color.Crimson.ToSKColor(),
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
@@ -246,6 +247,9 @@ namespace BachelorThesis.Controls
 
         public void AddProgress(TransactionCompletion completion)
         {
+            if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
+                stopped = true;
+
             var start = Progress;
             var end = completion.ToPercentValue();
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
