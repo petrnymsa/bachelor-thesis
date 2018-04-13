@@ -16,6 +16,9 @@ namespace BachelorThesis.Controls
 
         class Anchor
         {
+
+            public const float AnchorWidth = 8f;
+
             public float X { get; }
             private bool isFocused;
 
@@ -31,11 +34,14 @@ namespace BachelorThesis.Controls
 
             private TimeLineEvent AssociatedEvent { get; }
 
-            public Anchor(float x, TimeLineEvent associatedEvent, bool isFocused = false)
+            public TransactionCompletion Completion { get; set; }
+
+            public Anchor(float x, TimeLineEvent associatedEvent, TransactionCompletion completion, bool isFocused = false)
             {
                 X = x;
                 AssociatedEvent = associatedEvent;
                 IsFocused = isFocused;
+                Completion = completion;
             }
 
             public bool HitTestX(SKPoint p, float tolerance = 10f)
@@ -108,15 +114,12 @@ namespace BachelorThesis.Controls
             EnableTouchEvents = true;
             Touch += OnTouch;
 
-          // anchors = new List<Anchor>();
             events = new Dictionary<int, List<Anchor>>();
             asociatedEvents = new HashSet<int>();
         }
 
-       // private readonly List<Anchor> anchors;
-
-        private Dictionary<int, List<Anchor>> events;
-        private HashSet<int> asociatedEvents;
+        private readonly Dictionary<int, List<Anchor>> events;
+        private readonly HashSet<int> asociatedEvents;
 
         private SKPoint lastTouch;
 
@@ -124,9 +127,80 @@ namespace BachelorThesis.Controls
         private SKImageInfo info;
 
 
+        protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
+        {
+            //base.OnPaintSurface(e);
+
+            info = e.Info;
+            var canvas = e.Surface.Canvas;
+
+
+            var paintBorder = new SKPaint
+            {
+                IsAntialias = true,
+                StrokeWidth = 2.5f,
+                Color = Color.White.ToSKColor(),
+                Style = SKPaintStyle.Stroke,
+
+            };
+
+            var paintProgress = new SKPaint
+            {
+                IsAntialias = true,
+                StrokeWidth = 1,
+                Color = SKColor.Parse("#8BC34A"),
+                Style = SKPaintStyle.StrokeAndFill,
+
+            };
+
+            // var scaleFactor = (float)(e.Info.Width / this.Width);
+            canvas.Clear();
+            //   canvas.Scale(scaleFactor);
+            canvas.Save();
+            if (!IsActive)
+                paintBorder.PathEffect = SKPathEffect.CreateDash(new float[] { 10, 5 }, 1);
+            // main rectangle
+            canvas.DrawRect(new SKRect(0, 0, info.Width, info.Height), paintBorder);
+            // progress rectangle
+            if (Math.Abs(Progress) > 0.0)
+                canvas.DrawRect(new SKRect(3, 3, Progress * info.Width - 2.8f, info.Height - 3), paintProgress);
+
+            //paintProgress.Color = Color.Chocolate.ToSKColor();
+            //paintProgress.StrokeWidth = 2;
+            // progress helpers
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    canvas.Translate(0.2f * width, 0);
+            //    canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
+            //}
+            canvas.Restore();
+
+
+            using (SKPaint anchorPaint = new SKPaint())
+            {
+                anchorPaint.Style = SKPaintStyle.Fill;
+                anchorPaint.Color = HighlightColor.ToSKColor();
+
+                foreach (var anchorList in events)
+                {
+                    foreach (var anchor in anchorList.Value)
+                    {
+                        var size = anchor.IsFocused ? Anchor.AnchorWidth*2 : Anchor.AnchorWidth;
+                        canvas.Save();
+                        canvas.Translate(anchor.X, info.Height / 2f);
+                        canvas.RotateDegrees(45,0,0);
+                        //canvas.DrawCircle(anchor.X, info.Height / 2f, size, paintTouchPoint);
+                        canvas.DrawRect(new SKRect(- size / 2f, -size / 2f, size, size), anchorPaint);
+                        canvas.Restore();
+                    }
+                }
+            }
+
+        }
+
         private void OnTouch(object sender, SKTouchEventArgs e)
         {
-         //   var lastTouch = SKPoint.Empty;
+            //   var lastTouch = SKPoint.Empty;
             switch (e.ActionType)
             {
                 case SKTouchAction.Pressed:
@@ -170,81 +244,6 @@ namespace BachelorThesis.Controls
             ((SKCanvasView)sender).InvalidateSurface();
         }
 
-        protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
-        {
-            //base.OnPaintSurface(e);
-
-            info = e.Info;
-            var canvas = e.Surface.Canvas;
-
-            
-            var paintBorder = new SKPaint
-            {
-                IsAntialias = true,
-                StrokeWidth = 1,
-                Color = Color.Black.ToSKColor(),
-                Style = SKPaintStyle.Stroke,
-
-            };
-
-            var paintProgress = new SKPaint
-            {
-                IsAntialias = true,
-                StrokeWidth = 1,
-                Color = SKColor.Parse("#8BC34A"),
-                Style = SKPaintStyle.StrokeAndFill,
-
-            };
-
-            // var scaleFactor = (float)(e.Info.Width / this.Width);
-            canvas.Clear();
-            //   canvas.Scale(scaleFactor);
-            canvas.Save();
-            if (!IsActive)
-                paintBorder.PathEffect = SKPathEffect.CreateDash(new float[] { 10, 5 }, 1);
-            // main rectangle
-            canvas.DrawRect(new SKRect(0, 0, info.Width, info.Height), paintBorder);
-            // progress rectangle
-            if (Math.Abs(Progress) > 0.0)
-                canvas.DrawRect(new SKRect(1, 1, Progress * info.Width - 2f, info.Height - 1), paintProgress);
-
-            paintProgress.Color = Color.Chocolate.ToSKColor();
-            paintProgress.StrokeWidth = 2;
-            // progress helpers
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    canvas.Translate(0.2f * width, 0);
-            //    canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
-            //}
-            canvas.Restore();
-
-
-            using (SKPaint paintTouchPoint = new SKPaint())
-            {
-                paintTouchPoint.Style = SKPaintStyle.Fill;
-                paintTouchPoint.Color = HighlightColor.ToSKColor();
-               
-                //foreach (var anchor in anchors)
-                //    canvas.DrawCircle(anchor.X, info.Height / 2f, anchor.IsFocused ? 16 : 8, paintTouchPoint);
-
-                foreach (var anchorList in events)
-                {
-                    foreach (var anchor in anchorList.Value)
-                        canvas.DrawCircle(anchor.X, info.Height / 2f, anchor.IsFocused ? 16 : 8, paintTouchPoint);
-                }
-
-                //if (isPressed)
-                //{
-                //    paintTouchPoint.Color = SKColors.Black;
-                //    canvas.DrawLine(lastTouch.X, 0, lastTouch.X, e.Info.Height, paintTouchPoint);
-                //}
-            }
-
-            //  paintBorder.Dispose();
-            // paintProgress.Dispose();
-
-        }
-
         public void AddProgress(TransactionCompletion completion)
         {
             var start = Progress;
@@ -262,14 +261,17 @@ namespace BachelorThesis.Controls
             if (!events.ContainsKey(eventControl.Id))
                 events[eventControl.Id] = new List<Anchor>();
 
-            events[eventControl.Id].Add(new Anchor(percent * info.Width, eventControl));
+            var x = percent * info.Width - Anchor.AnchorWidth / 2f;
+            if (completion == TransactionCompletion.Accepted)
+                x -= Anchor.AnchorWidth;
+            events[eventControl.Id].Add(new Anchor(x, eventControl, completion));
 
-        //    anchors.Add(new Anchor(percent * info.Width, eventControl));
+            //    anchors.Add(new Anchor(percent * info.Width, eventControl));
             InvalidateSurface();
         }
 
         public float GetCompletionPosition(TransactionCompletion completion)
-        { 
+        {
             var percent = completion.ToPercentValue();
             return ((float)WidthRequest * percent) - TransactionLinkControl.ShapeRadius;
         }

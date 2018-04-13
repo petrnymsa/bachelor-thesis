@@ -114,7 +114,7 @@ namespace BachelorThesis.Views
                 transactionControl.AddProgress(evtCompletion.Completion);
                 Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
 
-                var offset = timeLineLayout.X - 100; // we all love magic constants, i know
+                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
                 var spaceX = transactionControl.X - offset;
                 var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
 
@@ -153,12 +153,12 @@ namespace BachelorThesis.Views
 
         private void BtnClear_OnClicked(object sender, EventArgs e)
         {
-            foreach (var boxControl in transactionBoxControls)
-            {
-                boxControl.Progress = 0;
-            }
-
-            rentalContractSimulation.Reset();
+//            foreach (var boxControl in transactionBoxControls)
+//            {
+//                boxControl.Progress = 0;
+//            }
+//
+//            rentalContractSimulation.Reset();
         }
 
         private void ScrollView_OnScrolled(object sender, ScrolledEventArgs e)
@@ -170,12 +170,13 @@ namespace BachelorThesis.Views
             // timeLineLayout.TranslateTo(mainLayout.Y + e.ScrollY, e.ScrollY, 0);
 
             RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
-           // RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
+         //   RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
+            // RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
         }
 
-        private void BtnTest_OnClicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new TestPage());
-        }
+//        private void BtnTest_OnClicked(object sender, EventArgs e)
+//        {
+//            Navigation.PushAsync(new TestPage());
+//        }
     }
 }

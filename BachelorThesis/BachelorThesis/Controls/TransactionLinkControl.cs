@@ -145,13 +145,13 @@ namespace BachelorThesis.Controls
             var paint = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
-                Color = Color.Black.ToSKColor(),
+                Color = Color.White.ToSKColor(),
                 StrokeWidth = 1
             };
 
             var textPaint = new SKPaint
             {
-                Color = Color.Black.ToSKColor(),
+                Color = Color.White.ToSKColor(),
                 TextSize = 10,
                 IsAntialias = true
             };
@@ -159,7 +159,7 @@ namespace BachelorThesis.Controls
             var dashedPaint = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.Black,
+                Color = SKColors.White,
                 StrokeWidth = 1,
                 StrokeCap = SKStrokeCap.Round,
                 PathEffect = SKPathEffect.CreateDash(new float[] { 4, 3 }, 1)

@@ -9,16 +9,17 @@
             <Color x:Key="Primary">#0087ce</Color>
             <Color x:Key="PrimaryDark">#1976D2</Color>
             <Color x:Key="Accent">#0087ce</Color>
-            <Color x:Key="LightBackgroundColor">#FAFAFA</Color>
-            <Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
-            <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
-            <Color x:Key="LightTextColor">#999999</Color>
 
             <Color x:Key="TransactionColor1">#e19e21</Color>
-            <Color x:Key="TransactionColor2">#8b2a58</Color>
-            <Color x:Key="TransactionColor3">#ce5f42</Color>
+            <Color x:Key="TransactionColor2">#33ffff</Color>
+            <Color x:Key="TransactionColor3">#ffff1a</Color>
             <Color x:Key="TransactionColor4">#c0392b</Color>
             <Color x:Key="TransactionColor5">#0087ce</Color>
+
+            <Color x:Key="CanvasBackground">#363a3f</Color>
+            <Color x:Key="TimeLineColor">WhiteSmoke</Color>
+            <Color x:Key="TimeLineColorAccent">#EDEDED</Color>
+            EDEDED
 </ResourceDictionary>
 
 	</Application.Resources>
