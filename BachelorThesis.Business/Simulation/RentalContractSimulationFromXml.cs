@@ -7,12 +7,6 @@ namespace BachelorThesis.Business.Simulation
     {
         private readonly string xml;
 
-        private TransactionInstance rentalContracting;
-        private TransactionInstance rentalPayment;
-        private TransactionInstance carPickUp;
-        private TransactionInstance carDropOff;
-        private TransactionInstance penaltyPayment;
-
         public RentalContractSimulationFromXml(string xml)
         {
             this.xml = xml;

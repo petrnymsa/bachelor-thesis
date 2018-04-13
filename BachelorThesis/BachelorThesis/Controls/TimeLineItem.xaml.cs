@@ -54,17 +54,20 @@ namespace BachelorThesis.Controls
 	        Minute = minute;
 	    }
 
-        public void AddEvent(string identifier, TransactionCompletion completion, Color color)
+        public TimeLineEvent AddEvent(string identifier, TransactionCompletion completion, Color color)
         {
             var existing = Events.FirstOrDefault(x => x.TransactionIdentifier == identifier);
 
             if (existing != null)
-                existing.AddAct(completion.AsAbbreviation());
-            else
             {
-                var eventControl = new TimeLineEvent(identifier, completion.AsAbbreviation(), color);
-                Events.Add(eventControl);
+                existing.AddAct(completion.AsAbbreviation());
+                return existing;
             }
+
+            var eventControl = new TimeLineEvent(identifier, completion.AsAbbreviation(), color);
+            Events.Add(eventControl);
+
+            return eventControl;
         }
 
 	    private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)

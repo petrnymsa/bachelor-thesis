@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BachelorThesis.MainPage"
              xmlns:pages="clr-namespace:BachelorThesis"
-             xmlns:views="clr-namespace:BachelorThesis.Views">
+             xmlns:views="clr-namespace:BachelorThesis.Views;assembly=BachelorThesis">
   <MasterDetailPage.Master>
     <pages:MainPageMaster x:Name="MasterPage" />
   </MasterDetailPage.Master>
   <MasterDetailPage.Detail>
-    <NavigationPage>
+    <NavigationPage BarBackgroundColor="{StaticResource Primary}">
       <x:Arguments>
         <views:ProcessVisualisationPage />
       </x:Arguments>

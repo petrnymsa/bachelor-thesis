@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Plugin.Iconize;
 using Xamarin.Forms;
 
 
@@ -26,7 +27,6 @@ namespace BachelorThesis.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             //   TwinTechsForms.NControl.SvgImageView.Init();
-
             LoadApplication(new App());
 
 

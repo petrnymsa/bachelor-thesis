@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 
-namespace BachelorThesis.Controls
+namespace BachelorThesis.Converters
 {
-    public class InvertedBoolConverter : IValueConverter
+    public class BoolToBoldConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var boolValue = (bool) value;
-            return !boolValue;
+            var isRevelaed = (bool) value;
+
+            return isRevelaed ? FontAttributes.Bold : FontAttributes.None;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

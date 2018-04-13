@@ -4,10 +4,10 @@
              x:Class="BachelorThesis.Controls.TransactionEventControl"
              x:Name="selfPage"
              xmlns:local="clr-namespace:BachelorThesis.Controls"
-             >
+             xmlns:converters="clr-namespace:BachelorThesis.Converters;assembly=BachelorThesis">
     <ContentView.Resources>
         <ResourceDictionary>
-            <local:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
     <!--<ContentView.Content>-->

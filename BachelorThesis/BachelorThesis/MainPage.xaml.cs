@@ -16,8 +16,6 @@ namespace BachelorThesis
         {
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
-
-            
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -29,7 +27,10 @@ namespace BachelorThesis
             var page = (Page)Activator.CreateInstance(item.TargetType);
             page.Title = item.Title;
 
-            Detail = new NavigationPage(page);
+            Detail = new NavigationPage(page)
+            {
+                BarBackgroundColor = (Color)App.Current.Resources["Primary"]
+            };
             IsPresented = false;
 
             MasterPage.ListView.SelectedItem = null;

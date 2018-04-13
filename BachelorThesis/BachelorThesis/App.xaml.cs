@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using BachelorThesis.Views;
 using Xamarin.Forms;
 
 namespace BachelorThesis
@@ -12,11 +12,13 @@ namespace BachelorThesis
 		public App ()
 		{
 			InitializeComponent();
-
 		    MainPage = new MainPage();
-		  //MainPage = new TestPage();
+		    //   MainPage = new NavigationPage(new MainPage());
+		    //MainPage = new TestPage();
+		    //   ((NavigationPage)MainPage).BarBackgroundColor = Color.FromHex()
 
-        }
+
+		}
 
         protected override void OnStart ()
 		{

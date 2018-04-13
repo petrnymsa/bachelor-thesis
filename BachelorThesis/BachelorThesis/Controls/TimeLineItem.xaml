@@ -1,8 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BachelorThesis.Converters"
              x:Class="BachelorThesis.Controls.TimeLineItem"
-             x:Name="self" HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="48" HeightRequest="50">
+             x:Name="self" 
+             HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="48" HeightRequest="50">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
     <Grid Padding="0,1,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -14,7 +21,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label Text="{Binding FormattedString}" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="{Binding Color}" FontSize="8"  />
+                        <Label Text="{Binding FormattedString}" HorizontalOptions="Center"  FontAttributes="{Binding IsRevealed, Converter={StaticResource BoolToBoldConverter}}"
+                               HorizontalTextAlignment="Center" TextColor="{Binding Color}" FontSize="8"  />
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

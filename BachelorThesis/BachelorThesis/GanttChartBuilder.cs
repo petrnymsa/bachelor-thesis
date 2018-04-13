@@ -20,11 +20,11 @@ namespace BachelorThesis
         public void Build(RelativeLayout chartLayout)
         {
 
-            var t1 = GetNewBox(350, 1);
-            var t2 = GetNewBox(200, 2);
-            var t3 = GetNewBox(200, 3);
-            var t4 = GetNewBox(260, 4);
-            var t5 = GetNewBox(160, 5);
+            var t1 = GetNewBox(350, 1, Color.FromHex("#e19e21"));
+            var t2 = GetNewBox(200, 2, Color.FromHex("#8b2a58"));
+            var t3 = GetNewBox(200, 3, Color.FromHex("#ce5f42"));
+            var t4 = GetNewBox(260, 4, Color.FromHex("#db0000"));
+            var t5 = GetNewBox(160, 5, Color.FromHex("#c0392b"));
 
             TransactionBoxControls = new List<TransactionBoxControl>() { t1, t2, t3, t4, t5 };
 
@@ -33,7 +33,7 @@ namespace BachelorThesis
                 yConstraint: Constraint.RelativeToParent(parent => parent.Height * 0.05f)
             );
 
-            t2.WidthRequest = t1.WidthRequest - (LeftSpace(t1, TransactionCompletion.Requested) + RightSpace(t1, TransactionCompletion.Executed));
+        //    t2.WidthRequest = t1.WidthRequest - (LeftSpace(t1, TransactionCompletion.Requested) + RightSpace(t1, TransactionCompletion.Executed));
 
             chartLayout.Children.Add(t2,
                 xConstraint: Constraint.RelativeToView(t1, (parent, element) => element.X + LeftSpace(t1, TransactionCompletion.Requested)),
@@ -41,7 +41,7 @@ namespace BachelorThesis
             );
 
             chartLayout.Children.Add(t3,
-                xConstraint: Constraint.RelativeToView(t1, (parent, element) => element.X + element.WidthRequest),
+                xConstraint: Constraint.RelativeToView(t1, (parent, element) => element.X + element.WidthRequest + 4),
                 yConstraint: Constraint.RelativeToView(t2, (parent, element) => element.Y + 60)
             );
 
@@ -95,14 +95,15 @@ namespace BachelorThesis
         }
 
 
-        private TransactionBoxControl GetNewBox(float width, int transactionId, bool isActive = false)
+        private TransactionBoxControl GetNewBox(float width, int transactionId, Color color, bool isActive = false)
         {
-            return new TransactionBoxControl()
+            return new TransactionBoxControl
             {
                 WidthRequest = width,
                 HeightRequest = BarHeight,
                 IsActive = isActive,
-                TransactionId = transactionId
+                TransactionId = transactionId,
+                HighlightColor = color
             };
         }
 

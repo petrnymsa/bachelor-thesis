@@ -29,7 +29,7 @@ namespace BachelorThesis.Controls
 	        return items.FirstOrDefault(x => x.Hour == hour && x.Minute == minute);
 	    }
 
-	    public void AddEvent(double offset,string identifier, CompletionChangedTransactionEvent transactionEvent, Color color)
+	    public TimeLineEvent AddEvent(double offset,string identifier, CompletionChangedTransactionEvent transactionEvent, Color color)
 	    {
 	        var month = transactionEvent.Created.Month;
 	        var day = transactionEvent.Created.Day;
@@ -38,35 +38,35 @@ namespace BachelorThesis.Controls
 
             var overlap = IsOverllap(hour, minute);
 
-	        if (overlap == null)
+	        if (overlap != null)
+	            return overlap.AddEvent(identifier, transactionEvent.Completion, color);
+
+
+	        var item = new TimeLineItem(hour, minute);
+	        var timeLineEvent = item.AddEvent(identifier, transactionEvent.Completion, color);
+
+	        items.Add(item);
+
+	        if (lastDay == null)
 	        {
-                var item = new TimeLineItem(hour, minute);
-                item.AddEvent(identifier, transactionEvent.Completion, color);
+	            lastDay = day;
+	            lastMonth = month;
 
-                items.Add(item);
+	            AddSeparator(offset, day, month, item);
 
-	            if (lastDay == null)
-	            {
-	                lastDay = day;
-	                lastMonth = month;
-
-	                AddSeparator(offset, day, month, item);
-
-                }
-                else if (day != lastDay || month != lastMonth)
-	            {
-	                lastDay = day;
-	                lastMonth = month;
-
-	                AddSeparator(offset, day, month, item);
-	            }
-
-                layout.Children.Add(item,xConstraint: Constraint.RelativeToParent(p => offset - item.WidthRequest / 2f));
 	        }
-	        else
+	        else if (day != lastDay || month != lastMonth)
 	        {
-                overlap.AddEvent(identifier, transactionEvent.Completion,color);
+	            lastDay = day;
+	            lastMonth = month;
+
+	            AddSeparator(offset, day, month, item);
 	        }
+
+	        layout.Children.Add(item,xConstraint: Constraint.RelativeToParent(p => offset - item.WidthRequest / 2f));
+
+	        return timeLineEvent;
+
 	    }
 
 	    private void AddSeparator(double offset, int day, int month, TimeLineItem item)

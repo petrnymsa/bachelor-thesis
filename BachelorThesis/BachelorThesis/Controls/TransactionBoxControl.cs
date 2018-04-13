@@ -7,6 +7,7 @@ using BachelorThesis.Business.DataModels;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace BachelorThesis.Controls
 {
@@ -28,9 +29,9 @@ namespace BachelorThesis.Controls
                 }
             }
 
-            private TransactionEventControl AssociatedEvent { get; }
+            private TimeLineEvent AssociatedEvent { get; }
 
-            public Anchor(float x, TransactionEventControl associatedEvent, bool isFocused = false)
+            public Anchor(float x, TimeLineEvent associatedEvent, bool isFocused = false)
             {
                 X = x;
                 AssociatedEvent = associatedEvent;
@@ -85,6 +86,18 @@ namespace BachelorThesis.Controls
             get => (int?)GetValue(TransactionIdProperty);
             set => SetValue(TransactionIdProperty, value);
         }
+
+        public static BindableProperty HighlightColorProperty =
+            BindableProperty.Create(nameof(Progress), typeof(Color), typeof(TransactionLinkControl), Color.Red,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color HighlightColor
+        {
+            get => (Color)GetValue(HighlightColorProperty);
+            set => SetValue(HighlightColorProperty, value);
+        }
+
         #endregion
 
         public TransactionBoxControl()
@@ -95,10 +108,15 @@ namespace BachelorThesis.Controls
             EnableTouchEvents = true;
             Touch += OnTouch;
 
-            anchors = new List<Anchor>();
+          // anchors = new List<Anchor>();
+            events = new Dictionary<int, List<Anchor>>();
+            asociatedEvents = new HashSet<int>();
         }
 
-        private readonly List<Anchor> anchors;
+       // private readonly List<Anchor> anchors;
+
+        private Dictionary<int, List<Anchor>> events;
+        private HashSet<int> asociatedEvents;
 
         private SKPoint lastTouch;
 
@@ -128,10 +146,25 @@ namespace BachelorThesis.Controls
 
             if (isPressed)
             {
-                foreach (var anchor in anchors)
-                    anchor.IsFocused = anchor.HitTestX(lastTouch, 20);
+                //foreach (var anchor in anchors)
+                //{
+                //    var collision = anchor.HitTestX(lastTouch, 20);
+                //}
+
+                foreach (var eventAnchors in events)
+                {
+                    foreach (var anchor in eventAnchors.Value)
+                    {
+                        var collision = anchor.HitTestX(lastTouch, 20);
+                        if (collision)
+                        {
+                            anchor.IsFocused = true;
+                            break;
+                        }
+                    }
+                }
             }
-            else anchors.ForEach(x => x.IsFocused = false);
+            else events.ForEach(x => x.Value.ForEach(an => an.IsFocused = false));
 
             // update the Canvas as you wish
             ((SKCanvasView)sender).InvalidateSurface();
@@ -163,8 +196,6 @@ namespace BachelorThesis.Controls
 
             };
 
-            var width = info.Width;
-            var height = info.Height;
             // var scaleFactor = (float)(e.Info.Width / this.Width);
             canvas.Clear();
             //   canvas.Scale(scaleFactor);
@@ -180,27 +211,33 @@ namespace BachelorThesis.Controls
             paintProgress.Color = Color.Chocolate.ToSKColor();
             paintProgress.StrokeWidth = 2;
             // progress helpers
-            for (int i = 0; i < 5; i++)
-            {
-                canvas.Translate(0.2f * width, 0);
-                canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    canvas.Translate(0.2f * width, 0);
+            //    canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
+            //}
             canvas.Restore();
 
 
             using (SKPaint paintTouchPoint = new SKPaint())
             {
                 paintTouchPoint.Style = SKPaintStyle.Fill;
-                paintTouchPoint.Color = SKColors.Red;
+                paintTouchPoint.Color = HighlightColor.ToSKColor();
+               
+                //foreach (var anchor in anchors)
+                //    canvas.DrawCircle(anchor.X, info.Height / 2f, anchor.IsFocused ? 16 : 8, paintTouchPoint);
 
-                foreach (var anchor in anchors)
-                    canvas.DrawCircle(anchor.X, info.Height / 2f, anchor.IsFocused ? 8 : 4, paintTouchPoint);
-
-                if (isPressed)
+                foreach (var anchorList in events)
                 {
-                    paintTouchPoint.Color = SKColors.Black;
-                    canvas.DrawLine(lastTouch.X, 0, lastTouch.X, e.Info.Height, paintTouchPoint);
+                    foreach (var anchor in anchorList.Value)
+                        canvas.DrawCircle(anchor.X, info.Height / 2f, anchor.IsFocused ? 16 : 8, paintTouchPoint);
                 }
+
+                //if (isPressed)
+                //{
+                //    paintTouchPoint.Color = SKColors.Black;
+                //    canvas.DrawLine(lastTouch.X, 0, lastTouch.X, e.Info.Height, paintTouchPoint);
+                //}
             }
 
             //  paintBorder.Dispose();
@@ -215,12 +252,19 @@ namespace BachelorThesis.Controls
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
-        public void AssociateEvent(TransactionEventControl eventControl)
+        public void AssociateEvent(TimeLineEvent eventControl, TransactionCompletion completion)
         {
-            var percent = eventControl.Completion.ToPercentValue();
-            anchors.Add(new Anchor(percent * info.Width, eventControl));
-            //  AddProgress(eventControl.Completion);
+            var percent = completion.ToPercentValue();
 
+            if (!asociatedEvents.Contains(eventControl.Id))
+                asociatedEvents.Add(eventControl.Id);
+
+            if (!events.ContainsKey(eventControl.Id))
+                events[eventControl.Id] = new List<Anchor>();
+
+            events[eventControl.Id].Add(new Anchor(percent * info.Width, eventControl));
+
+        //    anchors.Add(new Anchor(percent * info.Width, eventControl));
             InvalidateSurface();
         }
 

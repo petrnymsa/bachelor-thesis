@@ -12,14 +12,17 @@ namespace BachelorThesis.Controls
 {
     public class TimeLineEvent : BindableBase
     {
+        private static int nextId = 0;
         //public event PropertyChangedEventHandler PropertyChanged;
-
+        public int Id { get; set; }
         [AlsoNotifyFor(nameof(FormattedString))]
         public string TransactionIdentifier { get; set; }
         //[AlsoNotifyFor(nameof(FormattedString))]
         //public string CAct { get; set; }
         public Color Color { get; set; }
         public string FormattedString => $"{TransactionIdentifier}[{String.Join(",", acts)}]";
+
+        public bool IsRevealed { get; set; }
 
         private List<string> acts;
 
@@ -29,7 +32,8 @@ namespace BachelorThesis.Controls
             Color = color;
 
             acts = new List<string>() {cAct};
-         
+            Id = nextId++;
+            IsRevealed = false;
         }
 
         public void AddAct(string act)

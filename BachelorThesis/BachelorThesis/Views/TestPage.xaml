@@ -15,7 +15,7 @@
             <Button Text="Add" Clicked="Button_OnClicked" />
         </StackLayout>-->
 
-        <Grid HeightRequest="50" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
+        <!--<Grid HeightRequest="50" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -24,7 +24,23 @@
             <BoxView Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
             <Label Grid.Row="1" TextColor="LightSlateGray" Text="28.12" HorizontalTextAlignment="Center" FontSize="10" />
             <BoxView Grid.Row="2" Color="LightSlateGray" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
-        </Grid>
+        </Grid>-->
+
+        <StackLayout BackgroundColor="#eafcd9">
+            <Label x:Name="lbT1" Text="Rental&#x0a;contracting&#x0a;(T1)" HorizontalTextAlignment="Center" TextColor="#e19e21" />
+
+            <Label x:Name="lbT2" Text="Rental&#x0a;payment&#x0a;(T2)" HorizontalTextAlignment="Center" TextColor="#8b2a58" />
+
+            <Label x:Name="lbT3" Text="Car&#x0a;pick up (T3)" HorizontalTextAlignment="Center" TextColor="#ce5f42"/>
+
+            <Label x:Name="lbT4" Text="Car&#x0a;drop off&#x0a;(T4)" HorizontalTextAlignment="Center" TextColor="#2c3e50"/>
+
+            <Label x:Name="lbT5" Text="Penalty&#x0a;payment&#x0a;(T5)" HorizontalTextAlignment="Center" TextColor="#0087ce"/>
+
+            <BoxView HeightRequest="30" BackgroundColor="#2cc16b" HorizontalOptions="Fill" />
+
+            <BoxView HeightRequest="50" BackgroundColor="#95a5a6" HorizontalOptions="Fill" />
+        </StackLayout>
 
         <!--<StackLayout Orientation="Horizontal" HeightRequest="60" VerticalOptions="Center" BackgroundColor="AntiqueWhite">
             <StackLayout Orientation="Vertical" VerticalOptions="Center" Margin="5,0,0,0">
