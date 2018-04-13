@@ -14,7 +14,12 @@
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
 
-        </ResourceDictionary>
+            <Color x:Key="TransactionColor1">#e19e21</Color>
+            <Color x:Key="TransactionColor2">#8b2a58</Color>
+            <Color x:Key="TransactionColor3">#ce5f42</Color>
+            <Color x:Key="TransactionColor4">#c0392b</Color>
+            <Color x:Key="TransactionColor5">#0087ce</Color>
+</ResourceDictionary>
 
 	</Application.Resources>
 </Application>
