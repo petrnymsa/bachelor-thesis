@@ -6,6 +6,7 @@ namespace BachelorThesis.Business.Simulation
     public abstract class ProcessSimulation
     {
         public ProcessInstance ProcessInstance { get; protected set; }
+        public ProcessKind ProcessKind { get; set; }
         public List<Actor> Actors { get; protected set; }
 
         private int currentChunk = 0;

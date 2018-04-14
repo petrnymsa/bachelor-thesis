@@ -2,7 +2,7 @@
 {
     public enum TransactionCompletion
     {
-        None,
+        None = 0,
         Requested,
         Promised,
         Stated,

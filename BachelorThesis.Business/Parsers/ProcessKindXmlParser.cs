@@ -58,23 +58,30 @@ namespace BachelorThesis.Business.Parsers
             return new XDocument(processElement);
         }
 
-        public SimulationModelDefinition ParseDefinition(XDocument doc)
+        public ProcessKind ParseDefinition(string xml)
         {
-            var result = new SimulationModelDefinition();
+          //  var result = new SimulationModelDefinition();
+
+            var doc = XDocument.Parse(xml);
 
             var processId = int.Parse(doc.Root.Attribute(XmlParsersConfig.AttributeId).Value);
             var processName = doc.Root.Attribute(XmlParsersConfig.AttributeName).Value;
 
-            var processKind = new ProcessKind {Id = processId, Name = processName };
+            var processKind = new ProcessKind
+            {
+                Id = processId,
+                Name = processName,
+                ActorRoles = ParseActorRoles(doc.Root)
+            };
 
-            result.ActorRoles = ParseActorRoles(doc.Root);
 
             ParseTransactions(doc.Root).ForEach(x => processKind.AddTransaction(x));
 
             ParseTransactionLinks(doc.Root).ForEach(x => processKind.AddTransactionLink(x));
 
-            result.ProcessKind = processKind;
-            return result;
+           // result.ProcessKind = processKind;
+         //   return result;
+            return processKind;
         }
 
         private List<TransactionLink> ParseTransactionLinks(XElement root)

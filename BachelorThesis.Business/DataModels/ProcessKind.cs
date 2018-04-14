@@ -23,10 +23,13 @@ namespace BachelorThesis.Business.DataModels
         [DataMember]
         private List<TransactionLink> links;
 
+        public List<ActorRole> ActorRoles { get; set; }
+
         public ProcessKind()
         {
             Id = Interlocked.Increment(ref nextId);
             transactions = new List<TransactionKind>();
+            ActorRoles = new List<ActorRole>();
             links = new List<TransactionLink>();
 
         }

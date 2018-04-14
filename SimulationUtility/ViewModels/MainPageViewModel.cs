@@ -59,10 +59,10 @@ namespace SimulationUtility.ViewModels
             
 
             var parser = new ProcessKindXmlParser();
-            var result = parser.ParseDefinition(XDocument.Load(dialog.FileName));
-
-            ProcessKind = result.ProcessKind;
-            result.ActorRoles.ForEach(x => ActorRoles.Add(x));
+            ProcessKind = parser.ParseDefinition(dialog.FileName);
+            ProcessKind.ActorRoles.ForEach(x => ActorRoles.Add(x));
+            // = result;
+            //result.ActorRoles.ForEach(x => ActorRoles.Add(x));
 
         }
 
@@ -113,7 +113,7 @@ namespace SimulationUtility.ViewModels
 
             var xml = File.ReadAllText(xmlPath);
             ParserResult = simulationCaseParser.Parse(xml);
-
+             
             SimulationName = ParserResult.Name;
 
             foreach (var chunk in ParserResult.Chunks)
@@ -158,6 +158,6 @@ namespace SimulationUtility.ViewModels
             ChunkControls.Remove(chunkControl);
         }
 
-        public static ActorRole GetActorRole(int id) => ActorRoles.First(x => x.Id == id);
+        public static ActorRole GetActorRole(int id) => ProcessKind.ActorRoles.First(x => x.Id == id);
     }
 }

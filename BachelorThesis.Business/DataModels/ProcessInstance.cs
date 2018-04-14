@@ -18,15 +18,17 @@ namespace BachelorThesis.Business.DataModels
         public float Completion  { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? ExpectedEndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public ProcessInstance() { transactions = new List<TransactionInstance>(); }
 
-        internal ProcessInstance(DateTime startTime, DateTime? expectedEndTime, int processKindId, float completion = 0f)
+        internal ProcessInstance(DateTime startTime, DateTime? expectedEndTime, int processKindId, float completion = 0f, DateTime? endTime = null)
         {
             Id = Interlocked.Increment(ref nextId);
             ProcessKindId = processKindId;
             StartTime = startTime;
             ExpectedEndTime = expectedEndTime;
+            EndTime = endTime;
             Completion = completion;
 
             transactions = new List<TransactionInstance>();
