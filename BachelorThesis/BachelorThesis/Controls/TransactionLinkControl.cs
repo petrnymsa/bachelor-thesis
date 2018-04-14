@@ -127,6 +127,7 @@ namespace BachelorThesis.Controls
 
         private readonly float arrowX;
         private readonly float arrowY;
+        private Color strokeColor;
 
         #endregion
         public TransactionLinkControl(float space = 60f)
@@ -135,6 +136,8 @@ namespace BachelorThesis.Controls
             arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
 
             spaceLength = space - ShapeRadius*2;
+
+            strokeColor = (Color)App.Current.Resources["StrokeColor"];
         }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -145,13 +148,13 @@ namespace BachelorThesis.Controls
             var paint = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
-                Color = Color.White.ToSKColor(),
+                Color = strokeColor.ToSKColor(),
                 StrokeWidth = 1
             };
 
             var textPaint = new SKPaint
             {
-                Color = Color.White.ToSKColor(),
+                Color = strokeColor.ToSKColor(),
                 TextSize = 10,
                 IsAntialias = true
             };
@@ -159,7 +162,7 @@ namespace BachelorThesis.Controls
             var dashedPaint = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.White,
+                Color = strokeColor.ToSKColor(),
                 StrokeWidth = 1,
                 StrokeCap = SKStrokeCap.Round,
                 PathEffect = SKPathEffect.CreateDash(new float[] { 4, 3 }, 1)

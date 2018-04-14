@@ -116,6 +116,10 @@ namespace BachelorThesis.Controls
 
             events = new Dictionary<int, List<Anchor>>();
             asociatedEvents = new HashSet<int>();
+
+            strokeColor = (Color)App.Current.Resources["StrokeColor"];
+            progressColor = (Color)App.Current.Resources["ProgressColor"];
+            stopColor = (Color)App.Current.Resources["StopColor"];
         }
 
         private readonly Dictionary<int, List<Anchor>> events;
@@ -126,6 +130,9 @@ namespace BachelorThesis.Controls
         private bool isPressed = false;
         private bool stopped = false;
         private SKImageInfo info;
+        private Color strokeColor;
+        private Color progressColor;
+        private Color stopColor;
 
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -135,12 +142,14 @@ namespace BachelorThesis.Controls
             info = e.Info;
             var canvas = e.Surface.Canvas;
 
+         
+
 
             var paintBorder = new SKPaint
             {
                 IsAntialias = true,
                 StrokeWidth = 2.5f,
-                Color = Color.White.ToSKColor(),
+                Color = strokeColor.ToSKColor(),
                 Style = SKPaintStyle.Stroke,
 
             };
@@ -149,7 +158,7 @@ namespace BachelorThesis.Controls
             {
                 IsAntialias = true,
                 StrokeWidth = 1,
-                Color = !stopped ? SKColor.Parse("#8BC34A") : Color.Crimson.ToSKColor(),
+                Color = !stopped ? progressColor.ToSKColor() : stopColor.ToSKColor(),
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
