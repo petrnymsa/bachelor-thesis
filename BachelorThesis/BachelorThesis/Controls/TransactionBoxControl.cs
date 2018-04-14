@@ -251,14 +251,15 @@ namespace BachelorThesis.Controls
                 stopped = true;
 
             var start = Progress;
-            var end = completion.ToPercentValue();
+           // var end = completion.ToPercentValue();
+            var end = start + 0.2f;
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
         public void AssociateEvent(TimeLineEvent eventControl, TransactionCompletion completion)
         {
-            var percent = completion.ToPercentValue();
-
+           // var percent = completion.ToPercentValue();
+            var percent = Progress + 0.2f;
             if (!asociatedEvents.Contains(eventControl.Id))
                 asociatedEvents.Add(eventControl.Id);
 
@@ -276,7 +277,8 @@ namespace BachelorThesis.Controls
 
         public float GetCompletionPosition(TransactionCompletion completion)
         {
-            var percent = completion.ToPercentValue();
+              var percent = completion.ToPercentValue();
+           // var percent = Progress + 0.2f;
             return ((float)WidthRequest * percent) - TransactionLinkControl.ShapeRadius;
         }
     }

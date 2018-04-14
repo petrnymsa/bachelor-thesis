@@ -15,7 +15,7 @@ namespace BachelorThesis.Business.Parsers
             var chunksParser = new SimulationChunksXmlParser();
 
             var instance = processParser.Parse(doc.Root);
-            var chunks = chunksParser.Parse(instance, doc.Root);
+            var chunks = chunksParser.Parse(doc.Root);
 
             result.Name = doc.Root.Attribute(XmlParsersConfig.AttributeName).Value;
 

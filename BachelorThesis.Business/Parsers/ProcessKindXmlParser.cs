@@ -253,10 +253,4 @@ namespace BachelorThesis.Business.Parsers
             }
         }
     }
-
-    public class SimulationModelDefinition
-    {
-        public ProcessKind ProcessKind { get; set; }
-        public List<ActorRole> ActorRoles { get; set; }
-    }
 }

@@ -53,6 +53,7 @@
         public const string AttributeActorRoleId = "ActorRoleId";
         public const string AttributeLastName = "LastName";
         public const string AttributeTransactionId = "TransactionId";
+        public const string AttributeTransactionKindId = "TransactionKindId";
         public const string AttributeRaisedById = "RaisedById";
         public const string AttributeCreate = "Created";
         public const string AttributeCompletion = "Completion";

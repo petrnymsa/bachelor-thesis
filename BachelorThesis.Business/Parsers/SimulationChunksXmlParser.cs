@@ -10,7 +10,7 @@ namespace BachelorThesis.Business.Parsers
 {
     public class SimulationChunksXmlParser
     {
-        public List<SimulationChunk> Parse(ProcessInstance process, XElement root)
+        public List<SimulationChunk> Parse(XElement root)
         {
             var chunks = new List<SimulationChunk>();
             var chunksElement = root.Descendants(XmlParsersConfig.ElementChunks);
@@ -38,6 +38,10 @@ namespace BachelorThesis.Business.Parsers
         {
             var eventType = (TransactionEventType)int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeType)?.Value);
             var transsactionId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeTransactionId)?.Value);
+            //     var transactionKindId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeTransactionKindId)?.Value);
+            var transactionKindId = ParseAttribute(eventElement, XmlParsersConfig.AttributeTransactionKindId);
+
+            //   var processInstanceId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeProcessInstanceId)?.Value);
             var raisedBy = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeRaisedById)?.Value);
 
      //       Debug.WriteLine($"[info] eventType: {eventType}, transactionId: {transsactionId}, raisedBy: {raisedBy}");
@@ -50,7 +54,7 @@ namespace BachelorThesis.Business.Parsers
                     var completionChangedElement = eventElement.Element(XmlParsersConfig.ElementCompletionChanged);
                     var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
 
-                    return new CompletionChangedTransactionEvent(transsactionId, raisedBy, created, completion);
+                    return new CompletionChangedTransactionEvent(transsactionId, transactionKindId, raisedBy, created, completion);
                 case TransactionEventType.InitiatorAssigned:
                     break;
                 default:
@@ -74,6 +78,7 @@ namespace BachelorThesis.Business.Parsers
                     var eventElement = new XElement(XmlParsersConfig.ElementEvent,
                         new XAttribute(XmlParsersConfig.AttributeType, (int)tEvent.EventType),
                         new XAttribute(XmlParsersConfig.AttributeTransactionId, tEvent.TransactionInstanceId),
+                        new XAttribute(XmlParsersConfig.AttributeTransactionKindId, tEvent.TransactionKindId),
                         new XAttribute(XmlParsersConfig.AttributeRaisedById, tEvent.RaisedByActorId),
                         new XAttribute(XmlParsersConfig.AttributeCreate, tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat)));
 
@@ -92,6 +97,16 @@ namespace BachelorThesis.Business.Parsers
             return root;
 
 
+        }
+
+        private static int ParseAttribute(XElement element, string attributeName)
+        {
+            var attribute = element.Attribute(attributeName);
+
+            if(attribute == null)
+                throw new ArgumentException($"Attribute {attributeName} does not exists or mispelled");
+
+            return int.Parse(attribute.Value);
         }
     }
 }

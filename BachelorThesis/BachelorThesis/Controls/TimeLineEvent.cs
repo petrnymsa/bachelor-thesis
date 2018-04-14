@@ -39,7 +39,7 @@ namespace BachelorThesis.Controls
         public void AddAct(string act)
         {
             acts.Add(act);
-            acts.Sort(StringComparer.InvariantCulture);
+        //    acts.Sort(StringComparer.InvariantCulture);
             OnPropertyChanged(nameof(FormattedString));
         }
 
