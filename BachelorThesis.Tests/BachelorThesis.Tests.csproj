@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ProcessKindXmlParserTest.cs" />
+    <Compile Include="Business\SimulationCaseParserTests.cs" />
     <Compile Include="Business\SimulationChunkXmlParserTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

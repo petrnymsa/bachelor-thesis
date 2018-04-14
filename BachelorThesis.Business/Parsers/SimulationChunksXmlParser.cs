@@ -34,27 +34,26 @@ namespace BachelorThesis.Business.Parsers
             return chunks;
         }
 
-        private TransactionEvent ParseTransactionEvent(XElement eventElement)
+        private TransactionEvent ParseTransactionEvent(XElement element)
         {
-            var eventType = (TransactionEventType)int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeType)?.Value);
-            var transsactionId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeTransactionId)?.Value);
-            //     var transactionKindId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeTransactionKindId)?.Value);
-            var transactionKindId = ParseAttribute(eventElement, XmlParsersConfig.AttributeTransactionKindId);
+            //var eventType = (TransactionEventType)int.Parse(element.Attribute(XmlParsersConfig.AttributeType)?.Value);
+            //var transsactionId = int.Parse(element.Attribute(XmlParsersConfig.AttributeTransactionId)?.Value);
+            //var transactionKindId = int.Parse(element.Attribute(XmlParsersConfig.AttributeTransactionKindId)?.Value);
+            //var raisedBy = int.Parse(element.Attribute(XmlParsersConfig.AttributeRaisedById)?.Value);
+            var eventType = (TransactionEventType)ParseIntAttribute(element, XmlParsersConfig.AttributeType);
+            var transactionId = ParseIntAttribute(element, XmlParsersConfig.AttributeTransactionId);
+            var transactionKindId = ParseIntAttribute(element, XmlParsersConfig.AttributeTransactionKindId);
+            var raisedBy = ParseIntAttribute(element, XmlParsersConfig.AttributeRaisedById);
 
-            //   var processInstanceId = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeProcessInstanceId)?.Value);
-            var raisedBy = int.Parse(eventElement.Attribute(XmlParsersConfig.AttributeRaisedById)?.Value);
-
-     //       Debug.WriteLine($"[info] eventType: {eventType}, transactionId: {transsactionId}, raisedBy: {raisedBy}");
-
-            var created = DateTime.ParseExact(eventElement.Attribute(XmlParsersConfig.AttributeCreate)?.Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
+            var created = DateTime.ParseExact(element.Attribute(XmlParsersConfig.AttributeCreate)?.Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
 
             switch (eventType)
             {
                 case TransactionEventType.CompletionChanged:
-                    var completionChangedElement = eventElement.Element(XmlParsersConfig.ElementCompletionChanged);
+                    var completionChangedElement = element.Element(XmlParsersConfig.ElementCompletionChanged);
                     var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
 
-                    return new CompletionChangedTransactionEvent(transsactionId, transactionKindId, raisedBy, created, completion);
+                    return new CompletionChangedTransactionEvent(transactionId, transactionKindId, raisedBy, created, completion);
                 case TransactionEventType.InitiatorAssigned:
                     break;
                 default:
@@ -99,7 +98,7 @@ namespace BachelorThesis.Business.Parsers
 
         }
 
-        private static int ParseAttribute(XElement element, string attributeName)
+        private static int ParseIntAttribute(XElement element, string attributeName)
         {
             var attribute = element.Attribute(attributeName);
 
