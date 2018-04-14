@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microcharts;
 using SkiaSharp;
 using Syncfusion.SfChart.XForms;
@@ -14,18 +15,34 @@ namespace BachelorThesis.Views
         {
             InitializeComponent();
 
-            chart.Series.Add(new ColumnSeries()
+            columnSeries.ItemsSource = new List<ChartDataPoint>
             {
-                ItemsSource = new List<ChartDataPoint>
-                {
-                    new ChartDataPoint("Jan", 150),
-                    new ChartDataPoint("Feb", 100),
-                    new ChartDataPoint("Mar", 108),
-                    new ChartDataPoint("Apr", 180),
-                },
-                
-            });
+                new ChartDataPoint("Jan", 40.5),
+                new ChartDataPoint("Feb", 37.1),
+                new ChartDataPoint("Mar", 43.4),
+                new ChartDataPoint("Apr", 41.8),
+            };
+
+            pieSeries.ItemsSource = new List<ChartDataPoint>
+            {
+                new ChartDataPoint("Accepted", 67),
+                new ChartDataPoint("Stated", 33),
+            };
+
+
+
+            lineSeries.ItemsSource = new List<ChartDataPoint>
+            {
+                new ChartDataPoint("Mon", 32),
+                new ChartDataPoint("Tue", 31),
+                new ChartDataPoint("Wed", 29),
+                new ChartDataPoint("Thu", 34),
+                new ChartDataPoint("Fri", 33),
+                new ChartDataPoint("Sat", 45),
+                new ChartDataPoint("Sun", 11),
+            };
         }
+
     }
 
 

@@ -4,36 +4,148 @@
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
              xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              x:Class="BachelorThesis.Views.DashboardPage"
-             Title="Dashboard">
-    <!--<ScrollView>
-        <StackLayout Padding="10">
-            --><!--<microcharts:ChartView x:Name="chartView" HeightRequest="200"  />
-            <microcharts:ChartView x:Name="chartView2" HeightRequest="200" WidthRequest="200" HorizontalOptions="Center" />--><!--
+             Title="Dashboard" BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <chart:ChartColorCollection x:Key="SeriesColors">
+                <Color>LightGreen</Color>
+                <Color>Salmon</Color>
+                <Color>Blue</Color>
+                <Color>Maroon</Color>
+                <Color>Pink</Color>
+            </chart:ChartColorCollection>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout>
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>-->
+
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Average Waiting Time of Rental Contracting" HorizontalOptions="Center" Margin="0,5" />
+                <chart:SfChart Grid.Row="1" x:Name="chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis>
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Month"/>
+                            </chart:CategoryAxis.Title>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis>
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text="Wait time (minutes)"/>
+                            </chart:NumericalAxis.Title>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
+                    
+                    <chart:ColumnSeries x:Name="columnSeries" DataMarkerPosition="Top" EnableAnimation="True">
+                        <chart:ColumnSeries.DataMarker>
+                            <chart:ChartDataMarker />
+                        </chart:ColumnSeries.DataMarker>
+                        <chart:ColumnSeries.ColorModel>
+                            <chart:ChartColorModel Palette="Custom">
+                                <chart:ChartColorModel.CustomGradientColors>
+                                    <chart:ChartGradientColor StartPoint="0.5,1" EndPoint="0.5,0">
+                                        <chart:ChartGradientColor.GradientStops>
+                                            <chart:ChartGradientStop Color="DodgerBlue" Offset= "0"/>
+                                            <chart:ChartGradientStop Color="LightSkyBlue" Offset= "1"/>
+                                        </chart:ChartGradientColor.GradientStops>
+                                    </chart:ChartGradientColor>
+                                </chart:ChartColorModel.CustomGradientColors>
+                            </chart:ChartColorModel>
+                        </chart:ColumnSeries.ColorModel>
+                    </chart:ColumnSeries>
+                </chart:SfChart>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="160">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Current Month Success Rate" HorizontalOptions="Center" Margin="0,5" />
+                <chart:SfChart Grid.Row="1" x:Name="chartPie" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <chart:SfChart.Legend>
+                        <chart:ChartLegend ToggleSeriesVisibility="True" DockPosition="Left"/>
+                    </chart:SfChart.Legend>
+                    <chart:PieSeries x:Name="pieSeries" DataMarkerPosition="OutsideExtended" ConnectorLineType="Bezier" EnableAnimation="True" CircularCoefficient="0.8" >
+                        <chart:PieSeries.DataMarker>
+                            <chart:ChartDataMarker LabelContent="Percentage" />
+                        </chart:PieSeries.DataMarker>
+                        <chart:PieSeries.ColorModel>
+                            <chart:ChartColorModel  Palette="Custom" CustomBrushes="{StaticResource SeriesColors}"/>
+                        </chart:PieSeries.ColorModel>
+                    </chart:PieSeries>
+                </chart:SfChart>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="300" Padding="5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Daily Number of Requests" HorizontalOptions="Center" Margin="0,5" />
+                <chart:SfChart Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <!--<chart:SfChart.Legend>
+                        <chart:ChartLegend ToggleSeriesVisibility="True" DockPosition="Top"/>
+                    </chart:SfChart.Legend>-->
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis ShowMajorGridLines="False" PlotOffset="10" AxisLineOffset="10">
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Week"/>
+                            </chart:CategoryAxis.Title>
+                            <chart:CategoryAxis.MajorTickStyle>
+                                <chart:ChartAxisTickStyle  TickSize="10"/>
+                            </chart:CategoryAxis.MajorTickStyle>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis Maximum="50">
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text="# Requests"/>
+                            </chart:NumericalAxis.Title>
+                            <chart:NumericalAxis.AxisLineStyle>
+                                <chart:ChartLineStyle  StrokeWidth="10"/>
+                            </chart:NumericalAxis.AxisLineStyle>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
+                    <chart:LineSeries x:Name="lineSeries" EnableTooltip="True" EnableAnimation="True" StrokeWidth="2" Color="DodgerBlue">
+                        <chart:LineSeries.DataMarker>
+                            <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" ShowLabel="False" ShowMarker="True" MarkerBorderColor="White" MarkerBorderWidth="2" MarkerColor="LightSkyBlue" />
+                        </chart:LineSeries.DataMarker>
+                        <!--<chart:LineSeries.ColorModel>
+                            <chart:ChartColorModel Palette="Custom">
+                                <chart:ChartColorModel.CustomGradientColors>
+                                    <chart:ChartGradientColor StartPoint="0.5,1" EndPoint="0.5,0">
+                                        <chart:ChartGradientColor.GradientStops>
+                                            <chart:ChartGradientStop Color="DodgerBlue" Offset= "0"/>
+                                            <chart:ChartGradientStop Color="LightSkyBlue" Offset= "1"/>
+                                        </chart:ChartGradientColor.GradientStops>
+                                    </chart:ChartGradientColor>
+                                </chart:ChartColorModel.CustomGradientColors>
+                            </chart:ChartColorModel>
+                        </chart:LineSeries.ColorModel>-->
+                    </chart:LineSeries>
+                </chart:SfChart>
+            </Grid>
         </StackLayout>
-    </ScrollView>-->
-    <chart:SfChart x:Name="chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> 
-        <chart:SfChart.Legend>
-            <chart:ChartLegend />
-        </chart:SfChart.Legend>
 
-        <chart:SfChart.Title>
-            <chart:ChartTitle Text="Chart"/>
-        </chart:SfChart.Title>
 
-        <chart:SfChart.PrimaryAxis>
-            <chart:CategoryAxis>
-                <chart:CategoryAxis.Title>
-                    <chart:ChartAxisTitle Text="Month"/>
-                </chart:CategoryAxis.Title>
-            </chart:CategoryAxis>
-        </chart:SfChart.PrimaryAxis>
-
-        <chart:SfChart.SecondaryAxis>
-            <chart:NumericalAxis>
-                <chart:NumericalAxis.Title>
-                    <chart:ChartAxisTitle Text="Orders"/>
-                </chart:NumericalAxis.Title>
-            </chart:NumericalAxis>
-        </chart:SfChart.SecondaryAxis>
-    </chart:SfChart>
+    </ScrollView>
+   
 </ContentPage>
