@@ -69,11 +69,5 @@
       <Name>BachelorThesis.Bussiness</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="SimulationCases\case-01.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SimulationCases\definition.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

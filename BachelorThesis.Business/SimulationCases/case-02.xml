@@ -17,17 +17,17 @@
   </ProcessInstance>
   <Chunks>
     <Chunk>
-      <Event Type="0" TransactionId="1" RaisedById="1" Created="01-02-2018 09:00:00">
+      <Event Type="0" TransactionId="1" TransactionKind="1" RaisedById="1" Created="01-02-2018 09:00:00">
         <CompletionChanged Completion="Requested" />
       </Event>
     </Chunk>
     <Chunk>
-      <Event Type="0" TransactionId="1" RaisedById="4" Created="01-02-2018 09:01:00">
+      <Event Type="0" TransactionId="1" TransactionKind="1"  RaisedById="4" Created="01-02-2018 09:01:00">
         <CompletionChanged Completion="Declined" />
       </Event>
     </Chunk>
     <Chunk>
-      <Event Type="0" TransactionId="1" RaisedById="1" Created="01-02-2018 09:01:10">
+      <Event Type="0" TransactionId="1" TransactionKind="1"  RaisedById="1" Created="01-02-2018 09:01:10">
         <CompletionChanged Completion="Quitted" />
       </Event>
     </Chunk>
