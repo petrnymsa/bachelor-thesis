@@ -126,7 +126,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BachelorThesis.Business\BachelorThesis.Business.csproj">
       <Project>{9f124c03-de85-4d77-902c-55e0c7a3f9bb}</Project>
-      <Name>BachelorThesis.Bussiness</Name>
+      <Name>BachelorThesis.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
