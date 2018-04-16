@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Simple Chat</title>
+    <style type="text/css">
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat" class="container">
+        <!--<p>Transaction Completion:</p>
+        <ul>
+            <li>1 - Requested</li>
+            <li>2 - Promised</li>
+            <li>3 - Stated</li>
+            <li>4 - Executed</li>
+            <li>5 - Accepted</li>
+            <li>6 - Declined</li>
+            <li>7 - Quitted</li>
+            <li>8 - Rejected</li>
+            <li>9 - Stopped</li>
+        </ul>-->
+        <form id="frm-send-message" action="#">
+            <input type="button" id="start" value="Start" />
+            <input type="button" id="stop" value="Stop" />
+        </form>
+        <div class="clear">
+        </div>
+        <ul id="messages"></ul>
+    </div>
+
+    <script src="signalr.js"></script>
+
+    <script>
+        var started = false;
+        var transportType = signalR.TransportType.WebSockets;
+        //can also be ServerSentEvents or LongPolling
+        var logger = new signalR.ConsoleLogger(signalR.LogLevel.Trace);
+        var chatHub = new signalR.HttpConnection(`http://${document.location.host}/simulation`,
+            { transport: transportType, logger: logger });
+        var chatConnection = new signalR.HubConnection(chatHub, logger);
+
+        chatConnection.onClosed = e => {
+            console.log('connection closed');
+            appendLine('Connection closed');
+        };
+        // event notification
+        chatConnection.on('NotifyEvent', (obj) => {
+            console.log('received event');
+            console.log(obj);
+
+            appendLine(`Event: ${getCompletionName(obj.completion)}(${obj.completion}), ${obj.created}, instanceId: ${obj.transactionInstanceId}, KindId: ${obj.transactionKindId},`);
+        });
+
+        chatConnection.on('NotifyStart',
+            (obj) => {
+                console.log('received start');
+                console.log(obj);
+
+                appendLine("Started: " + obj.name);
+            });
+
+        chatConnection.on('NotifySimulationEnd',
+            (obj) => {
+                console.log('received stop');
+                console.log(obj);
+                started = false;
+                document.getElementById('start').disabled = false;
+                appendLine("Stopped");
+            });
+
+        chatConnection.start().catch(err => {
+            console.log('connection error');
+            appendLine(`Error: ${err}`);
+
+        });
+
+        document.getElementById('start').addEventListener('click', event => {
+            //        var message = document.getElementById('message').value;
+            //        document.getElementById('message').value = '';
+            if (started === false) {
+                chatConnection.invoke('SendStart');
+                started = true;
+                document.getElementById('start').disabled = true;
+                document.getElementById('stop').disabled = false;
+            }
+            event.preventDefault();
+        });
+
+        document.getElementById('stop').addEventListener('click', event => {
+            console.log('stop clicked..');
+            if (started === true) {
+                chatConnection.invoke('SendStop');
+                console.log('stop called..');
+                document.getElementById('stop').disabled = true;
+                document.getElementById('start').disabled = false;
+                started = false;
+            }
+            event.preventDefault();
+        });
+
+        function appendLine(line) {
+            var li = document.createElement('li');
+            li.innerText = line;
+            document.getElementById('messages').appendChild(li);
+        };
+
+        function getCompletionName(completionId) {
+            switch (completionId) {
+                case 0:
+                    return "none";
+                case 1:
+                    return "requested";
+                case 2:
+                    return "promised";
+                case 3:
+                    return "executed";
+                case 4:
+                    return "stated";
+                case 5:
+                    return "accepted";
+                case 6:
+                    return "declined";
+                case 7:
+                    return "quitted";
+                case 8:
+                    return "rejected";
+                case 9:
+                    return "stopped";
+                default:
+                    return "unknown";
+            }
+        }
+
+    </script>
+
+</body>
+</html>

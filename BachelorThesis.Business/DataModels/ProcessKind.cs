@@ -11,8 +11,9 @@ namespace BachelorThesis.Business.DataModels
     public class ProcessKind
     {
         private static int nextId;
-
+        [JsonProperty]
         public int Id { get; set; }
+        [JsonProperty]
         public string Name { get; set; }
 
         [JsonProperty(Order = 3)]
@@ -22,7 +23,7 @@ namespace BachelorThesis.Business.DataModels
         [JsonProperty(Order = 4)]
         [DataMember]
         private List<TransactionLink> links;
-
+        [JsonProperty]
         public List<ActorRole> ActorRoles { get; set; }
 
         public ProcessKind()
@@ -125,6 +126,11 @@ namespace BachelorThesis.Business.DataModels
                 
                 AddChild(child,childInstance,process);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof(transactions)}: {transactions.Count}, {nameof(links)}: {links.Count}, {nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(ActorRoles)}: {ActorRoles.Count}";
         }
     }
 }

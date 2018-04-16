@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BachelorThesis.Business.DataModels
 {
@@ -9,16 +12,24 @@ namespace BachelorThesis.Business.DataModels
         CompletionChanged,
         InitiatorAssigned
     }
+    [DataContract]
     public abstract class TransactionEvent
     {
         private static int nextId;
 
+        [JsonProperty]
         public int Id { get; set; }
+        [JsonProperty]
+
         public TransactionEventType EventType { get; set; }
-      //  public int ProcessInstanceId { get; set; } //TODO parsers must recognize it
+        //  public int ProcessInstanceId { get; set; } //TODO parsers must recognize it
+        [JsonProperty]
         public int TransactionInstanceId { get; set; }
+        [JsonProperty]
         public int TransactionKindId { get; set; }
+        [JsonProperty]
         public int RaisedByActorId { get; set; }
+        [JsonProperty]
         public DateTime Created { get; set; }
 
         protected TransactionEvent(TransactionEventType eventType, int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created)
@@ -36,6 +47,7 @@ namespace BachelorThesis.Business.DataModels
 
     public class CompletionChangedTransactionEvent : TransactionEvent
     {
+        [JsonProperty]
         public TransactionCompletion Completion { get; }
 
         public CompletionChangedTransactionEvent(int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
