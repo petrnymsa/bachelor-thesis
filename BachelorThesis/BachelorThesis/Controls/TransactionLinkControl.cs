@@ -216,7 +216,7 @@ namespace BachelorThesis.Controls
         }
 
         public TransactionLinkControl(TransactionCompletion sourceCompletion, TransactionCompletion targetCompletion,
-            TransactionBoxControl sourceBox, TransactionBoxControl targetBox, TransactionLinkOrientation orientation,
+            TransactionBoxControl sourceBox, TransactionBoxControl targetBox, TransactionLinkOrientation orientation = TransactionLinkOrientation.Down,
             TransactionLinkStyle style = TransactionLinkStyle.StateToState, TransactionCompletion offsetCompletion = TransactionCompletion.None,
             float space = 60f)
         {
@@ -248,12 +248,13 @@ namespace BachelorThesis.Controls
 
         public void RefreshLayout()
         {
-            if(TargetBox ==null || SourceBox == null)
+            // little hack
+            if(TargetBox ==null || SourceBox == null || LinkStyle == TransactionLinkStyle.StateToRequest)
                 return;
             
             IsReflected = SourceCompletion <= TargetCompletion;
             var offsetX = SourceCompletion <= TargetCompletion ? SourceX : TargetX;
-            var leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion);
+            var leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion); //todo determine by orientation, style
             RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
 
             InvalidateSurface();
