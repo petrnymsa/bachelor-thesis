@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using BachelorThesis.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace BachelorThesis
 {
+//	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class App : Application
 	{
 		public App ()

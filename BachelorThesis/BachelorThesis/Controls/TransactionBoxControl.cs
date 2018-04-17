@@ -16,7 +16,6 @@ namespace BachelorThesis.Controls
 
         class Anchor
         {
-
             public const float AnchorWidth = 8f;
 
             public float X { get; }
@@ -62,7 +61,6 @@ namespace BachelorThesis.Controls
             set
             {
                 IsActive = value > 0;
-
                 SetValue(ProgressProperty, value);
             }
         }
@@ -83,9 +81,7 @@ namespace BachelorThesis.Controls
         }
 
         public static BindableProperty TransactionIdProperty =
-            BindableProperty.Create(nameof(Progress), typeof(int?), typeof(TransactionLinkControl), null,
-                BindingMode.OneWay, propertyChanged:
-                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+            BindableProperty.Create(nameof(TransactionId), typeof(int?), typeof(TransactionLinkControl));
 
         public int? TransactionId
         {
@@ -94,7 +90,7 @@ namespace BachelorThesis.Controls
         }
 
         public static BindableProperty HighlightColorProperty =
-            BindableProperty.Create(nameof(Progress), typeof(Color), typeof(TransactionLinkControl), Color.Red,
+            BindableProperty.Create(nameof(HighlightColor), typeof(Color), typeof(TransactionLinkControl), Color.Red,
                 BindingMode.OneWay, propertyChanged:
                 (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
 
@@ -102,6 +98,39 @@ namespace BachelorThesis.Controls
         {
             get => (Color)GetValue(HighlightColorProperty);
             set => SetValue(HighlightColorProperty, value);
+        }
+
+        public static BindableProperty ProgressColorProperty =
+            BindableProperty.Create(nameof(ProgressColor), typeof(Color), typeof(TransactionLinkControl), Color.Aquamarine,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color ProgressColor
+        {
+            get => (Color)GetValue(ProgressColorProperty);
+            set => SetValue(ProgressColorProperty, value);
+        }
+
+        public static BindableProperty MainColorProperty =
+            BindableProperty.Create(nameof(MainColor), typeof(Color), typeof(TransactionLinkControl), Color.Black,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color MainColor
+        {
+            get => (Color)GetValue(MainColorProperty);
+            set => SetValue(MainColorProperty, value);
+        }
+
+        public static BindableProperty InvalidColorProperty =
+            BindableProperty.Create(nameof(InvalidColor), typeof(Color), typeof(TransactionLinkControl), Color.DarkSalmon,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color InvalidColor
+        {
+            get => (Color)GetValue(InvalidColorProperty);
+            set => SetValue(InvalidColorProperty, value);
         }
 
         #endregion
@@ -117,9 +146,9 @@ namespace BachelorThesis.Controls
             events = new Dictionary<int, List<Anchor>>();
             asociatedEvents = new HashSet<int>();
 
-            strokeColor = (Color)App.Current.Resources["StrokeColor"];
-            progressColor = (Color)App.Current.Resources["ProgressColor"];
-            stopColor = (Color)App.Current.Resources["StopColor"];
+            //strokeColor = (Color)App.Current.Resources["StrokeColor"];
+            //progressColor = (Color)App.Current.Resources["ProgressColor"];
+            //stopColor = (Color)App.Current.Resources["StopColor"];
         }
 
         private readonly Dictionary<int, List<Anchor>> events;
@@ -130,9 +159,9 @@ namespace BachelorThesis.Controls
         private bool isPressed = false;
         private bool stopped = false;
         private SKImageInfo info;
-        private Color strokeColor;
-        private Color progressColor;
-        private Color stopColor;
+//        private Color strokeColor;
+//        private Color progressColor;
+//        private Color stopColor;
 
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -142,14 +171,12 @@ namespace BachelorThesis.Controls
             info = e.Info;
             var canvas = e.Surface.Canvas;
 
-         
-
 
             var paintBorder = new SKPaint
             {
                 IsAntialias = true,
                 StrokeWidth = 2.5f,
-                Color = strokeColor.ToSKColor(),
+                Color = MainColor.ToSKColor(),
                 Style = SKPaintStyle.Stroke,
 
             };
@@ -158,7 +185,7 @@ namespace BachelorThesis.Controls
             {
                 IsAntialias = true,
                 StrokeWidth = 1,
-                Color = !stopped ? progressColor.ToSKColor() : stopColor.ToSKColor(),
+                Color = !stopped ? ProgressColor.ToSKColor() : InvalidColor.ToSKColor(),
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
@@ -249,8 +276,7 @@ namespace BachelorThesis.Controls
                 }
             }
             else events.ForEach(x => x.Value.ForEach(an => an.IsFocused = false));
-
-            // update the Canvas as you wish
+            
             ((SKCanvasView)sender).InvalidateSurface();
         }
 

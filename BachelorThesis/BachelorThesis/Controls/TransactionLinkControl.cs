@@ -125,6 +125,38 @@ namespace BachelorThesis.Controls
             set => SetValue(BendWidthProperty, value);
         }
 
+        public static BindableProperty SourceXProperty =
+            BindableProperty.Create(nameof(SourceX), typeof(float), typeof(TransactionLinkControl), 0f,
+                BindingMode.TwoWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+
+        public float SourceX
+        {
+            get => (float)GetValue(SourceXProperty);
+            set => SetValue(SourceXProperty, value);
+        }
+
+        public static BindableProperty TargetXProperty =
+            BindableProperty.Create(nameof(TargetX), typeof(float), typeof(TransactionLinkControl), 0f,
+                BindingMode.TwoWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+
+        public float TargetX
+        {
+            get => (float)GetValue(TargetXProperty);
+            set => SetValue(TargetXProperty, value);
+        }
+
+
+        private bool isReflected = true;
+
+        public bool IsIsReflected
+        {
+            get => isReflected;
+            set { isReflected = value; InvalidateSurface(); }
+        }
+
+
         private readonly float arrowX;
         private readonly float arrowY;
         private Color strokeColor;
@@ -137,7 +169,9 @@ namespace BachelorThesis.Controls
 
             spaceLength = space - ShapeRadius*2;
 
-            strokeColor = (Color)App.Current.Resources["StrokeColor"];
+            strokeColor = Color.Black;
+
+            BackgroundColor = Color.Aquamarine;
         }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -175,11 +209,13 @@ namespace BachelorThesis.Controls
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
+        //    canvas.SetMatrix(new SKMatrix() { Values = new float[]{ -1, 0, 0, 1, 0, 0, 0, 0, 0 } });
+
             if (LinkStyle == StyleStateToState)
             {
                 WidthRequest = BendWidth + ShapeRadius * 5 + 5;
 
-                if (LinkOrientation == 0)
+                if (LinkOrientation == LinkOrientationDown)
                     DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
                 else
                     DrawBendedUpSide(canvas, paint, textPaint, dashedPaint);
@@ -239,6 +275,9 @@ namespace BachelorThesis.Controls
 
         private void DrawBendedUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
+//            if(IsIsReflected)
+//                canvas.Translate((float)this.WidthRequest - ShapeRadius * , 0);
+
             canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
             canvas.Translate(ShapeRadius, ShapeRadius * 2);
             // target text
@@ -278,7 +317,10 @@ namespace BachelorThesis.Controls
             canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
             canvas.Translate(0, spaceLength / 2);
             // bend
-            canvas.DrawLine(0, 0, BendWidth, 0, IsDashed ? dashedPaint : paint);
+            var width = BendWidth;
+//            if (IsIsReflected)
+//                width *= -1;
+            canvas.DrawLine(0, 0, width, 0, IsDashed ? dashedPaint : paint);
             canvas.Translate(BendWidth, 0);
             // line
             canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);

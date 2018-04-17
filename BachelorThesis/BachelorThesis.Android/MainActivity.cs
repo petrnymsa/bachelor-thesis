@@ -27,6 +27,7 @@ namespace BachelorThesis.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             //   TwinTechsForms.NControl.SvgImageView.Init();
+            Websockets.Droid.WebsocketConnection.Link();
             LoadApplication(new App());
 
 

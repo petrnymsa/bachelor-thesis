@@ -10,7 +10,7 @@
   <MasterDetailPage.Detail>
     <NavigationPage BarBackgroundColor="{StaticResource Primary}">
       <x:Arguments>
-        <views:DashboardPage />
+        <views:ProcessVisualisationPage />
       </x:Arguments>
     </NavigationPage>
   </MasterDetailPage.Detail>

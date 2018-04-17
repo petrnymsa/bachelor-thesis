@@ -41,7 +41,7 @@ namespace BachelorThesis.Server
 
             //send model definition
             await Hub.Clients.All.NotifyStart(processKind);
-            timer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromMilliseconds(500));
+            timer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1));
         }
 
         private async void NotifySimulationNextStep(object state)

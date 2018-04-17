@@ -15,16 +15,22 @@ namespace BachelorThesis
 
         public GanttChartBuilder()
         {
+
         }
 
         public void Build(RelativeLayout chartLayout)
         {
+            //var t1 = GetNewBox(350, 1, (Color)App.Current.Resources["TransactionColor1"]);
+            //var t2 = GetNewBox(200, 2, (Color)App.Current.Resources["TransactionColor2"]);
+            //var t3 = GetNewBox(200, 3, (Color)App.Current.Resources["TransactionColor3"]);
+            //var t4 = GetNewBox(260, 4, (Color)App.Current.Resources["TransactionColor4"]);
+            //var t5 = GetNewBox(160, 5, (Color)App.Current.Resources["TransactionColor5"]);
 
-            var t1 = GetNewBox(350, 1, (Color)App.Current.Resources["TransactionColor1"]);
-            var t2 = GetNewBox(200, 2, (Color)App.Current.Resources["TransactionColor2"]);
-            var t3 = GetNewBox(200, 3, (Color)App.Current.Resources["TransactionColor3"]);
-            var t4 = GetNewBox(260, 4, (Color)App.Current.Resources["TransactionColor4"]);
-            var t5 = GetNewBox(160, 5, (Color)App.Current.Resources["TransactionColor5"]);
+            var t1 = GetNewBox(350, 1, Color.Black);
+            var t2 = GetNewBox(200, 2, Color.Black);
+            var t3 = GetNewBox(200, 3, Color.Black);
+            var t4 = GetNewBox(260, 4, Color.Black);
+            var t5 = GetNewBox(160, 5, Color.Black);
 
             TransactionBoxControls = new List<TransactionBoxControl>() { t1, t2, t3, t4, t5 };
 

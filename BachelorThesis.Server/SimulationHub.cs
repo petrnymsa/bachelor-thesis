@@ -10,6 +10,10 @@ namespace BachelorThesis.Server
 {
     public class SimulationHub : Hub<ISimulationHubClient>
     {
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
+        }
 
         public async Task SendStart()
         {

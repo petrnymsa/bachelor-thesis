@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="LiveXAML">
+      <Version>2.1.22</Version>
+    </PackageReference>
     <PackageReference Include="Microcharts">
       <Version>0.7.1</Version>
     </PackageReference>
@@ -67,6 +70,12 @@
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfChart">
       <Version>16.1.0.32</Version>
+    </PackageReference>
+    <PackageReference Include="System.Memory">
+      <Version>4.5.0-preview2-26406-04</Version>
+    </PackageReference>
+    <PackageReference Include="Websockets.Pcl">
+      <Version>1.1.9</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Iconize">
       <Version>1.0.10</Version>

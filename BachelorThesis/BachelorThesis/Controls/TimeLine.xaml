@@ -4,7 +4,7 @@
              x:Class="BachelorThesis.Controls.TimeLine">
     <RelativeLayout x:Name="layout">
 
-        <BoxView x:Name="timeLineBottom" Color="{StaticResource TimeLineColor}" HeightRequest="2"
+        <BoxView x:Name="timeLineBottom" Color="Black" HeightRequest="2"
                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-2}"/>
 

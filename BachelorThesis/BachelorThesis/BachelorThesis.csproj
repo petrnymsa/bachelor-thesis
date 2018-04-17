@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveXAML" Version="2.1.22" />
     <PackageReference Include="Microcharts" Version="0.7.1" />
     <PackageReference Include="Microcharts.Forms" Version="0.7.1" />
     <PackageReference Include="PCLStorage" Version="1.0.2" />
@@ -17,6 +18,8 @@
     <PackageReference Include="SkiaSharp.Views" Version="1.60.0" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.0" />
     <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="16.1.0.32" />
+    <PackageReference Include="System.Memory" Version="4.5.0-preview2-26406-04" />
+    <PackageReference Include="Websockets.Pcl" Version="1.1.9" />
     <PackageReference Include="Xam.Plugin.Iconize" Version="1.0.10" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
   </ItemGroup>
@@ -34,6 +37,9 @@
     </Compile>
     <Compile Update="Views\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProcessVisualisationPageLive.xaml.cs">
+      <DependentUpon>ProcessVisualisationPageLive.xaml</DependentUpon>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\ProcessVisualisationPage.xaml.cs">
       <DependentUpon>ProcessVisualisationPage.xaml</DependentUpon>

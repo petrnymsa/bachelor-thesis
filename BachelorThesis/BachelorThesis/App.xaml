@@ -2,9 +2,9 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BachelorThesis.App">
-	<Application.Resources>
+    <Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <!-- Application resource dictionary -->
         <ResourceDictionary>
             <Color x:Key="Primary">#2485FA</Color>
             <Color x:Key="PrimaryDark">#1976D2</Color>
@@ -22,8 +22,7 @@
             <Color x:Key="ProgressColor">LightGreen</Color>
             <Color x:Key="StopColor">Salmon</Color>
             <Color x:Key="StrokeColor">Black</Color>
-            EDEDED
-</ResourceDictionary>
+        </ResourceDictionary>
 
-	</Application.Resources>
+    </Application.Resources>
 </Application>

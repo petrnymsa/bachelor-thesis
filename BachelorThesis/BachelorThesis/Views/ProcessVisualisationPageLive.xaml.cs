@@ -13,16 +13,22 @@ using Xamarin.Forms;
 
 namespace BachelorThesis.Views
 {
-    public partial class ProcessVisualisationPage : ContentPage
+    public static class FooClass
+    {
+        public const string FOO = "asasa";
+    }
+    public partial class ProcessVisualisationPageLive : ContentPage
     {
         private RentalContractSimulationFromXml rentalContractSimulation;
 
         private List<TransactionBoxControl> transactionBoxControls;
 
+     
+
         private bool livePreview = true;
         private List<TimeLineItem> items = new List<TimeLineItem>();
 
-        public ProcessVisualisationPage()
+        public ProcessVisualisationPageLive()
         {
 
             InitializeComponent();
@@ -43,7 +49,7 @@ namespace BachelorThesis.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            MessagingCenter.Send(this, "setLandscape");
+           // MessagingCenter.Send(this, "setLandscape");
 
             await PrepareSimulation();
         }
@@ -172,19 +178,21 @@ namespace BachelorThesis.Views
     </Chunk>
   </Chunks>
 </Simulation>";
-                rentalContractSimulation = new RentalContractSimulationFromXml(liveCase);
-                rentalContractSimulation.Prepare();
+
+               
+                             //  rentalContractSimulation = new RentalContractSimulationFromXml(liveCase);
+                             //   rentalContractSimulation.Prepare();
             }
             else
             {
-                var assembly = typeof(SimulationCases).GetTypeInfo().Assembly;
-                Stream stream = assembly.GetManifestResourceStream(SimulationCases.Case01);
-
-                string xml = "";
-                using (var reader = new StreamReader(stream))
-                    xml = await reader.ReadToEndAsync();
-                rentalContractSimulation = new RentalContractSimulationFromXml(xml);
-                rentalContractSimulation.Prepare();
+                //                var assembly = typeof(SimulationCases).GetTypeInfo().Assembly;
+                //                Stream stream = assembly.GetManifestResourceStream(SimulationCases.Case01);
+                //
+                //                string xml = "";
+                //                using (var reader = new StreamReader(stream))
+                //                    xml = await reader.ReadToEndAsync();
+                //                rentalContractSimulation = new RentalContractSimulationFromXml(xml);
+                //                rentalContractSimulation.Prepare();
             }
         }
 
@@ -193,45 +201,45 @@ namespace BachelorThesis.Views
         {
             base.OnDisappearing();
             //during page close setting back to portrait
-            MessagingCenter.Send(this, "unlockOrientation");
+          //  MessagingCenter.Send(this, "unlockOrientation");
         }
 
         private async void BtnNextStep_OnClicked(object sender, EventArgs e)
         {
 
-            foreach (var boxControl in transactionBoxControls)
-            {
-                var start = boxControl.Progress;
-                var end = start + 0.2f;
-                boxControl.Animate("a", x => boxControl.Progress = (float)x, start, end, 4, 1000, Easing.Linear);
-            }
+            //foreach (var boxControl in transactionBoxControls)
+            //{
+            //    var start = boxControl.Progress;
+            //    var end = start + 0.2f;
+            //    boxControl.Animate("a", x => boxControl.Progress = (float)x, start, end, 4, 1000, Easing.Linear);
+            //}
 
-            //            var results = rentalContractSimulation.SimulateNextChunk();
-            //
-            //            if (results == null)
-            //                return;
-            //
-            //
-            //            foreach (var evt in results)
-            //            {
-            //                var transaction = rentalContractSimulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
-            //                var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
-            //                if (evt.EventType != TransactionEventType.CompletionChanged) continue;
-            //
-            //                var evtCompletion = (CompletionChangedTransactionEvent)evt;
-            //                transactionControl.AddProgress(evtCompletion.Completion);
-            //                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
-            //
-            //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
-            //                var spaceX = transactionControl.X - offset;
-            //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
-            //
-            //                DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
-            //
-            //
-            //               var timeLineEvent = timeLineLayout.AddEvent(move, transaction.Identificator, evtCompletion, transactionControl.HighlightColor);
-            //                transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
-            //            }
+//            var results = rentalContractSimulation.SimulateNextChunk();
+//
+//            if (results == null)
+//                return;
+//
+//
+//            foreach (var evt in results)
+//            {
+//                var transaction = rentalContractSimulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
+//                var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
+//                if (evt.EventType != TransactionEventType.CompletionChanged) continue;
+//
+//                var evtCompletion = (CompletionChangedTransactionEvent)evt;
+//                transactionControl.AddProgress(evtCompletion.Completion);
+//                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
+//
+//                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
+//                var spaceX = transactionControl.X - offset;
+//                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
+//
+//                DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
+//
+//
+//                var timeLineEvent = timeLineLayout.AddEvent(move, transaction.Identificator, evtCompletion, transactionControl.HighlightColor);
+//                transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
+//            }
 
         }
 

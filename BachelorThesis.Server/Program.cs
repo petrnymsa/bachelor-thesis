@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,11 @@ namespace BachelorThesis.Server
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Listen(IPAddress.Loopback, 3008);
+                    options.Listen(IPAddress.Parse("172.16.239.16"), 3008);
+                })
                 .Build();
     }
 }
