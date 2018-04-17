@@ -224,7 +224,7 @@ namespace BachelorThesis.Views
             //
             //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
             //                var spaceX = transactionControl.X - offset;
-            //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
+            //                var move = spaceX + transactionControl.GetCompletionPositionDPS(evtCompletion.Completion);
             //
             //                DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
             //

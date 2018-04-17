@@ -146,6 +146,8 @@ namespace BachelorThesis.Controls
             events = new Dictionary<int, List<Anchor>>();
             asociatedEvents = new HashSet<int>();
 
+           // IgnorePixelScaling = true;
+
             //strokeColor = (Color)App.Current.Resources["StrokeColor"];
             //progressColor = (Color)App.Current.Resources["ProgressColor"];
             //stopColor = (Color)App.Current.Resources["StopColor"];
@@ -162,7 +164,12 @@ namespace BachelorThesis.Controls
 //        private Color strokeColor;
 //        private Color progressColor;
 //        private Color stopColor;
+        protected float AsPixel(double input)
+        {
+            var factor = (float)(CanvasSize.Width / WidthRequest);
+            return (float)input * factor;
 
+        }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
@@ -171,6 +178,7 @@ namespace BachelorThesis.Controls
             info = e.Info;
             var canvas = e.Surface.Canvas;
 
+            var formSize = new Size(WidthRequest, HeightRequest);
 
             var paintBorder = new SKPaint
             {
@@ -189,27 +197,30 @@ namespace BachelorThesis.Controls
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
-
-            // var scaleFactor = (float)(e.Info.Width / this.Width);
-            canvas.Clear();
-            //   canvas.Scale(scaleFactor);
+          //  BackgroundColor = Color.LightBlue;
+          //  var scaleFactor = (float)(e.Info.Width / this.Width);
+            canvas.Clear(Color.LightBlue.ToSKColor());
+          //  canvas.Scale(scaleFactor);
             canvas.Save();
             if (!IsActive)
                 paintBorder.PathEffect = SKPathEffect.CreateDash(new float[] { 10, 5 }, 1);
             // main rectangle
-            canvas.DrawRect(new SKRect(0, 0, info.Width, info.Height), paintBorder);
+            canvas.DrawRect(new SKRect(0, 0, (float)AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
             // progress rectangle
             if (Math.Abs(Progress) > 0.0)
                 canvas.DrawRect(new SKRect(3, 3, Progress * info.Width - 2.8f, info.Height - 3), paintProgress);
 
-            //paintProgress.Color = Color.Chocolate.ToSKColor();
-            //paintProgress.StrokeWidth = 2;
-            // progress helpers
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    canvas.Translate(0.2f * width, 0);
-            //    canvas.DrawLine(0, 1, 0, height - 2, paintProgress);
-            //}
+            paintProgress.Color = Color.Chocolate.ToSKColor();
+            paintProgress.StrokeWidth = 2;
+           //  progress helpers
+            for (int i = 1; i <= 5; i++)
+            {
+                var cmp = (TransactionCompletion) i;
+                canvas.Save();
+                canvas.Translate(AsPixel(GetCompletionPositionDPS(cmp)), 0);
+                canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
+                canvas.Restore();
+            }
             canvas.Restore();
 
 
@@ -310,11 +321,16 @@ namespace BachelorThesis.Controls
             InvalidateSurface();
         }
 
-        public float GetCompletionPosition(TransactionCompletion completion)
+        public float GetCompletionPositionDPS(TransactionCompletion completion)
         {
               var percent = completion.ToPercentValue();
            // var percent = Progress + 0.2f;
-            return ((float)WidthRequest * percent) - TransactionLinkControl.ShapeRadius;
+            return ((float) WidthRequest * percent); // - TransactionLinkControl.ShapeRadius;//*2 - TransactionLinkControl.ShapeRadius/2f;
+        }
+
+        public float GetCompletionOffset(TransactionCompletion completion)
+        {
+            return GetCompletionPositionDPS(completion) + TransactionLinkControl.StateToRequestArrowHead + TransactionLinkControl.ShapeRadius;
         }
     }
 }

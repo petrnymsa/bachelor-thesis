@@ -24,6 +24,14 @@ namespace BachelorThesis.Controls
     {
         public const float ShapeRadius = 4;
         public const float StateToRequestArrowHead = 16;
+        private const int ArrowAngle = 35;
+        private const int ArrowLength = 8;
+
+        //        public const float ShapeRadius = 4 * 3;
+        //        public const float StateToRequestArrowHead = 16 * 3;
+        //        private const int ArrowAngle = 35;
+        //        private const int ArrowLength = 8 * 3;
+
 
         public const int LinkOrientationDown = (int)TransactionLinkOrientation.Down;
         public const int LinkOrientationUp = (int)TransactionLinkOrientation.Up;
@@ -32,8 +40,6 @@ namespace BachelorThesis.Controls
         public const int StyleStateToRequest = (int)TransactionLinkStyle.StateToRequest;
 
         private readonly float spaceLength;
-        private const int ArrowLength = 8;
-        private const int ArrowAngle = 35;
 
         #region Properties
         public static BindableProperty SourceTextProperty =
@@ -43,7 +49,7 @@ namespace BachelorThesis.Controls
 
         public string SourceText
         {
-            get => (string) GetValue(SourceTextProperty);
+            get => (string)GetValue(SourceTextProperty);
             set => SetValue(SourceTextProperty, value);
         }
 
@@ -54,7 +60,7 @@ namespace BachelorThesis.Controls
 
         public string TargetText
         {
-            get => (string) GetValue(TargetTextProperty);
+            get => (string)GetValue(TargetTextProperty);
             set => SetValue(TargetTextProperty, value);
         }
 
@@ -91,28 +97,31 @@ namespace BachelorThesis.Controls
             set => SetValue(IsDashedProperty, value);
         }
 
-        public static BindableProperty LinkOrientationProperty =
-            BindableProperty.Create(nameof(LinkOrientation), typeof(int), typeof(TransactionLinkControl), 0,
-                BindingMode.TwoWay, propertyChanged:
-                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+//        public static BindableProperty LinkOrientationProperty =
+//            BindableProperty.Create(nameof(LinkOrientation), typeof(int), typeof(TransactionLinkControl), 0,
+//                BindingMode.TwoWay, propertyChanged:
+//                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+//
+//        public int LinkOrientation
+//        {
+//            get => (int)GetValue(LinkOrientationProperty);
+//            set => SetValue(LinkOrientationProperty, value);
+//        }
 
-        public int LinkOrientation
-        {
-            get => (int)GetValue(LinkOrientationProperty);
-            set => SetValue(LinkOrientationProperty, value);
-        }
+        public TransactionLinkOrientation LinkOrientation { get; set; }
 
+//        public static BindableProperty LinkStyleProperty =
+//            BindableProperty.Create(nameof(LinkStyle), typeof(int), typeof(TransactionLinkControl), 0,
+//                BindingMode.TwoWay, propertyChanged:
+//                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
+//
+//        public int LinkStyle
+//        {
+//            get => (int)GetValue(LinkStyleProperty);
+//            set => SetValue(LinkStyleProperty, value);
+//        }
 
-        public static BindableProperty LinkStyleProperty =
-            BindableProperty.Create(nameof(LinkStyle), typeof(int), typeof(TransactionLinkControl), 0,
-                BindingMode.TwoWay, propertyChanged:
-                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
-
-        public int LinkStyle
-        {
-            get => (int)GetValue(LinkStyleProperty);
-            set => SetValue(LinkStyleProperty, value);
-        }
+        public TransactionLinkStyle LinkStyle { get; set; }
 
         public static BindableProperty BendWidthProperty =
             BindableProperty.Create(nameof(BendWidth), typeof(float), typeof(TransactionLinkControl), 0f,
@@ -147,31 +156,107 @@ namespace BachelorThesis.Controls
             set => SetValue(TargetXProperty, value);
         }
 
+        private TransactionCompletion sourceCompletion;
+        public TransactionCompletion SourceCompletion
+        {
+            get { return sourceCompletion; }
+            set
+            {
+                sourceCompletion = value;
+              //  RefreshLayout();
 
-        private bool isReflected = true;
+            }
+        }
 
-        public bool IsIsReflected
+        private TransactionCompletion targetCompletion;
+
+        public TransactionCompletion TargetCompletion
+        {
+            get { return targetCompletion; }
+            set { targetCompletion = value;
+            //    RefreshLayout();
+            }
+        }
+
+        public TransactionBoxControl SourceBox { get; set; }
+
+        public TransactionBoxControl TargetBox { get; set; }
+
+        public TransactionCompletion OffsetCompletion { get; set; }
+
+
+        private bool isReflected = false;
+
+        public bool IsReflected
         {
             get => isReflected;
             set { isReflected = value; InvalidateSurface(); }
         }
 
-
         private readonly float arrowX;
+
         private readonly float arrowY;
+
         private Color strokeColor;
 
         #endregion
+
         public TransactionLinkControl(float space = 60f)
         {
             arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
             arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
 
-            spaceLength = space - ShapeRadius*2;
+            spaceLength = space - ShapeRadius * 2;
 
             strokeColor = Color.Black;
 
-            BackgroundColor = Color.Aquamarine;
+            //    BackgroundColor = Color.Aquamarine;
+
+
+        }
+
+        public TransactionLinkControl(TransactionCompletion sourceCompletion, TransactionCompletion targetCompletion,
+            TransactionBoxControl sourceBox, TransactionBoxControl targetBox, TransactionLinkOrientation orientation,
+            TransactionLinkStyle style = TransactionLinkStyle.StateToState, TransactionCompletion offsetCompletion = TransactionCompletion.None,
+            float space = 60f)
+        {
+            SourceCompletion = sourceCompletion;
+            TargetCompletion = targetCompletion;
+            SourceBox = sourceBox;
+            TargetBox = targetBox;
+            LinkOrientation = orientation;
+            LinkStyle = style;
+            OffsetCompletion = offsetCompletion;
+            IsDashed = LinkOrientation == TransactionLinkOrientation.Up;
+
+            SourceX = sourceBox.GetCompletionPositionDPS(sourceCompletion);
+            TargetX = targetBox.GetCompletionPositionDPS(targetCompletion) - targetBox.GetCompletionOffset(OffsetCompletion);
+
+            SourceText = SourceCompletion.AsAbbreviation();
+            TargetText = TargetCompletion.AsAbbreviation();
+
+            arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
+            arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
+
+            spaceLength = space - ShapeRadius * 2;
+            strokeColor = Color.Black;
+
+            //    BackgroundColor = Color.Aquamarine;
+            RefreshLayout();
+
+        }
+
+        public void RefreshLayout()
+        {
+            if(TargetBox ==null || SourceBox == null)
+                return;
+            
+            IsReflected = SourceCompletion <= TargetCompletion;
+            var offsetX = SourceCompletion <= TargetCompletion ? SourceX : TargetX;
+            var leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion);
+            RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
+
+            InvalidateSurface();
         }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -204,16 +289,16 @@ namespace BachelorThesis.Controls
 
             canvas.Clear();
             HeightRequest = 4 * ShapeRadius + spaceLength + paint.StrokeWidth;
-            WidthRequest = 3 * ShapeRadius + paint.MeasureText(SourceText); 
+            WidthRequest = 3 * ShapeRadius + paint.MeasureText(SourceText);
 
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
-        //    canvas.SetMatrix(new SKMatrix() { Values = new float[]{ -1, 0, 0, 1, 0, 0, 0, 0, 0 } });
+            //    canvas.SetMatrix(new SKMatrix() { Values = new float[]{ -1, 0, 0, 1, 0, 0, 0, 0, 0 } });
 
             if (LinkStyle == StyleStateToState)
             {
-                WidthRequest = BendWidth + ShapeRadius * 5 + 5;
+                WidthRequest = Math.Abs(SourceX - TargetX) + ShapeRadius * 5 + 5;
 
                 if (LinkOrientation == LinkOrientationDown)
                     DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
@@ -275,9 +360,10 @@ namespace BachelorThesis.Controls
 
         private void DrawBendedUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
-//            if(IsIsReflected)
-//                canvas.Translate((float)this.WidthRequest - ShapeRadius * , 0);
-
+            //            if(IsReflected)
+            //                canvas.Translate((float)this.WidthRequest - ShapeRadius * , 0);
+            if (IsReflected)
+                canvas.Translate(Math.Abs(SourceX - TargetX), 0);
             canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
             canvas.Translate(ShapeRadius, ShapeRadius * 2);
             // target text
@@ -293,7 +379,7 @@ namespace BachelorThesis.Controls
 
             //arrow
             DrawArrow(canvas, paint, false);
-             // line
+            // line
             DrawBendedLine(canvas, paint, dashedPaint);
 
             // source text
@@ -317,11 +403,9 @@ namespace BachelorThesis.Controls
             canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
             canvas.Translate(0, spaceLength / 2);
             // bend
-            var width = BendWidth;
-//            if (IsIsReflected)
-//                width *= -1;
+            var width = SourceX - TargetX;
             canvas.DrawLine(0, 0, width, 0, IsDashed ? dashedPaint : paint);
-            canvas.Translate(BendWidth, 0);
+            canvas.Translate(width, 0);
             // line
             canvas.DrawLine(0, 0, 0, spaceLength / 2, IsDashed ? dashedPaint : paint);
             canvas.Translate(0, spaceLength / 2);
@@ -342,12 +426,12 @@ namespace BachelorThesis.Controls
             if (!string.IsNullOrEmpty(SourceCardinality))
             {
                 canvas.Translate(0, textPaint.FontSpacing);
-                canvas.DrawText(SourceCardinality,0,0,textPaint);
+                canvas.DrawText(SourceCardinality, 0, 0, textPaint);
             }
 
             canvas.Restore();
 
-            
+
 
             //line
             canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
