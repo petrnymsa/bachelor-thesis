@@ -120,49 +120,9 @@ namespace BachelorThesis
 
             var lineStart = BarHeight - TransactionLinkControl.ShapeRadius;
 
-//            var l = new TransactionLinkControl(TransactionCompletion.Requested, TransactionCompletion.Requested, t1, t2, TransactionLinkOrientation.Down, TransactionLinkStyle.StateToRequest);
-//            chartLayout.Children.Add(l,
-//               /* xConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.X + t1.GetCompletionPositionDPS(TransactionCompletion.Requested)),*/
-//                yConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.Y + lineStart));
-//            //            chartLayout.Children.Add(GetNewLink("Rq", "Rq", linkStyle: TransactionLinkStyle.StateToRequest),
-//            //                xConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.X + t1.GetCompletionPositionDPS(TransactionCompletion.Requested)),
-//            //                yConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.Y + lineStart));
-//            l.RefreshLayout();
-
             TransactionLinkBuilder.New(TransactionCompletion.Requested, TransactionCompletion.Requested, t1, t2)
                 .SetStyle(TransactionLinkStyle.StateToRequest)
                 .Build(chartLayout, t1);
-
-            //              var leftSpace = (float)LeftSpace(t1, TransactionCompletion.Requested);
-            //              var targetCompletion = TransactionCompletion.Promised;
-            //              var sourceCompletion = TransactionCompletion.Promised;
-            //
-            //              var sourceX = t2.GetCompletionPositionDPS(sourceCompletion);
-            //              var targetX = t1.GetCompletionPositionDPS(targetCompletion) - (float)LeftSpace(t1, TransactionCompletion.Requested);
-            //              var offset = sourceCompletion <= targetCompletion ? sourceX : targetX;
-            //
-            //           //   var offset = (float) LeftSpace(t1, TransactionCompletion.Requested) + Math.Abs(sourceX - targetX);
-            //              DebugHelper.Info($"SourceX: {sourceX}, TargetX: {targetX}, WidthReqT1: {t1.WidthRequest}, WidthReqT2: {t2.WidthRequest}");
-            //
-            //              var link = GetNewLink("Pm", "Pm", TransactionLinkOrientation.Up, dashed: true, sourceX: sourceX, targetX: targetX);
-            //              link.SourceBox = t2;
-            //              link.TargetBox = t1;
-            //              link.SourceCompletion = sourceCompletion;
-            //              link.TargetCompletion = targetCompletion;
-            //              link.IsReflected = sourceCompletion <= targetCompletion;
-            //              link.BackgroundColor = Color.LightGray;
-
-//            var targetCompletion = TransactionCompletion.Promised;
-//            var sourceCompletion = TransactionCompletion.Promised;
-//            var link = new TransactionLinkControl(sourceCompletion, targetCompletion, t2, t1,
-//                TransactionLinkOrientation.Up, offsetCompletion: TransactionCompletion.Requested);
-//            link.BackgroundColor = Color.LightGray;
-//
-//            chartLayout.Children.Add(link,
-//                /* xConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.X + leftSpace + offset - TransactionLinkControl.ShapeRadius),*/
-//                yConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.Y + lineStart));
-//
-//            link.RefreshLayout();
 
             TransactionLinkBuilder.New(TransactionCompletion.Promised,  TransactionCompletion.Accepted, t2, t1)
                 .SetOrientation(TransactionLinkOrientation.Up)
@@ -209,52 +169,7 @@ namespace BachelorThesis
                 HighlightColor = color
             };
         }
-
-        //private void AddLink()
-
-        //private static TransactionLinkControl GetNewLink(string sourceText, string targetText,
-        //    TransactionLinkOrientation linkOrientation = TransactionLinkOrientation.Down,
-        //    TransactionLinkStyle linkStyle = TransactionLinkStyle.StateToState, bool dashed = false,
-        //    float bendWidth = 0, string sourceCardinality = null, string targetCardinality = null,
-        //    float sourceX = 0f, float targetX = 0f)
-        //{
-        //    return new TransactionLinkControl()
-        //    {
-        //        SourceText = sourceText,
-        //        TargetText = targetText,
-        //        LinkOrientation = linkOrientation,
-        //        LinkStyle = linkStyle,
-        //        IsDashed = dashed,
-        //        BendWidth = bendWidth,
-        //        SourceCardinality = sourceCardinality,
-        //        TargetCardinality = targetCardinality,
-        //        SourceX = sourceX,
-        //        TargetX = targetX
-        //    };
-        //}
-
-        //        private static double LeftSpace(TransactionBoxControl box, TransactionCompletion completion)
-        //        {
-        //            return box.GetCompletionPositionDPS(completion) + TransactionLinkControl.StateToRequestArrowHead + TransactionLinkControl.ShapeRadius;
-        //        }
-
-        //        private static double RightSpace(TransactionBoxControl box, TransactionCompletion completion)
-        //        {
-        //            return box.WidthRequest - box.GetCompletionPositionDPS(completion) - TransactionLinkControl.StateToRequestArrowHead - TransactionLinkControl.ShapeRadius;
-        //        }
-        //
-        //        private static float GetBendWidth(TransactionBoxControl parentBox, TransactionBoxControl childBox, TransactionCompletion offsetCompletion,
-        //            TransactionCompletion parentCompletion, TransactionCompletion childCompletion)
-        //        {
-        //            var offset = (float)LeftSpace(parentBox, offsetCompletion);
-        //            var actWidthOffset = parentBox.GetCompletionPositionDPS(parentCompletion) - offset;
-        //
-        //            var result = childBox.GetCompletionPositionDPS(childCompletion) - actWidthOffset;
-        //           // Debug.WriteLine($"[info] offset: {offset} | actOffset: {actWidthOffset} | result: {result}");
-        //
-        //            return result;
-        //        }
-
+        
         private static float GetMaximumDependendChildWidth(TransactionBoxControl parent, TransactionCompletion offset)
         {
             var leftSpace = parent.GetCompletionOffset(offset);
