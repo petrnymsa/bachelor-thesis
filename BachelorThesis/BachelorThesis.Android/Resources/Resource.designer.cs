@@ -26,7 +26,6 @@ namespace BachelorThesis.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Microcharts.Droid.Resource.String.library_name = global::BachelorThesis.Droid.Resource.String.library_name;
 			global::PCLStorage.Resource.String.ApplicationName = global::BachelorThesis.Droid.Resource.String.ApplicationName;
 			global::PCLStorage.Resource.String.Hello = global::BachelorThesis.Droid.Resource.String.Hello;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.Fadein = global::BachelorThesis.Droid.Resource.Animation.Fadein;
@@ -3906,9 +3905,6 @@ namespace BachelorThesis.Droid
 			
 			// aapt resource value: 0x7f090038
 			public const int character_counter_pattern = 2131296312;
-			
-			// aapt resource value: 0x7f090048
-			public const int library_name = 2131296328;
 			
 			// aapt resource value: 0x7f090000
 			public const int mr_button_content_description = 2131296256;
