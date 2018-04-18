@@ -39,8 +39,9 @@
             <RowDefinition  Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackLayout Orientation="Horizontal">
+        <StackLayout Orientation="Horizontal" x:Name="controlsLayout">
             <Button Text="Next" Clicked="BtnNextStep_OnClicked" />
+            <!--<Slider ValueChanged="Slider_OnValueChanged" HorizontalOptions="FillAndExpand" Maximum="400" Minimum="200"  />-->
         </StackLayout>
 
         <RelativeLayout Grid.Row="1" BackgroundColor="Transparent">
@@ -81,7 +82,7 @@
                                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
                                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,ElementName=timeLineLayout, Property=Height, Factor=1, Constant=0}" />
 
-                    <controls:TimeLine x:Name="timeLineLayout" HeightRequest="50" BackgroundColor="Transparent" TimeLineOffset="100"
+                    <controls:TimeLine x:Name="timeLineLayout" HeightRequest="50" BackgroundColor="White" TimeLineOffset="100"
                                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
 
                     <!--<BoxView x:Name="timeLineBottom" Color="{StaticResource TimeLineColor}" HeightRequest="2"

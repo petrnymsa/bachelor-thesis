@@ -13,7 +13,6 @@ namespace BachelorThesis.Controls
 {
     public class TransactionBoxControl : SKCanvasView
     {
-
         class Anchor
         {
             public const float AnchorWidth = 8f;
@@ -46,6 +45,18 @@ namespace BachelorThesis.Controls
             public bool HitTestX(SKPoint p, float tolerance = 10f)
             {
                 return Math.Abs(X - p.X) <= tolerance;
+            }
+        }
+
+        class BoxDescendant
+        {
+            public TransactionBoxControl Control { get; set; }
+            public TransactionCompletion OffsetCompletion { get; set; }
+
+            public BoxDescendant(TransactionBoxControl control, TransactionCompletion offsetCompletion)
+            {
+                Control = control;
+                OffsetCompletion = offsetCompletion;
             }
         }
 
@@ -135,6 +146,9 @@ namespace BachelorThesis.Controls
 
         #endregion
 
+        private List<TransactionBoxControl> descendats { get; set; }
+        private List<TransactionLinkControl> links;
+
         public TransactionBoxControl()
         {
             HorizontalOptions = LayoutOptions.Start;
@@ -145,12 +159,15 @@ namespace BachelorThesis.Controls
 
             events = new Dictionary<int, List<Anchor>>();
             asociatedEvents = new HashSet<int>();
-
+            descendats = new List<TransactionBoxControl>();
+            links = new List<TransactionLinkControl>();
            // IgnorePixelScaling = true;
 
             //strokeColor = (Color)App.Current.Resources["StrokeColor"];
             //progressColor = (Color)App.Current.Resources["ProgressColor"];
             //stopColor = (Color)App.Current.Resources["StopColor"];
+
+         //   SizeChanged += (sender, args) => InvalidateSurface();
         }
 
         private readonly Dictionary<int, List<Anchor>> events;
@@ -332,5 +349,29 @@ namespace BachelorThesis.Controls
         {
             return GetCompletionPositionDPS(completion) + TransactionLinkControl.StateToRequestArrowHead + TransactionLinkControl.ShapeRadius;
         }
+
+        public void AddDescendant(TransactionBoxControl descendant)
+        {
+            descendant.SizeChanged += (sender, args) =>
+            {
+                var box = (TransactionBoxControl) sender;
+                if (box.WidthRequest > WidthRequest - GetCompletionOffset(TransactionCompletion.Requested))
+                {
+                    WidthRequest = box.WidthRequest + GetCompletionOffset(TransactionCompletion.Requested);
+                    InvalidateSurface();
+
+                    links.ForEach(x => x.RefreshLayout());
+                }
+            };
+
+            descendats.Add(descendant);
+        }
+
+        public void AddLink(TransactionLinkControl link)
+        {
+            links.Add(link);
+        }
+
+        
     }
 }

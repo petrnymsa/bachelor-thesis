@@ -7,7 +7,6 @@ using Xamarin.Forms;
 
 namespace BachelorThesis
 {
-
     public class TransactionLinkBuilder
     {
         private TransactionLinkControl link;
@@ -89,6 +88,9 @@ namespace BachelorThesis
             var t4 = GetNewBox(260, 4, Color.Black);
             var t5 = GetNewBox(160, 5, Color.Black);
 
+            t1.AddDescendant(t2);
+            t4.AddDescendant(t5);
+
             TransactionBoxControls = new List<TransactionBoxControl>() { t1, t2, t3, t4, t5 };
 
             chartLayout.Children.Add(t1,
@@ -120,32 +122,44 @@ namespace BachelorThesis
 
             var lineStart = BarHeight - TransactionLinkControl.ShapeRadius;
 
-            TransactionLinkBuilder.New(TransactionCompletion.Requested, TransactionCompletion.Requested, t1, t2)
+            // T1 rq - T2 eq
+            t1.AddLink(NewLink (TransactionCompletion.Requested, TransactionCompletion.Requested, t1, t2)
                 .SetStyle(TransactionLinkStyle.StateToRequest)
+                .Build(chartLayout, t1));
+
+           
+
+            NewLink(TransactionCompletion.Promised,  TransactionCompletion.Promised, t2, t1)
+                .SetOrientation(TransactionLinkOrientation.Up)
+                .SetOffsetCompletion(TransactionCompletion.Requested)
                 .Build(chartLayout, t1);
 
-            TransactionLinkBuilder.New(TransactionCompletion.Promised,  TransactionCompletion.Accepted, t2, t1)
+            NewLink(TransactionCompletion.Accepted, TransactionCompletion.Executed, t2, t1)
                 .SetOrientation(TransactionLinkOrientation.Up)
                 .SetOffsetCompletion(TransactionCompletion.Requested)
                 .Build(chartLayout, t1);
 
 
+            NewLink(TransactionCompletion.Promised, TransactionCompletion.Requested, t3, t4)
+                .SetStyle(TransactionLinkStyle.StateToRequest)
+                .Build(chartLayout, t3);
 
-            //            chartLayout.Children.Add(GetNewLink("Ac", "Ex", TransactionLinkOrientation.Up, dashed: true,
-            //                    bendWidth: GetBendWidth(t1, t2, TransactionCompletion.Requested, TransactionCompletion.Executed, TransactionCompletion.Accepted)),
-            //                xConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.X + t1.GetCompletionPositionDPS(TransactionCompletion.Executed)),
-            //                yConstraint: Constraint.RelativeToView(t1, (parent, sibling) => sibling.Y + lineStart));
-            //
-            //            chartLayout.Children.Add(GetNewLink("Pm", "Rq", linkStyle: TransactionLinkStyle.StateToRequest),
-            //                xConstraint: Constraint.RelativeToView(t3, (parent, sibling) => sibling.X + t3.GetCompletionPositionDPS(TransactionCompletion.Promised)),
-            //                yConstraint: Constraint.RelativeToView(t3, (parent, sibling) => sibling.Y + lineStart));
-            //
-            //
-            //            chartLayout.Children.Add(GetNewLink("Pm", "Ex", TransactionLinkOrientation.Up, dashed: true,
-            //                    bendWidth: GetBendWidth(t3, t4, TransactionCompletion.Promised, TransactionCompletion.Executed, TransactionCompletion.Promised)),
-            //                xConstraint: Constraint.RelativeToView(t3, (parent, sibling) => sibling.X + t3.GetCompletionPositionDPS(TransactionCompletion.Executed)),
-            //                yConstraint: Constraint.RelativeToView(t3, (parent, sibling) => sibling.Y + lineStart));
-            //
+            NewLink(TransactionCompletion.Promised, TransactionCompletion.Executed, t4, t3)
+                .SetOrientation(TransactionLinkOrientation.Up)
+                .SetOffsetCompletion(TransactionCompletion.Promised)
+                .Build(chartLayout, t3);
+
+            NewLink(TransactionCompletion.Rejected, TransactionCompletion.Requested, t4, t5)
+                .SetStyle(TransactionLinkStyle.StateToRequest)
+                .SetSourceCardinality("0..1")
+                .Build(chartLayout, t4);
+
+            NewLink(TransactionCompletion.Accepted, TransactionCompletion.Accepted, t5, t4)
+                .SetOrientation(TransactionLinkOrientation.Up)
+                .SetTargetCardinality("0..1")
+                .SetOffsetCompletion(TransactionCompletion.Rejected)
+                .Build(chartLayout, t4);
+
             //
             //            chartLayout.Children.Add(GetNewLink("Rj", "Rq", linkStyle: TransactionLinkStyle.StateToRequest, sourceCardinality: "0..1"),
             //                xConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.X + t4.GetCompletionPositionDPS(TransactionCompletion.Rejected)),
@@ -157,6 +171,9 @@ namespace BachelorThesis
             //                yConstraint: Constraint.RelativeToView(t4, (parent, sibling) => sibling.Y + lineStart));
         }
 
+
+        private TransactionLinkBuilder NewLink(TransactionCompletion sourceCompletion, TransactionCompletion targetCompletion,
+            TransactionBoxControl sourceControl, TransactionBoxControl targetControl) => TransactionLinkBuilder.New(sourceCompletion, targetCompletion, sourceControl, targetControl);
 
         private TransactionBoxControl GetNewBox(float width, int transactionId, Color color, bool isActive = false)
         {

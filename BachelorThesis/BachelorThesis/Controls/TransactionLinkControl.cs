@@ -201,19 +201,19 @@ namespace BachelorThesis.Controls
 
         #endregion
 
-        public TransactionLinkControl(float space = 60f)
-        {
-            arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
-            arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
+        //public TransactionLinkControl(float space = 60f)
+        //{
+        //    arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
+        //    arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
 
-            spaceLength = space - ShapeRadius * 2;
+        //    spaceLength = space - ShapeRadius * 2;
 
-            strokeColor = Color.Black;
+        //    strokeColor = Color.Black;
 
-            //    BackgroundColor = Color.Aquamarine;
+        //    //    BackgroundColor = Color.Aquamarine;
 
 
-        }
+        //}
 
         public TransactionLinkControl(TransactionCompletion sourceCompletion, TransactionCompletion targetCompletion,
             TransactionBoxControl sourceBox, TransactionBoxControl targetBox, TransactionLinkOrientation orientation = TransactionLinkOrientation.Down,
@@ -240,22 +240,62 @@ namespace BachelorThesis.Controls
 
             spaceLength = space - ShapeRadius * 2;
             strokeColor = Color.Black;
-
-            //    BackgroundColor = Color.Aquamarine;
+       
             RefreshLayout();
 
+            sourceBox.SizeChanged += (sender, args) => RefreshLayout();
+            targetBox.SizeChanged += (sender, args) => RefreshLayout();
+
+            SourceBox.AddLink(this);
+
+            //BackgroundColor = Color.LightGray;
+
         }
+
+//        private void SourceBoxOnSizeChanged(object sender, EventArgs eventArgs)
+//        {
+//            RefreshLayout();
+//        }
+//
+//        private void SourceBoxOnSizeChanged(object sender, EventArgs eventArgs)
+//        {
+//            RefreshLayout();
+//        }
+//
+//        private void TargetBoxOnSizeChanged(object sender, EventArgs eventArgs)
+//        {
+//            RefreshLayout();
+//        }
 
         public void RefreshLayout()
         {
             // little hack
-            if(TargetBox ==null || SourceBox == null || LinkStyle == TransactionLinkStyle.StateToRequest)
+            if(TargetBox ==null || SourceBox == null )
                 return;
-            
-            IsReflected = SourceCompletion <= TargetCompletion;
-            var offsetX = SourceCompletion <= TargetCompletion ? SourceX : TargetX;
-            var leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion); //todo determine by orientation, style
-            RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
+
+            float leftSpace = 0;
+            float offsetX = 0;
+
+            SourceX = SourceBox.GetCompletionPositionDPS(sourceCompletion);
+            TargetX = TargetBox.GetCompletionPositionDPS(targetCompletion) - TargetBox.GetCompletionOffset(OffsetCompletion);
+            IsReflected = SourceX <= TargetX;
+
+//            if (IsReflected)
+//                BackgroundColor = Color.LightSeaGreen;
+//            else BackgroundColor = Color.LightGray;
+
+            if (LinkStyle == TransactionLinkStyle.StateToState)
+                offsetX = SourceX <= TargetX ? SourceX : TargetX;
+            else offsetX = SourceX;
+
+            if (LinkOrientation == TransactionLinkOrientation.Down)
+                leftSpace = SourceBox.GetCompletionOffset(OffsetCompletion);
+            else leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion); //todo determine by orientation, style
+
+            if(LinkStyle == TransactionLinkStyle.StateToState)
+                RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
+            else
+                RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(SourceBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius*2 - StateToRequestArrowHead));
 
             InvalidateSurface();
         }
@@ -295,7 +335,7 @@ namespace BachelorThesis.Controls
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
-            //    canvas.SetMatrix(new SKMatrix() { Values = new float[]{ -1, 0, 0, 1, 0, 0, 0, 0, 0 } });
+           
 
             if (LinkStyle == StyleStateToState)
             {
@@ -308,7 +348,7 @@ namespace BachelorThesis.Controls
             }
             else // State - Request
             {
-                HeightRequest += ShapeRadius + 1 + arrowY;
+                HeightRequest += ShapeRadius*3 + 1 + arrowY;
                 DrawStateToRequestDownSide(canvas, paint, textPaint, dashedPaint);
             }
 
@@ -432,11 +472,9 @@ namespace BachelorThesis.Controls
 
             canvas.Restore();
 
-
-
             //line
-            canvas.DrawLine(0, 0, 0, spaceLength, IsDashed ? dashedPaint : paint);
-            canvas.Translate(0, spaceLength);
+            canvas.DrawLine(0, 0, 0, spaceLength + ShapeRadius *2, IsDashed ? dashedPaint : paint);
+            canvas.Translate(0, spaceLength + ShapeRadius * 2);
             canvas.DrawLine(0, 0, 0, ShapeRadius * 3, IsDashed ? dashedPaint : paint);
 
             // line - arrow head

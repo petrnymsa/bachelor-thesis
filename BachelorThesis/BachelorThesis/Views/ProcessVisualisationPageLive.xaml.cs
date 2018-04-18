@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using BachelorThesis.Business;
@@ -33,6 +34,13 @@ namespace BachelorThesis.Views
 
             InitializeComponent();
 
+            var slider = new Slider(100, 500, 350)
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+            slider.ValueChanged += Slider_OnValueChanged;
+            controlsLayout.Children.Add(slider);
+
             transactionBoxControls = new List<TransactionBoxControl>();
             PrepareView();
         }
@@ -51,7 +59,7 @@ namespace BachelorThesis.Views
             base.OnAppearing();
            // MessagingCenter.Send(this, "setLandscape");
 
-            await PrepareSimulation();
+          //  await PrepareSimulation();
         }
 
         private async Task PrepareSimulation()
@@ -179,9 +187,9 @@ namespace BachelorThesis.Views
   </Chunks>
 </Simulation>";
 
-               
-                             //  rentalContractSimulation = new RentalContractSimulationFromXml(liveCase);
-                             //   rentalContractSimulation.Prepare();
+
+                rentalContractSimulation = new RentalContractSimulationFromXml(liveCase);
+                rentalContractSimulation.Prepare();
             }
             else
             {
@@ -194,6 +202,8 @@ namespace BachelorThesis.Views
                 //                rentalContractSimulation = new RentalContractSimulationFromXml(xml);
                 //                rentalContractSimulation.Prepare();
             }
+
+
         }
 
 
@@ -256,6 +266,12 @@ namespace BachelorThesis.Views
         private void ScrollView_OnScrolled(object sender, ScrolledEventArgs e)
         {
             RelativeLayout.SetYConstraint(timeLineLayout, Constraint.RelativeToParent((parent) => parent.Y + e.ScrollY));
+        }
+
+        private void Slider_OnValueChanged(object sender, ValueChangedEventArgs e)
+        {
+           // transactionBoxControls.First().WidthRequest = e.NewValue;
+            transactionBoxControls[2].WidthRequest = e.NewValue;
         }
     }
 }
