@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microcharts;
 using SkiaSharp;
 using Syncfusion.SfChart.XForms;
 using Xamarin.Forms;
