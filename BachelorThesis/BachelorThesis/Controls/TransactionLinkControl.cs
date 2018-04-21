@@ -229,8 +229,8 @@ namespace BachelorThesis.Controls
             OffsetCompletion = offsetCompletion;
             IsDashed = LinkOrientation == TransactionLinkOrientation.Up;
 
-            SourceX = sourceBox.GetCompletionPositionDPS(sourceCompletion);
-            TargetX = targetBox.GetCompletionPositionDPS(targetCompletion) - targetBox.GetCompletionOffset(OffsetCompletion);
+            SourceX = sourceBox.GetCompletionPosition(sourceCompletion);
+            TargetX = targetBox.GetCompletionPosition(targetCompletion) - targetBox.GetCompletionOffset(OffsetCompletion);
 
             SourceText = SourceCompletion.AsAbbreviation();
             TargetText = TargetCompletion.AsAbbreviation();
@@ -261,8 +261,8 @@ namespace BachelorThesis.Controls
             float leftSpace = 0;
             float offsetX = 0;
 
-            SourceX = SourceBox.GetCompletionPositionDPS(sourceCompletion);
-            TargetX = TargetBox.GetCompletionPositionDPS(targetCompletion) - TargetBox.GetCompletionOffset(OffsetCompletion);
+            SourceX = SourceBox.GetCompletionPosition(sourceCompletion);
+            TargetX = TargetBox.GetCompletionPosition(targetCompletion) - TargetBox.GetCompletionOffset(OffsetCompletion);
             IsReflected = SourceX <= TargetX;
 
 //            if (IsReflected)

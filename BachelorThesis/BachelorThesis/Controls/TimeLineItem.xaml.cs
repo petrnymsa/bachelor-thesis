@@ -11,48 +11,52 @@ using Xamarin.Forms.Xaml;
 
 namespace BachelorThesis.Controls
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class TimeLineItem : TimeLineAnchor
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TimeLineItem : TimeLineAnchor
+    {
 
         public static readonly BindableProperty HourProperty = BindableProperty.Create(nameof(Hour), typeof(int), typeof(TimeLineItem), 0);
 
         public int Hour
         {
             get => (int)GetValue(HourProperty);
-            set { SetValue(HourProperty, value);  OnPropertyChanged(nameof(FormattedHourMinute));}
+            set { SetValue(HourProperty, value); OnPropertyChanged(nameof(FormattedHourMinute)); }
         }
 
 
-	    public static readonly BindableProperty MinuteProperty = BindableProperty.Create(nameof(Minute), typeof(int), typeof(TimeLineItem), 0);
+        public static readonly BindableProperty MinuteProperty = BindableProperty.Create(nameof(Minute), typeof(int), typeof(TimeLineItem), 0);
 
         public int Minute
         {
             get => (int)GetValue(MinuteProperty);
-            set { SetValue(MinuteProperty, value); OnPropertyChanged(nameof(FormattedHourMinute));}
+            set { SetValue(MinuteProperty, value); OnPropertyChanged(nameof(FormattedHourMinute)); }
         }
 
-	    public string FormattedHourMinute => $"{Hour:00}:{Minute:00}";
+        public string FormattedHourMinute => $"{Hour:00}:{Minute:00}";
 
         public ObservableCollection<TimeLineEvent> Events { get; set; }
 
-		public TimeLineItem ()
-		{
-			InitializeComponent ();
+        public TimeLineItem()
+        : base(0, 0)
+        {
+            InitializeComponent();
             Events = new ObservableCollection<TimeLineEvent>();
 
-		    this.Content.BindingContext = this;
-		}
+            this.Content.BindingContext = this;
+        }
 
-	    public TimeLineItem(int hour, int minute)
-	    {
-	        InitializeComponent();
-	        Events = new ObservableCollection<TimeLineEvent>();
+        public TimeLineItem(float baseOffset, float totalOffset, int hour, int minute)
+        : base(baseOffset, totalOffset)
+        {
+            InitializeComponent();
+            Events = new ObservableCollection<TimeLineEvent>();
 
-	        this.Content.BindingContext = this;
-	        Hour = hour;
-	        Minute = minute;
-	    }
+            this.Content.BindingContext = this;
+            Hour = hour;
+            Minute = minute;
+
+            BackgroundColor = Color.LightGray;
+        }
 
         public TimeLineEvent AddEvent(string identifier, TransactionCompletion completion, Color color)
         {
@@ -70,9 +74,9 @@ namespace BachelorThesis.Controls
             return eventControl;
         }
 
-	    private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
-	    {
-	        ((ListView) sender).SelectedItem = null;
-	    }
-	}
+        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+        }
+    }
 }

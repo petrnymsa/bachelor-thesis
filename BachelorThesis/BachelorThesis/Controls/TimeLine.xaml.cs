@@ -12,8 +12,8 @@ namespace BachelorThesis.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TimeLine : ContentView
     {
-        public double AnchorSpacing { get; set; } = 20;
-        public double TimeLineOffset { get; set; }
+        public float AnchorSpacing { get; set; } = 60;
+        public float TimeLineOffset { get; set; }
 
     //    private List<TimeLineItem> items;
 
@@ -21,10 +21,8 @@ namespace BachelorThesis.Controls
         private int? lastMonth = null;
 
         private List<TimeLineAnchor> anchors;
-        private double lastOffset;
-
+        private float lastOffset = 0;
         private bool initialized = false;
-
         public TimeLine()
         {
             InitializeComponent();
@@ -39,34 +37,39 @@ namespace BachelorThesis.Controls
 
         public TimeLineEvent AssociateEvent(TransactionBoxControl boxControl, CompletionChangedTransactionEvent transactionEvent)
         {
+            if (!initialized)
+            {
+                initialized = true;
+                lastOffset = TimeLineOffset;
+            }
             var month = transactionEvent.Created.Month;
             var day = transactionEvent.Created.Day;
             var hour = transactionEvent.Created.Hour;
             var minute = transactionEvent.Created.Minute;
-//
-//            var overlap = IsOverllap(hour, minute);
-//
-//            if (overlap != null)
-//                return overlap.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
-
-
-            var item = new TimeLineItem(hour, minute);
-            var timeLineEvent = item.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
-
-            item.Offset = lastOffset;
-         //   items.Add(item);
-            anchors.Add(item);
-
+            //
+            //            var overlap = IsOverllap(hour, minute);
+            //
+            //            if (overlap != null)
+            //                return overlap.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
             if (lastDay == null || day != lastDay || month != lastMonth)
             {
                 lastDay = day;
                 lastMonth = month;
 
-                AddSeparator(lastOffset, day, month, item);
+                AddSeparator(lastOffset, day, month,null);
                 lastOffset += 2;
             }
 
-            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => TimeLineOffset + lastOffset - item.WidthRequest / 2f));
+            var item = new TimeLineItem(TimeLineOffset, lastOffset, hour, minute);
+            var timeLineEvent = item.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
+
+          //  item.TotalOffsetX = lastOffset;
+         //   items.Add(item);
+            anchors.Add(item);
+
+//            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.TotalOffsetX - item.WidthRequest / 2f));
+            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.TotalOffsetX));
+            boxControl.AssociateEvent(item);
             lastOffset += AnchorSpacing;
             return timeLineEvent;
         }
@@ -78,8 +81,8 @@ namespace BachelorThesis.Controls
                 Day = day,
                 Month = month
             };
-            layout.Children.Add(separator,
-                xConstraint: Constraint.RelativeToParent(p => TimeLineOffset +  separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
+//            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
+            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset));
         }
     }
 }

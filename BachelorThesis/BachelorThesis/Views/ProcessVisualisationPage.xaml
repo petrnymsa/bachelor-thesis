@@ -26,7 +26,7 @@
             <Button Text="Next" Clicked="BtnNextStep_OnClicked" />
         </StackLayout>-->
 
-        <RelativeLayout Grid.Row="1" BackgroundColor="{StaticResource CanvasBackground}">
+        <RelativeLayout BackgroundColor="{StaticResource CanvasBackground}">
             <ScrollView BackgroundColor="Transparent"  Orientation="Both" Scrolled="ScrollView_OnScrolled"
                         RelativeLayout.HeightConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=0}"
                         RelativeLayout.WidthConstraint = "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
@@ -64,7 +64,7 @@
                                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView,ElementName=treeLayout, Property=Width, Factor=1, Constant=0}"
                                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,ElementName=timeLineLayout, Property=Height, Factor=1, Constant=0}" />
 
-                    <controls:TimeLine x:Name="timeLineLayout" HeightRequest="50" BackgroundColor="LightCyan" TimeLineOffset="140"
+                    <controls:TimeLine x:Name="timeLineLayout" HeightRequest="50" BackgroundColor="{StaticResource CanvasBackground}" TimeLineOffset="100"
                                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
 
                     <!--<BoxView x:Name="timeLineBottom" Color="{StaticResource TimeLineColor}" HeightRequest="2"

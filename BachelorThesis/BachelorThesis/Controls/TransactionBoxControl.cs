@@ -30,16 +30,14 @@ namespace BachelorThesis.Controls
                 }
             }
 
-            private TimeLineEvent AssociatedEvent { get; }
+            private TimeLineAnchor AssociatedEvent { get; }
 
-            public TransactionCompletion Completion { get; set; }
-
-            public Anchor(float x, TimeLineEvent associatedEvent, TransactionCompletion completion, bool isFocused = false)
+            public Anchor(float x, TimeLineAnchor associatedEvent, bool isFocused = false)
             {
                 X = x;
                 AssociatedEvent = associatedEvent;
                 IsFocused = isFocused;
-                Completion = completion;
+             
             }
 
             public bool HitTestX(SKPoint p, float tolerance = 10f)
@@ -144,10 +142,25 @@ namespace BachelorThesis.Controls
             set => SetValue(InvalidColorProperty, value);
         }
 
+        public TransactionInstance Transaction { get; set; }
+        public TransactionBoxControl ParentControl { get; set; }
+//        public float OffsetX { get; set; }
+//
+//        public float TotalOffsetX
+//        {
+//            get
+//            {
+//                if (ParentControl != null)
+//                    return (float) ParentControl.X + OffsetX;
+//
+//                return OffsetX;
+//            }
+//        }
+
         #endregion
 
         private List<TransactionBoxControl> descendats { get; set; }
-        public TransactionInstance Transaction { get; set; }
+        
 
         private List<TransactionLinkControl> links;
 
@@ -159,30 +172,19 @@ namespace BachelorThesis.Controls
             EnableTouchEvents = true;
             Touch += OnTouch;
 
-            events = new Dictionary<int, List<Anchor>>();
-            asociatedEvents = new HashSet<int>();
+            events = new Dictionary<Guid, List<Anchor>>();
             descendats = new List<TransactionBoxControl>();
             links = new List<TransactionLinkControl>();
-           // IgnorePixelScaling = true;
-
-            //strokeColor = (Color)App.Current.Resources["StrokeColor"];
-            //progressColor = (Color)App.Current.Resources["ProgressColor"];
-            //stopColor = (Color)App.Current.Resources["StopColor"];
-
-         //   SizeChanged += (sender, args) => InvalidateSurface();
         }
 
-        private readonly Dictionary<int, List<Anchor>> events;
-        private readonly HashSet<int> asociatedEvents;
+        private readonly Dictionary<Guid, List<Anchor>> events;
 
         private SKPoint lastTouch;
 
         private bool isPressed = false;
         private bool stopped = false;
         private SKImageInfo info;
-//        private Color strokeColor;
-//        private Color progressColor;
-//        private Color stopColor;
+
         protected float AsPixel(double input)
         {
             var factor = (float)(CanvasSize.Width / WidthRequest);
@@ -224,10 +226,10 @@ namespace BachelorThesis.Controls
             if (!IsActive)
                 paintBorder.PathEffect = SKPathEffect.CreateDash(new float[] { 10, 5 }, 1);
             // main rectangle
-            canvas.DrawRect(new SKRect(0, 0, (float)AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
+            canvas.DrawRect(new SKRect(0, 0, AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
             // progress rectangle
             if (Math.Abs(Progress) > 0.0)
-                canvas.DrawRect(new SKRect(3, 3, Progress * info.Width - 2.8f, info.Height - 3), paintProgress);
+                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress * WidthRequest - 2.8f), AsPixel(HeightRequest - 3)), paintProgress);
 
             paintProgress.Color = Color.Chocolate.ToSKColor();
             paintProgress.StrokeWidth = 2;
@@ -236,7 +238,7 @@ namespace BachelorThesis.Controls
             {
                 var cmp = (TransactionCompletion) i;
                 canvas.Save();
-                canvas.Translate(AsPixel(GetCompletionPositionDPS(cmp)), 0);
+                canvas.Translate(AsPixel(GetCompletionPosition(cmp)), 0);
                 canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
                 canvas.Restore();
             }
@@ -254,7 +256,7 @@ namespace BachelorThesis.Controls
                     {
                         var size = anchor.IsFocused ? Anchor.AnchorWidth*2 : Anchor.AnchorWidth;
                         canvas.Save();
-                        canvas.Translate(anchor.X, info.Height / 2f);
+                        canvas.Translate(AsPixel(anchor.X), AsPixel(HeightRequest / 2f));
                         canvas.RotateDegrees(45,0,0);
                         //canvas.DrawCircle(anchor.X, info.Height / 2f, size, paintTouchPoint);
                         canvas.DrawRect(new SKRect(- size / 2f, -size / 2f, size, size), anchorPaint);
@@ -321,26 +323,32 @@ namespace BachelorThesis.Controls
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
-        public void AssociateEvent(TimeLineEvent eventControl, TransactionCompletion completion)
+        public void AssociateEvent(TimeLineAnchor timeLineAnchor)
         {
+
+            
            // var percent = completion.ToPercentValue();
-            var percent = Progress + 0.2f;
-            if (!asociatedEvents.Contains(eventControl.Id))
-                asociatedEvents.Add(eventControl.Id);
+            //var percent = Progress + 0.2f;
 
-            if (!events.ContainsKey(eventControl.Id))
-                events[eventControl.Id] = new List<Anchor>();
+            if (!events.ContainsKey(timeLineAnchor.Id))
+                events[timeLineAnchor.Id] = new List<Anchor>();
 
-            var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
-            if (completion == TransactionCompletion.Accepted)
-                x -= Anchor.AnchorWidth;
-            events[eventControl.Id].Add(new Anchor(x, eventControl, completion));
+           // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
+            var x = timeLineAnchor.GetXPositionWithoutOffsets() - X;
 
-            //    anchors.Add(new Anchor(percent * info.Width, eventControl));
+            if (x > WidthRequest)
+                WidthRequest = x + 1;
+
+            //var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
+            //if (completion == TransactionCompletion.Accepted)
+            //    x -= Anchor.AnchorWidth;
+            events[timeLineAnchor.Id].Add(new Anchor((float)x, timeLineAnchor));
+            
+           
             InvalidateSurface();
         }
 
-        public float GetCompletionPositionDPS(TransactionCompletion completion)
+        public float GetCompletionPosition(TransactionCompletion completion)
         {
               var percent = completion.ToPercentValue();
            // var percent = Progress + 0.2f;
@@ -349,7 +357,7 @@ namespace BachelorThesis.Controls
 
         public float GetCompletionOffset(TransactionCompletion completion)
         {
-            return GetCompletionPositionDPS(completion) + TransactionLinkControl.StateToRequestArrowHead + TransactionLinkControl.ShapeRadius;
+            return GetCompletionPosition(completion) + TransactionLinkControl.StateToRequestArrowHead + TransactionLinkControl.ShapeRadius;
         }
 
         public void AddDescendant(TransactionBoxControl descendant)

@@ -6,6 +6,19 @@ namespace BachelorThesis.Controls
 {
     public class TimeLineAnchor : ContentView
     {
-        public double Offset { get; set; }  
+        public float BaseOffsetX { get; set; }
+        public float TotalOffsetX { get; set; }
+
+        public bool IsRevealed { get; set; }
+
+
+        public TimeLineAnchor(float baseOffsetX, float totalOffsetX)
+        {
+            BaseOffsetX = baseOffsetX;
+            TotalOffsetX = totalOffsetX;
+            IsRevealed = false;
+        }
+
+        public float GetXPositionWithoutOffsets() => TotalOffsetX - BaseOffsetX;
     }
 }

@@ -90,7 +90,7 @@ namespace BachelorThesis.Views
 
             foreach (var evt in results)
             {
-                var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
+              //  var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
                 if (evt.EventType != TransactionEventType.CompletionChanged) continue;
 
@@ -98,15 +98,15 @@ namespace BachelorThesis.Views
                 transactionControl.AddProgress(evtCompletion.Completion);
                 Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
 
-                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
-                var spaceX = transactionControl.X - offset;
-                var move = spaceX + transactionControl.GetCompletionPositionDPS(evtCompletion.Completion);
+//                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
+//                var spaceX = transactionControl.X - offset;
+//                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
 
-                DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
+           //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
 
 
-                var timeLineEvent = timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
-                transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
+                timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
+             //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
             }
 
         }
