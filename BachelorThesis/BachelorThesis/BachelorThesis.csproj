@@ -35,9 +35,6 @@
     <Compile Update="Views\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ProcessVisualisationPageLive.xaml.cs">
-      <DependentUpon>ProcessVisualisationPageLive.xaml</DependentUpon>
-    </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\ProcessVisualisationPage.xaml.cs">
       <DependentUpon>ProcessVisualisationPage.xaml</DependentUpon>
     </Compile>

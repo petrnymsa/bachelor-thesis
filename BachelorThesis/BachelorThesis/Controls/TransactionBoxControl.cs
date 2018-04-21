@@ -147,6 +147,8 @@ namespace BachelorThesis.Controls
         #endregion
 
         private List<TransactionBoxControl> descendats { get; set; }
+        public TransactionInstance Transaction { get; set; }
+
         private List<TransactionLinkControl> links;
 
         public TransactionBoxControl()
@@ -315,7 +317,7 @@ namespace BachelorThesis.Controls
 
             var start = Progress;
            // var end = completion.ToPercentValue();
-            var end = start + 0.2f;
+            var end = completion.ToPercentValue();
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
@@ -329,7 +331,7 @@ namespace BachelorThesis.Controls
             if (!events.ContainsKey(eventControl.Id))
                 events[eventControl.Id] = new List<Anchor>();
 
-            var x = percent * info.Width - Anchor.AnchorWidth / 2f;
+            var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
             if (completion == TransactionCompletion.Accepted)
                 x -= Anchor.AnchorWidth;
             events[eventControl.Id].Add(new Anchor(x, eventControl, completion));

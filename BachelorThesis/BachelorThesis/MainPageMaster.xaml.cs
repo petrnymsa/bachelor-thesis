@@ -36,7 +36,6 @@ namespace BachelorThesis
                     new MainPageMenuItem { Title = "Dashboard" , TargetType = typeof(DashboardPage)},
                     new MainPageMenuItem { Title = "Process" , TargetType = typeof(ProcessVisualisationPage)},
                     new MainPageMenuItem { Title = "Test" , TargetType = typeof(TestPage)},
-                    new MainPageMenuItem { Title = "Live" , TargetType = typeof(ProcessVisualisationPageLive)},
                 });
             }
             

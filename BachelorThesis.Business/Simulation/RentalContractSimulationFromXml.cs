@@ -26,6 +26,8 @@ namespace BachelorThesis.Business.Simulation
 
             foreach (var chunk in result.Chunks)
                 AddChunk(chunk);
+
+            
         }
 
         public void Reset()

@@ -252,21 +252,6 @@ namespace BachelorThesis.Controls
 
         }
 
-//        private void SourceBoxOnSizeChanged(object sender, EventArgs eventArgs)
-//        {
-//            RefreshLayout();
-//        }
-//
-//        private void SourceBoxOnSizeChanged(object sender, EventArgs eventArgs)
-//        {
-//            RefreshLayout();
-//        }
-//
-//        private void TargetBoxOnSizeChanged(object sender, EventArgs eventArgs)
-//        {
-//            RefreshLayout();
-//        }
-
         public void RefreshLayout()
         {
             // little hack

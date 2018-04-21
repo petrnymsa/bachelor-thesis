@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<controls:TimeLineAnchor xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:BachelorThesis.Converters"
+             xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              x:Class="BachelorThesis.Controls.TimeLineItem"
              x:Name="self" 
              HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="50" HeightRequest="50">
@@ -30,4 +31,4 @@
         </ListView>
 
     </Grid>
-</ContentView>
+</controls:TimeLineAnchor>

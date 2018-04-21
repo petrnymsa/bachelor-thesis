@@ -20,6 +20,12 @@ namespace BachelorThesis.Business.DataModels
         public int? ExecutorId { get; set; }
         public int? ParentId { get; set; }
 
+        public DateTime? RequestedTime { get; set; }
+        public DateTime? ExpectedEndTime { get; set; }
+
+        [JsonIgnore]
+        public TransactionKind TransactionKind { get; set; }
+
         [JsonProperty(Order = 9)]
         private readonly List<TransactionInstance> children;
 

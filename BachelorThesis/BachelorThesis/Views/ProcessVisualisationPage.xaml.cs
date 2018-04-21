@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using BachelorThesis.Business;
@@ -15,7 +16,7 @@ namespace BachelorThesis.Views
 {
     public partial class ProcessVisualisationPage : ContentPage
     {
-        private RentalContractSimulationFromXml rentalContractSimulation;
+        private ProcessSimulation simulation;
 
         private List<TransactionBoxControl> transactionBoxControls;
 
@@ -50,22 +51,13 @@ namespace BachelorThesis.Views
 
         private async Task PrepareSimulation()
         {
-            if (livePreview)
-            {
-                var xml = await SimulationCases.LoadXmlAsync(SimulationCases.Case01);
-                rentalContractSimulation = new RentalContractSimulationFromXml(xml);
-                rentalContractSimulation.Prepare();
-            }
-            else
-            {
-                var assembly = typeof(SimulationCases).GetTypeInfo().Assembly;
-                Stream stream = assembly.GetManifestResourceStream(SimulationCases.Case01);
+            var loader = new SimulationProvider();
+            simulation = await loader.LoadAsync(SimulationCases.Case01);
 
-                string xml = "";
-                using (var reader = new StreamReader(stream))
-                    xml = await reader.ReadToEndAsync();
-                rentalContractSimulation = new RentalContractSimulationFromXml(xml);
-                rentalContractSimulation.Prepare();
+            foreach (var control in transactionBoxControls)
+            {
+                var transaction = simulation.ProcessInstance.GetTransactionById(control.TransactionId.Value);
+                control.Transaction = transaction;
             }
         }
 
@@ -87,15 +79,18 @@ namespace BachelorThesis.Views
             //                boxControl.Animate("a", x => boxControl.Progress = (float)x, start, end, 4, 1000, Easing.Linear);
             //            }
 
-            var results = rentalContractSimulation.SimulateNextChunk();
+            var results = simulation.SimulateNextChunk();
 
             if (results == null)
+            {
+                await DisplayAlert("Simulation ended", "No more simulation steps", "Ok");
                 return;
+            }
 
 
             foreach (var evt in results)
             {
-                var transaction = rentalContractSimulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
+                var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
                 if (evt.EventType != TransactionEventType.CompletionChanged) continue;
 
@@ -110,7 +105,7 @@ namespace BachelorThesis.Views
                 DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
 
 
-                var timeLineEvent = timeLineLayout.AddEvent(move, transaction.Identificator, evtCompletion, transactionControl.HighlightColor);
+                var timeLineEvent = timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
                 transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
             }
 
