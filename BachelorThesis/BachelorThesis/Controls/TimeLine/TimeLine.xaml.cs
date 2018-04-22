@@ -13,7 +13,7 @@ namespace BachelorThesis.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TimeLine : ContentView
     {
-        public const float AnchorSpacing = 60;
+        public const float HourMinuteSpacing = 60;
         // public float TimeLineOffset { get; set; }
 
         //    private List<HourMinuteAnchor> items;
@@ -73,12 +73,7 @@ namespace BachelorThesis.Controls
                 lastOffset += (float)separator.WidthRequest;
 
                 // add event
-                var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
-                var item = new HourMinuteAnchor(hour, minute, timeEvent)
-                {
-                    Completion = transactionEvent.Completion,
-                    OffsetX = lastOffset
-                };
+                AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
             }
             //check for spacer
             else
@@ -96,8 +91,37 @@ namespace BachelorThesis.Controls
                         layout.Children.Add(spacer, xConstraint: Constraint.RelativeToParent(p => spacer.OffsetX));
 
                         lastOffset += (float)spacer.WidthRequest + 1;
+
+                        AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
                     }
-                }               
+                    else
+                    {
+                        // add seconds anchor
+                        if (minute == eventAnchor.Event.Created.Minute)
+                        {
+                            var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+                            var item = new SecondAnchor()
+                            {
+                                OffsetX = lastOffset,
+                                Completion = transactionEvent.Completion
+                            };
+
+                            anchors.Add(item);
+                            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX));
+
+                            lastOffset += (float)item.WidthRequest;
+                        }
+                        else
+                        {
+                            lastOffset += HourMinuteSpacing;
+                            AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                        }
+                    }
+                }
+                else // not event anchor, put new HourMinute
+                {
+                    AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                }
             }
 
             //var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
@@ -110,7 +134,22 @@ namespace BachelorThesis.Controls
             //anchors.Add(item);
         }
 
-        private void AddSpacer(float offset)
+        private void AddHourMinuteAnchor(TransactionBoxControl boxControl, CompletionChangedTransactionEvent transactionEvent, int hour, int minute)
+        {
+            var timeEvent =
+                new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+            var item = new HourMinuteAnchor(hour, minute, timeEvent)
+            {
+                Completion = transactionEvent.Completion,
+                OffsetX = lastOffset
+            };
+            anchors.Add(item);
+            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX));
+
+            lastOffset += (float) item.WidthRequest;
+        }
+
+        private void AddSpacer()
         {
 
         }
@@ -151,7 +190,7 @@ namespace BachelorThesis.Controls
 
         //            };
         //            anchors.Add(anchor);
-        //            lastOffset += AnchorSpacing;
+        //            lastOffset += HourMinuteSpacing;
         //            minute++;
         //        }
         //        hour++;
