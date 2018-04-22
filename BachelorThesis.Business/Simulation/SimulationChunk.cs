@@ -15,9 +15,9 @@ namespace BachelorThesis.Business.Simulation
 
         public SimulationChunk AddStep(TransactionEvent transactionEvent)
         {
-            if(transactionEvent is CompletionChangedTransactionEvent completionChangedTransactionEvent)
-                steps.Add(new SimulationCompletionChangedStep(completionChangedTransactionEvent));
-
+//            if(transactionEvent is CompletionChangedTransactionEvent completionChangedTransactionEvent)
+//                steps.Add(new SimulationCompletionChangedStep(completionChangedTransactionEvent));
+            steps.Add(new SimulationCompletionChangedStep(transactionEvent));
             return this;
         }
 

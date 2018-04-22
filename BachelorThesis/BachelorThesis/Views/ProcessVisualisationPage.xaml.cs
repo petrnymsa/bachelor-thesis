@@ -91,13 +91,11 @@ namespace BachelorThesis.Views
 
                 var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
-                if (evt.EventType != TransactionEventType.CompletionChanged) continue;
-
-                var evtCompletion = (CompletionChangedTransactionEvent)evt;
+               // if (evt.EventType != TransactionEventType.CompletionChanged) continue;
                 //   transactionControl.AddProgress(evtCompletion.Completion);
-                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
+                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evt.Completion} ");
 
-                transactionControl.AddProgress(evtCompletion.Completion);
+                transactionControl.AddProgress(evt.Completion);
 
                 //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
                 //                var spaceX = transactionControl.X - offset;

@@ -4,7 +4,7 @@ namespace BachelorThesis.Business.Simulation
 {
     public class SimulationCompletionChangedStep : SimulationStep
     {
-        public SimulationCompletionChangedStep(CompletionChangedTransactionEvent transactionEvent) : base(transactionEvent)
+        public SimulationCompletionChangedStep(TransactionEvent transactionEvent) : base(transactionEvent)
         {
         }
 
@@ -12,7 +12,7 @@ namespace BachelorThesis.Business.Simulation
         {
             var instance = process.GetTransactionById(Event.TransactionInstanceId);
 
-            instance.Completion = ((CompletionChangedTransactionEvent) Event).Completion;
+            instance.Completion = Event.Completion;
 
             return Event;
         }

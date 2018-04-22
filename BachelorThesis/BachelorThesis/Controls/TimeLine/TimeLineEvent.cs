@@ -28,7 +28,7 @@ namespace BachelorThesis.Controls
 
         private List<string> acts;
 
-        public TimeLineEvent(string transactionIdentifier,CompletionChangedTransactionEvent transactionEvent, Color color)
+        public TimeLineEvent(string transactionIdentifier,TransactionEvent transactionEvent, Color color)
         {
             TransactionIdentifier = transactionIdentifier;
             Color = color;

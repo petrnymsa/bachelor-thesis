@@ -36,7 +36,7 @@ namespace BachelorThesis.Controls
         //    return anchors.FirstOrDefault(x => x.Hour == hour && x.Minute == minute);
         //}
 
-        public void AssociateEvent(TransactionBoxControl boxControl, CompletionChangedTransactionEvent transactionEvent)
+        public void AssociateEvent(TransactionBoxControl boxControl, TransactionEvent transactionEvent)
         {
             if (!initialized)
             {
@@ -134,7 +134,7 @@ namespace BachelorThesis.Controls
             //anchors.Add(item);
         }
 
-        private void AddHourMinuteAnchor(TransactionBoxControl boxControl, CompletionChangedTransactionEvent transactionEvent, int hour, int minute)
+        private void AddHourMinuteAnchor(TransactionBoxControl boxControl, TransactionEvent transactionEvent, int hour, int minute)
         {
             var timeEvent =
                 new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);

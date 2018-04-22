@@ -47,20 +47,25 @@ namespace BachelorThesis.Business.Parsers
 
             var created = DateTime.ParseExact(element.Attribute(XmlParsersConfig.AttributeCreate)?.Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
 
-            switch (eventType)
-            {
-                case TransactionEventType.CompletionChanged:
-                    var completionChangedElement = element.Element(XmlParsersConfig.ElementCompletionChanged);
-                    var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
+            var completionChangedElement = element.Element(XmlParsersConfig.ElementCompletionChanged);
+            var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
 
-                    return new CompletionChangedTransactionEvent(transactionId, transactionKindId, raisedBy, created, completion);
-                case TransactionEventType.InitiatorAssigned:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
 
-            return null;
+            return new TransactionEvent(eventType, transactionId, transactionKindId, raisedBy, created, completion);
+//            switch (eventType)
+//            {
+//                case TransactionEventType.CompletionChanged:
+//                    var completionChangedElement = element.Element(XmlParsersConfig.ElementCompletionChanged);
+//                    var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
+//
+//                    return new CompletionChangedTransactionEvent(transactionId, transactionKindId, raisedBy, created, completion);
+//                case TransactionEventType.InitiatorAssigned:
+//                    break;
+//                default:
+//                    throw new ArgumentOutOfRangeException();
+//            }
+//
+//            return null;
         }
 
         public XElement Create(List<SimulationChunk> chunks)
@@ -81,11 +86,14 @@ namespace BachelorThesis.Business.Parsers
                         new XAttribute(XmlParsersConfig.AttributeRaisedById, tEvent.RaisedByActorId),
                         new XAttribute(XmlParsersConfig.AttributeCreate, tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat)));
 
-                    if (tEvent.EventType == TransactionEventType.CompletionChanged)
-                    {
-                        eventElement.Add(new XElement(XmlParsersConfig.ElementCompletionChanged,
-                            new XAttribute(XmlParsersConfig.AttributeCompletion, ((CompletionChangedTransactionEvent)tEvent).Completion)));
-                    }
+                    eventElement.Add(new XElement(XmlParsersConfig.ElementCompletionChanged,
+                        new XAttribute(XmlParsersConfig.AttributeCompletion, tEvent.Completion)));
+
+//                    if (tEvent.EventType == TransactionEventType.CompletionChanged)
+//                    {
+//                        eventElement.Add(new XElement(XmlParsersConfig.ElementCompletionChanged,
+//                            new XAttribute(XmlParsersConfig.AttributeCompletion, ((CompletionChangedTransactionEvent)tEvent).Completion)));
+//                    }
 
                     chunkElement.Add(eventElement);
                 }

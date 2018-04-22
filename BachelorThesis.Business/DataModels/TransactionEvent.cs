@@ -13,14 +13,13 @@ namespace BachelorThesis.Business.DataModels
         InitiatorAssigned
     }
     [DataContract]
-    public abstract class TransactionEvent
+    public class TransactionEvent
     {
         private static int nextId;
 
         [JsonProperty]
         public int Id { get; set; }
         [JsonProperty]
-
         public TransactionEventType EventType { get; set; }
         //  public int ProcessInstanceId { get; set; } //TODO parsers must recognize it
         [JsonProperty]
@@ -32,7 +31,10 @@ namespace BachelorThesis.Business.DataModels
         [JsonProperty]
         public DateTime Created { get; set; }
 
-        protected TransactionEvent(TransactionEventType eventType, int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created)
+        [JsonProperty]
+        public TransactionCompletion Completion { get; }
+
+        public TransactionEvent(TransactionEventType eventType, int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
         {
             Id = Interlocked.Increment(ref nextId);
             EventType = eventType;
@@ -42,25 +44,24 @@ namespace BachelorThesis.Business.DataModels
             Created = created;
         }
 
-        public abstract void DoTransactionAction(TransactionInstance instance);
+     //   public abstract void DoTransactionAction(TransactionInstance instance);
     }
 
-    public class CompletionChangedTransactionEvent : TransactionEvent
-    {
-        [JsonProperty]
-        public TransactionCompletion Completion { get; }
+    //public class CompletionChangedTransactionEvent : TransactionEvent
+    //{
+        
 
-        public CompletionChangedTransactionEvent(int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
-            : base(TransactionEventType.CompletionChanged, transactionInstanceId, transactionKindId, raisedByActorId, created)
-        {
-            Completion = completion;
-        }
+    //    public CompletionChangedTransactionEvent(int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
+    //        : base(TransactionEventType.CompletionChanged, transactionInstanceId, transactionKindId, raisedByActorId, created)
+    //    {
+    //        Completion = completion;
+    //    }
 
-        public override void DoTransactionAction(TransactionInstance instance)
-        {
-            instance.Completion = Completion;
-        }
-    }
+    //    public override void DoTransactionAction(TransactionInstance instance)
+    //    {
+    //        instance.Completion = Completion;
+    //    }
+    //}
 
     //public class InitiatorAssigned : TransactionEvent
     //{

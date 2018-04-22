@@ -404,7 +404,7 @@ namespace BachelorThesis.Controls
 
         //    var totalMinutes = Transaction.ExpectedEndTime.Value.TimeOfDay.TotalMinutes -
         //                       Transaction.RequestedTime.Value.TimeOfDay.TotalMinutes;
-        //    WidthRequest = totalMinutes * TimeLine.AnchorSpacing;
+        //    WidthRequest = totalMinutes * TimeLine.HourMinuteSpacing;
 
         //    InvalidateSurface();
         //}
@@ -413,7 +413,7 @@ namespace BachelorThesis.Controls
         //{
 
         //    var expectedMinute = Transaction.TransactionKind.ExpectedTimeEstimate;
-        //    WidthRequest = expectedMinute * TimeLine.AnchorSpacing;
+        //    WidthRequest = expectedMinute * TimeLine.HourMinuteSpacing;
         //    InvalidateSurface();
         //}
     }
