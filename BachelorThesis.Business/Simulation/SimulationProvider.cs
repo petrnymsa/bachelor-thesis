@@ -17,10 +17,15 @@ namespace BachelorThesis.Business.Simulation
             var simulation = new RentalContractSimulationFromXml(caseXml);
             simulation.Prepare();
             var transactions = simulation.ProcessInstance.GetTransactions();
+
             foreach (var instance in transactions)
             {
-                var kind = processKind.GetTransactionById(instance.TransactionKindId);
-                instance.TransactionKind = kind;
+                TreeStructureHelper.Traverse<TransactionInstance,TransactionKind>(instance,
+                    (node) => processKind.GetTransactionById(node.Id), (transactionInstance, transactionKind) =>
+                {
+                    transactionInstance.TransactionKind = transactionKind;
+                });
+              
             }
 
             return simulation;
