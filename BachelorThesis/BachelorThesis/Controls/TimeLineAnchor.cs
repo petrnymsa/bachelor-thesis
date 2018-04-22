@@ -14,10 +14,11 @@ namespace BachelorThesis.Controls
         public bool IsRevealed { get; set; }
 
         public TransactionCompletion Completion { get; set; }
+        public TimeLineEvent Event { get; set; }
 
-
-        public TimeLineAnchor()
+        public TimeLineAnchor(TimeLineEvent timeEvent)
         {
+            Event = timeEvent;
 //            BaseOffsetX = baseOffsetX;
 //            OffsetX = totalOffsetX;
             IsRevealed = false;

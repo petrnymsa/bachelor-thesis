@@ -22,11 +22,11 @@ namespace BachelorThesis.Controls
             set { SetValue(SecondProperty, value); OnPropertyChanged(nameof(FormattedSecond)); }
         }
 
-	    public TimeLineEvent Event { get; set; }
+	  
 
 	    public string FormattedSecond => $":{Second}";
 
-        public SecondAnchor ()
+        public SecondAnchor () : base(null)
 		{
 			InitializeComponent ();
 
@@ -34,9 +34,9 @@ namespace BachelorThesis.Controls
         }
 
 	    public SecondAnchor(TimeLineEvent timeEvent)
+        :base(timeEvent)
 	    {
 	        InitializeComponent();
-	        Event = timeEvent;
 	        this.Content.BindingContext = this;
         }
     }

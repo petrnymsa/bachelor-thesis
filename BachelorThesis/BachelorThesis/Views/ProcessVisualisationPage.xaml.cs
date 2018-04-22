@@ -48,7 +48,7 @@ namespace BachelorThesis.Views
 
          //   await PrepareSimulation();
 
-            timeLineLayout.PrepareTimeLine(DateTime.Now, DateTime.Now);
+           // timeLineLayout.PrepareTimeLine(DateTime.Now, DateTime.Now);
         }
 
         private async Task PrepareSimulation()

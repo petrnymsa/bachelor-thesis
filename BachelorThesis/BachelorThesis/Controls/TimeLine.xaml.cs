@@ -43,10 +43,14 @@ namespace BachelorThesis.Controls
                 initialized = true;
               //  lastOffset = TimeLineOffset;
             }
+
+            var lastAnchor = anchors.Last();
+            var lastEvent = lastAnchor.Event;
             var month = transactionEvent.Created.Month;
             var day = transactionEvent.Created.Day;
             var hour = transactionEvent.Created.Hour;
             var minute = transactionEvent.Created.Minute;
+            var second = transactionEvent.Created.Second;
             //
             //            var overlap = IsOverllap(hour, minute);
             //
@@ -61,7 +65,14 @@ namespace BachelorThesis.Controls
                 lastOffset += 2;
             }
 
-            var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent.Completion.AsAbbreviation(), boxControl.HighlightColor);
+            if (Math.Abs(minute - lastEvent.Created.Minute) > 1)
+            {
+                //todo insert anchor spacer
+                lastOffset += 1;
+                AddSpacer(lastOffset);
+            }
+
+            var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
             var item = new HourMinuteAnchor(hour, minute, timeEvent)
             {
                 Completion = transactionEvent.Completion,
@@ -76,8 +87,14 @@ namespace BachelorThesis.Controls
 //            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX - item.WidthRequest / 2f));
             layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX));
         //    boxControl.AssociateEvent(item);
-            lastOffset += AnchorSpacing;
+       //     lastOffset += AnchorSpacing;
         //    return timeLineEvent;
+        }
+
+        private void AddSpacer(float offset)
+        {
+            var spacer = new AnchorSpacer();
+            layout.Children.Add(spacer, xConstraint: Constraint.RelativeToParent(p => offset));
         }
 
         private void AddSeparator(double separatorOffset, int day, int month, HourMinuteAnchor item)
@@ -91,41 +108,41 @@ namespace BachelorThesis.Controls
             layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset));
         }
 
-        public void PrepareTimeLine(DateTime start, DateTime end)
-        {
-            anchors = new List<TimeLineAnchor>();
-            var day = start.Day;
-            var month = start.Month;
+        //public void PrepareTimeLine(DateTime start, DateTime end)
+        //{
+        //    anchors = new List<TimeLineAnchor>();
+        //    var day = start.Day;
+        //    var month = start.Month;
 
-            var hour = start.Hour;
-            var minute = start.Minute;
+        //    var hour = start.Hour;
+        //    var minute = start.Minute;
 
-            lastOffset = 0;
+        //    lastOffset = 0;
 
-            AddSeparator(lastOffset, day, month, null);
-            lastOffset += 6;
+        //    AddSeparator(lastOffset, day, month, null);
+        //    lastOffset += 6;
 
-            while (hour < 24)
-            {
-                while (minute != 60)
-                {
-                    var anchor = new HourMinuteAnchor(hour, minute, new TimeLineEvent("T1", "Rq", Color.Salmon))
-                    {
-                        OffsetX = lastOffset,
-                        Completion = TransactionCompletion.Requested
+        //    while (hour < 24)
+        //    {
+        //        while (minute != 60)
+        //        {
+        //            var anchor = new HourMinuteAnchor(hour, minute, new TimeLineEvent("T1", "Rq", Color.Salmon))
+        //            {
+        //                OffsetX = lastOffset,
+        //                Completion = TransactionCompletion.Requested
 
-                    };
-                    anchors.Add(anchor);
-                    lastOffset += AnchorSpacing;
-                    minute++;
-                }
-                hour++;
-            }
+        //            };
+        //            anchors.Add(anchor);
+        //            lastOffset += AnchorSpacing;
+        //            minute++;
+        //        }
+        //        hour++;
+        //    }
 
-            foreach (var anchor in anchors)
-            {
-                layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.OffsetX));
-            }
-        }
+        //    foreach (var anchor in anchors)
+        //    {
+        //        layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.OffsetX));
+        //    }
+        //}
     }
 }

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BachelorThesis.Controls.AnchorSpacer">
+  <ContentView.Content>
+      <StackLayout Orientation="Horizontal">
+            <BoxView WidthRequest="2" HeightRequest="2" VerticalOptions="Center" Color="Black" />
+            <BoxView WidthRequest="2" HeightRequest="2" VerticalOptions="Center" Color="Black"/>
+            <BoxView WidthRequest="2" HeightRequest="2" VerticalOptions="Center" Color="Black"/>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

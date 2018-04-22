@@ -36,9 +36,10 @@ namespace BachelorThesis.Controls
 
         //public ObservableCollection<TimeLineEvent> Events { get; set; }
 
-        public TimeLineEvent Event { get; set; }
+     //   public TimeLineEvent Event { get; set; }
 
         public HourMinuteAnchor()
+        :base(null)
         {
             InitializeComponent();
             // Events = new ObservableCollection<TimeLineEvent>();
@@ -47,6 +48,7 @@ namespace BachelorThesis.Controls
         }
 
         public HourMinuteAnchor(int hour, int minute, TimeLineEvent timeEvent)
+        :base(timeEvent)
         {
             InitializeComponent();
            // Events = new ObservableCollection<TimeLineEvent>();
@@ -54,8 +56,6 @@ namespace BachelorThesis.Controls
             this.Content.BindingContext = this;
             Hour = hour;
             Minute = minute;
-
-            Event = timeEvent;
         }
 
         //public TimeLineEvent AddEvent(string identifier, TransactionCompletion completion, Color color)
