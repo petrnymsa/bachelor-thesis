@@ -13,8 +13,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Next" Clicked="BtnNextStep_OnClicked" />
-        <ToolbarItem Text="Clear" Clicked="BtnClear_OnClicked" />
+        <ToolbarItem Text="Step" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Text="Play" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Text="Pause" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Text="Stop" Clicked="BtnNextStep_OnClicked" />
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
         <!--<Grid.RowDefinitions>
