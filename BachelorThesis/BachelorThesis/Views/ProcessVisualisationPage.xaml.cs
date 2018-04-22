@@ -59,7 +59,7 @@ namespace BachelorThesis.Views
                 var transaction = simulation.ProcessInstance.GetTransactionById(control.TransactionId.Value);
                 control.Transaction = transaction;
 
-                control.RefreshLayoutAsSketch();
+                //control.RefreshLayoutAsSketch();
             }
 
             
@@ -96,12 +96,12 @@ namespace BachelorThesis.Views
 
             foreach (var evt in results)
             {
-                if (simulation.ProcessInstance.StartTime == null)
-                {
-                    simulation.ProcessInstance.StartTime = evt.Created;
-
-                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
-                }
+//                if (simulation.ProcessInstance.StartTime == null)
+//                {
+//                    simulation.ProcessInstance.StartTime = evt.Created;
+//
+//                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
+//                }
 
                 var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
@@ -111,17 +111,19 @@ namespace BachelorThesis.Views
              //   transactionControl.AddProgress(evtCompletion.Completion);
                 Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
 
+                transactionControl.AddProgress(evtCompletion.Completion);
+
                 //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
                 //                var spaceX = transactionControl.X - offset;
                 //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
 
                 //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
-                if (evtCompletion.Completion == TransactionCompletion.Requested)
-                {
-                    transaction.RequestedTime = evt.Created;
-
-                    transactionControl.RefreshLayout();
-                }
+//                if (evtCompletion.Completion == TransactionCompletion.Requested)
+//                {
+//                    transaction.RequestedTime = evt.Created;
+//
+//                    transactionControl.RefreshLayout();
+//                }
 
                 // timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
              //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
@@ -129,15 +131,15 @@ namespace BachelorThesis.Views
 
         }
 
-        private void BtnClear_OnClicked(object sender, EventArgs e)
-        {
-            //            foreach (var boxControl in transactionBoxControls)
-            //            {
-            //                boxControl.Progress = 0;
-            //            }
-            //
-            //            rentalContractSimulation.Reset();
-        }
+//        private void BtnClear_OnClicked(object sender, EventArgs e)
+//        {
+//                        foreach (var boxControl in transactionBoxControls)
+//                        {
+//                            boxControl.Progress = 0;
+//                        }
+//            
+//                        simulation.Reset();
+//        }
 
         private void ScrollView_OnScrolled(object sender, ScrolledEventArgs e)
         {

@@ -173,14 +173,14 @@ namespace BachelorThesis.Controls
             EnableTouchEvents = true;
             Touch += OnTouch;
 
-            events = new Dictionary<Guid, List<Anchor>>();
+        //    events = new Dictionary<Guid, List<Anchor>>();
             descendats = new List<TransactionBoxControl>();
             links = new List<TransactionLinkControl>();
-            completions = new Dictionary<TransactionCompletion, float>();
+         //   completions = new Dictionary<TransactionCompletion, float>();
         }
 
-        private readonly Dictionary<Guid, List<Anchor>> events;
-        private Dictionary<TransactionCompletion, float> completions;
+      //  private readonly Dictionary<Guid, List<Anchor>> events;
+      //  private Dictionary<TransactionCompletion, float> completions;
 
         private SKPoint lastTouch;
 
@@ -223,7 +223,7 @@ namespace BachelorThesis.Controls
             };
             //  BackgroundColor = Color.LightBlue;
             //  var scaleFactor = (float)(e.Info.Width / this.Width);
-            canvas.Clear(Color.LightBlue.ToSKColor());
+            canvas.Clear();
             //  canvas.Scale(scaleFactor);
             canvas.Save();
             if (!IsActive)
@@ -232,138 +232,136 @@ namespace BachelorThesis.Controls
             canvas.DrawRect(new SKRect(0, 0, AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
             // progress rectangle
             if (Math.Abs(Progress) > 0.0)
-                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress), AsPixel(HeightRequest - 3)), paintProgress);
+                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress * WidthRequest - 3f), AsPixel(HeightRequest - 3)), paintProgress);
 
             //  progress helpers
-            //            paintProgress.Color = Color.Chocolate.ToSKColor();
-            //            paintProgress.StrokeWidth = 2;
-            //            for (int i = 1; i <= 5; i++)
-            //            {
-            //                var cmp = (TransactionCompletion) i;
-            //                canvas.Save();
-            //                canvas.Translate(AsPixel(GetCompletionPosition(cmp)), 0);
-            //                canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
-            //                canvas.Restore();
-            //            }
+            paintProgress.Color = Color.Chocolate.ToSKColor();
+            paintProgress.StrokeWidth = 2;
+            for (int i = 1; i <= 5; i++)
+            {
+                var cmp = (TransactionCompletion)i;
+                canvas.Save();
+                canvas.Translate(AsPixel(GetCompletionPosition(cmp)), 0);
+                canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
+                canvas.Restore();
+            }
             canvas.Restore();
 
 
-            using (SKPaint anchorPaint = new SKPaint())
-            {
-                anchorPaint.Style = SKPaintStyle.Fill;
-                anchorPaint.Color = HighlightColor.ToSKColor();
-
-                foreach (var anchorList in events)
-                {
-                    foreach (var anchor in anchorList.Value)
-                    {
-                        var size = anchor.IsFocused ? Anchor.AnchorWidth * 2 : Anchor.AnchorWidth;
-                        canvas.Save();
-                        canvas.Translate(AsPixel(anchor.X), AsPixel(HeightRequest / 2f));
-                        canvas.RotateDegrees(45, 0, 0);
-                        //canvas.DrawCircle(anchor.X, info.Height / 2f, size, paintTouchPoint);
-                        canvas.DrawRect(new SKRect(-size / 2f, -size / 2f, size, size), anchorPaint);
-                        canvas.Restore();
-                    }
-                }
-            }
+//            using (SKPaint anchorPaint = new SKPaint())
+//            {
+//                anchorPaint.Style = SKPaintStyle.Fill;
+//                anchorPaint.Color = HighlightColor.ToSKColor();
+//
+//                foreach (var anchorList in events)
+//                {
+//                    foreach (var anchor in anchorList.Value)
+//                    {
+//                        var size = anchor.IsFocused ? Anchor.AnchorWidth * 2 : Anchor.AnchorWidth;
+//                        canvas.Save();
+//                        canvas.Translate(AsPixel(anchor.X), AsPixel(HeightRequest / 2f));
+//                        canvas.RotateDegrees(45, 0, 0);
+//                        //canvas.DrawCircle(anchor.X, info.Height / 2f, size, paintTouchPoint);
+//                        canvas.DrawRect(new SKRect(-size / 2f, -size / 2f, size, size), anchorPaint);
+//                        canvas.Restore();
+//                    }
+//                }
+//            }
 
         }
 
         private void OnTouch(object sender, SKTouchEventArgs e)
         {
             //   var lastTouch = SKPoint.Empty;
-            switch (e.ActionType)
-            {
-                case SKTouchAction.Pressed:
-                    lastTouch = e.Location;
-                    isPressed = true;
-                    //     touches.Add(lastTouch);
-                    break;
-                case SKTouchAction.Moved:
-                    lastTouch = e.Location;
-                    break;
-                case SKTouchAction.Released:
-                    isPressed = false;
-                    break;
-            }
-
-            e.Handled = true;
-
-            if (isPressed)
-            {
-                //foreach (var anchor in anchors)
-                //{
-                //    var collision = anchor.HitTestX(lastTouch, 20);
-                //}
-
-                foreach (var eventAnchors in events)
-                {
-                    foreach (var anchor in eventAnchors.Value)
-                    {
-                        var collision = anchor.HitTestX(lastTouch, 20);
-                        if (collision)
-                        {
-                            anchor.IsFocused = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            else events.ForEach(x => x.Value.ForEach(an => an.IsFocused = false));
-
-            ((SKCanvasView)sender).InvalidateSurface();
+//            switch (e.ActionType)
+//            {
+//                case SKTouchAction.Pressed:
+//                    lastTouch = e.Location;
+//                    isPressed = true;
+//                    //     touches.Add(lastTouch);
+//                    break;
+//                case SKTouchAction.Moved:
+//                    lastTouch = e.Location;
+//                    break;
+//                case SKTouchAction.Released:
+//                    isPressed = false;
+//                    break;
+//            }
+//
+//            e.Handled = true;
+//
+//            if (isPressed)
+//            {
+//                //foreach (var anchor in anchors)
+//                //{
+//                //    var collision = anchor.HitTestX(lastTouch, 20);
+//                //}
+//
+//                foreach (var eventAnchors in events)
+//                {
+//                    foreach (var anchor in eventAnchors.Value)
+//                    {
+//                        var collision = anchor.HitTestX(lastTouch, 20);
+//                        anchor.IsFocused = collision;
+//                        if (collision)
+//                            break;
+//                    }
+//                }
+//            }
+//            else events.ForEach(x => x.Value.ForEach(an => an.IsFocused = false));
+//
+//            ((SKCanvasView)sender).InvalidateSurface();
         }
 
-//        public void AddProgress(TransactionCompletion completion)
-//        {
-//            if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
-//                stopped = true;
-//
-//            var start = Progress;
-//            // var end = completion.ToPercentValue();
-//            var end = completion.ToPercentValue();
-//            this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
-//        }
-
-        public void AddProgress(float end)
+        public void AddProgress(TransactionCompletion completion)
         {
+            if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
+                stopped = true;
+
             var start = Progress;
+            // var end = completion.ToPercentValue();
+            var end = completion.ToPercentValue();
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
+        //        public void AddProgress(float end)
+        //        {
+        //            var start = Progress;
+        //            this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
+        //        }
+
         public void AssociateEvent(TimeLineAnchor timeLineAnchor)
         {
-            // var percent = completion.ToPercentValue();
-            //var percent = Progress + 0.2f;
-            if (!events.ContainsKey(timeLineAnchor.Id))
-                events[timeLineAnchor.Id] = new List<Anchor>();
-            // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
-            var x = timeLineAnchor.GetXPositionWithoutOffsets() - (float)X;
-
-            AddProgress(x);
-
-            completions[timeLineAnchor.Completion] = x;
-
-            var link = links.FirstOrDefault(l => l.SourceCompletion == timeLineAnchor.Completion);
-            link?.RefreshLayout();
-
-            if (x > WidthRequest) // resize !
-                WidthRequest += timeLineAnchor.Completion.RemainingAsWidth((float) WidthRequest);
-
-            //var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
-            //if (completion == TransactionCompletion.Accepted)
-            //    x -= Anchor.AnchorWidth;
-            events[timeLineAnchor.Id].Add(new Anchor(x, timeLineAnchor));
-
-
-            InvalidateSurface();
+//            // var percent = completion.ToPercentValue();
+//            //var percent = Progress + 0.2f;
+//            if (!events.ContainsKey(timeLineAnchor.Id))
+//                events[timeLineAnchor.Id] = new List<Anchor>();
+//            // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
+//            var x = timeLineAnchor.GetXPositionWithoutOffsets() - (float)X;
+//
+//            //  AddProgress(x);
+//
+//            //    completions[timeLineAnchor.Completion] = x;
+//
+//            var link = links.FirstOrDefault(l => l.SourceCompletion == timeLineAnchor.Completion);
+//            link?.RefreshLayout();
+//
+//            if (x > WidthRequest) // resize !
+//                WidthRequest += timeLineAnchor.Completion.RemainingAsWidth((float)WidthRequest);
+//
+//            //var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
+//            //if (completion == TransactionCompletion.Accepted)
+//            //    x -= Anchor.AnchorWidth;
+//            events[timeLineAnchor.Id].Add(new Anchor(x, timeLineAnchor));
+//
+//
+//            InvalidateSurface();
         }
 
         public float GetCompletionPosition(TransactionCompletion completion)
         {
-            if (completions.ContainsKey(completion))
-                return completions[completion];
+            //            if (completions.ContainsKey(completion))
+            //                return completions[completion];
 
 
             var percent = completion.ToPercentValue();
@@ -399,24 +397,24 @@ namespace BachelorThesis.Controls
         }
 
 
-        public void RefreshLayout()
-        {
-            if(!Transaction.RequestedTime.HasValue || !Transaction.ExpectedEndTime.HasValue)
-                return;
+        //public void RefreshLayout()
+        //{
+        //    if(!Transaction.RequestedTime.HasValue || !Transaction.ExpectedEndTime.HasValue)
+        //        return;
 
-            var totalMinutes = Transaction.ExpectedEndTime.Value.TimeOfDay.TotalMinutes -
-                               Transaction.RequestedTime.Value.TimeOfDay.TotalMinutes;
-            WidthRequest = totalMinutes * TimeLine.AnchorSpacing;
+        //    var totalMinutes = Transaction.ExpectedEndTime.Value.TimeOfDay.TotalMinutes -
+        //                       Transaction.RequestedTime.Value.TimeOfDay.TotalMinutes;
+        //    WidthRequest = totalMinutes * TimeLine.AnchorSpacing;
 
-            InvalidateSurface();
-        }
+        //    InvalidateSurface();
+        //}
 
-        public void RefreshLayoutAsSketch()
-        {
+        //public void RefreshLayoutAsSketch()
+        //{
 
-            var expectedMinute = Transaction.TransactionKind.ExpectedTimeEstimate;
-            WidthRequest = expectedMinute * TimeLine.AnchorSpacing;
-            InvalidateSurface();
-        }
+        //    var expectedMinute = Transaction.TransactionKind.ExpectedTimeEstimate;
+        //    WidthRequest = expectedMinute * TimeLine.AnchorSpacing;
+        //    InvalidateSurface();
+        //}
     }
 }

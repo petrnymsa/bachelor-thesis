@@ -73,7 +73,7 @@ namespace BachelorThesis.Controls
 
 //            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.TotalOffsetX - item.WidthRequest / 2f));
             layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.TotalOffsetX));
-            boxControl.AssociateEvent(item);
+        //    boxControl.AssociateEvent(item);
             lastOffset += AnchorSpacing;
             return timeLineEvent;
         }
