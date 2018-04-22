@@ -5,26 +5,26 @@
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              x:Class="BachelorThesis.Controls.TimeLineItem"
              x:Name="self" 
-             HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="50" HeightRequest="50">
+             HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="30" HeightRequest="50" BackgroundColor="LightBlue">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
-    <Grid Padding="0,1,0,0">
+    <Grid Padding="0,1,0,0" HorizontalOptions="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Text="{Binding FormattedHourMinute, Source={x:Reference self}}" HorizontalOptions="Center" HorizontalTextAlignment="Center" 
-               FontSize="11" FontAttributes="Bold" Margin="0,0,5,0" TextColor="SlateBlue" />
+        <Label Text="{Binding FormattedHourMinute, Source={x:Reference self}}" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" 
+               FontSize="8" FontAttributes="Bold" Margin="0,0,5,0" TextColor="SlateBlue" BackgroundColor="LightCoral" />
         <ListView Grid.Row="1" ItemsSource="{Binding Events}" HasUnevenRows="True" ItemTapped="ListView_OnItemTapped" HorizontalOptions="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Label Text="{Binding FormattedString}" HorizontalOptions="Center"  FontAttributes="{Binding IsRevealed, Converter={StaticResource BoolToBoldConverter}}"
-                               HorizontalTextAlignment="Center" TextColor="{Binding Color}" FontSize="8"  />
+                               HorizontalTextAlignment="Center" TextColor="{Binding Color}" FontSize="4"  />
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

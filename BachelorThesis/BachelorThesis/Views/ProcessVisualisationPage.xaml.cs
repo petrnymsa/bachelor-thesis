@@ -58,7 +58,11 @@ namespace BachelorThesis.Views
             {
                 var transaction = simulation.ProcessInstance.GetTransactionById(control.TransactionId.Value);
                 control.Transaction = transaction;
+
+                control.RefreshLayoutAsSketch();
             }
+
+            
         }
 
 
@@ -69,7 +73,7 @@ namespace BachelorThesis.Views
             MessagingCenter.Send(this, "unlockOrientation");
         }
 
-        private async void BtnNextStep_OnClicked(object sender, EventArgs e)
+        private void BtnNextStep_OnClicked(object sender, EventArgs e)
         {
 
             //            foreach (var boxControl in transactionBoxControls)
@@ -83,29 +87,43 @@ namespace BachelorThesis.Views
 
             if (results == null)
             {
-                await DisplayAlert("Simulation ended", "No more simulation steps", "Ok");
+                DisplayAlert("Simulation ended", "No more simulation steps", "Ok");
                 return;
             }
+
+       
 
 
             foreach (var evt in results)
             {
-              //  var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
+                if (simulation.ProcessInstance.StartTime == null)
+                {
+                    simulation.ProcessInstance.StartTime = evt.Created;
+
+                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
+                }
+
+                var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
                 if (evt.EventType != TransactionEventType.CompletionChanged) continue;
 
                 var evtCompletion = (CompletionChangedTransactionEvent)evt;
-                transactionControl.AddProgress(evtCompletion.Completion);
+             //   transactionControl.AddProgress(evtCompletion.Completion);
                 Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
 
-//                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
-//                var spaceX = transactionControl.X - offset;
-//                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
+                //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
+                //                var spaceX = transactionControl.X - offset;
+                //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
 
-           //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
+                //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
+                if (evtCompletion.Completion == TransactionCompletion.Requested)
+                {
+                    transaction.RequestedTime = evt.Created;
 
+                    transactionControl.RefreshLayout();
+                }
 
-                timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
+                // timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
              //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
             }
 

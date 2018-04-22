@@ -18,13 +18,13 @@ namespace BachelorThesis.Business.Parsers
 
             var processId = int.Parse(processInstanceElement.Attribute(XmlParsersConfig.AttributeId).Value);
             var processKindId = int.Parse(processInstanceElement.Attribute(XmlParsersConfig.AttributeKindId).Value);
-            var processStartTime = DateTime.ParseExact(processInstanceElement.Attribute(XmlParsersConfig.AttributeStartTime).Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
-            var processExpectedEndTime = DateTime.ParseExact(processInstanceElement.Attribute(XmlParsersConfig.AttributeExpectedEndTime).Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
+            //var processStartTime = DateTime.ParseExact(processInstanceElement.Attribute(XmlParsersConfig.AttributeStartTime).Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
+            //var processExpectedEndTime = DateTime.ParseExact(processInstanceElement.Attribute(XmlParsersConfig.AttributeExpectedEndTime).Value, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture);
 
             processInstance.Id = processId;
             processInstance.ProcessKindId = processKindId;
-            processInstance.StartTime = processStartTime;
-            processInstance.ExpectedEndTime = processExpectedEndTime;
+            //processInstance.StartTime = processStartTime;
+            //processInstance.ExpectedEndTime = processExpectedEndTime;
 
             var transactionElements = processInstanceElement.Elements(XmlParsersConfig.ElementTransactionInstance);
 
@@ -85,7 +85,7 @@ namespace BachelorThesis.Business.Parsers
             var root = new XElement(XmlParsersConfig.ElementProcessInstance,
                 new XAttribute(XmlParsersConfig.AttributeId, process.Id),
                 new XAttribute(XmlParsersConfig.AttributeKindId, process.ProcessKindId),
-                new XAttribute(XmlParsersConfig.AttributeStartTime, process.StartTime.ToString(XmlParsersConfig.DateTimeFormat)),
+                new XAttribute(XmlParsersConfig.AttributeStartTime, process.StartTime?.ToString(XmlParsersConfig.DateTimeFormat)),
                 new XAttribute(XmlParsersConfig.AttributeExpectedEndTime, process.ExpectedEndTime?.ToString(XmlParsersConfig.DateTimeFormat)));
 
             foreach (var transaction in process.GetTransactions())
@@ -107,9 +107,9 @@ namespace BachelorThesis.Business.Parsers
                 new XAttribute(XmlParsersConfig.AttributeIdentificator, transaction.Identificator),
                 new XAttribute(XmlParsersConfig.AttributeCompletionType, (int)transaction.Completion),
                 new XAttribute(XmlParsersConfig.AttributeProcessInstanceId, transaction.ProcessInstanceId),
-                new XAttribute(XmlParsersConfig.AttributeInitiatorId, transaction.InitiatorId == null ? 0 : transaction.InitiatorId) ,
-                new XAttribute(XmlParsersConfig.AttributeExecutorId, transaction.ExecutorId == null ? 0 : transaction.ExecutorId),
-                new XAttribute(XmlParsersConfig.AttributeParentid, transaction.ParentId == null ? 0 : transaction.ParentId));
+                new XAttribute(XmlParsersConfig.AttributeInitiatorId, transaction.InitiatorId ?? 0) ,
+                new XAttribute(XmlParsersConfig.AttributeExecutorId, transaction.ExecutorId ?? 0),
+                new XAttribute(XmlParsersConfig.AttributeParentid, transaction.ParentId ?? 0));
         }
     }
 }

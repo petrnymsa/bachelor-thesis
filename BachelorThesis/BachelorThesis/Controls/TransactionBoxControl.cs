@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using BachelorThesis.Business;
 using BachelorThesis.Business.DataModels;
@@ -37,7 +38,7 @@ namespace BachelorThesis.Controls
                 X = x;
                 AssociatedEvent = associatedEvent;
                 IsFocused = isFocused;
-             
+
             }
 
             public bool HitTestX(SKPoint p, float tolerance = 10f)
@@ -144,23 +145,23 @@ namespace BachelorThesis.Controls
 
         public TransactionInstance Transaction { get; set; }
         public TransactionBoxControl ParentControl { get; set; }
-//        public float OffsetX { get; set; }
-//
-//        public float TotalOffsetX
-//        {
-//            get
-//            {
-//                if (ParentControl != null)
-//                    return (float) ParentControl.X + OffsetX;
-//
-//                return OffsetX;
-//            }
-//        }
+        //        public float OffsetX { get; set; }
+        //
+        //        public float TotalOffsetX
+        //        {
+        //            get
+        //            {
+        //                if (ParentControl != null)
+        //                    return (float) ParentControl.X + OffsetX;
+        //
+        //                return OffsetX;
+        //            }
+        //        }
 
         #endregion
 
         private List<TransactionBoxControl> descendats { get; set; }
-        
+
 
         private List<TransactionLinkControl> links;
 
@@ -175,9 +176,11 @@ namespace BachelorThesis.Controls
             events = new Dictionary<Guid, List<Anchor>>();
             descendats = new List<TransactionBoxControl>();
             links = new List<TransactionLinkControl>();
+            completions = new Dictionary<TransactionCompletion, float>();
         }
 
         private readonly Dictionary<Guid, List<Anchor>> events;
+        private Dictionary<TransactionCompletion, float> completions;
 
         private SKPoint lastTouch;
 
@@ -218,10 +221,10 @@ namespace BachelorThesis.Controls
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
-          //  BackgroundColor = Color.LightBlue;
-          //  var scaleFactor = (float)(e.Info.Width / this.Width);
+            //  BackgroundColor = Color.LightBlue;
+            //  var scaleFactor = (float)(e.Info.Width / this.Width);
             canvas.Clear(Color.LightBlue.ToSKColor());
-          //  canvas.Scale(scaleFactor);
+            //  canvas.Scale(scaleFactor);
             canvas.Save();
             if (!IsActive)
                 paintBorder.PathEffect = SKPathEffect.CreateDash(new float[] { 10, 5 }, 1);
@@ -229,19 +232,19 @@ namespace BachelorThesis.Controls
             canvas.DrawRect(new SKRect(0, 0, AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
             // progress rectangle
             if (Math.Abs(Progress) > 0.0)
-                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress * WidthRequest - 2.8f), AsPixel(HeightRequest - 3)), paintProgress);
+                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress), AsPixel(HeightRequest - 3)), paintProgress);
 
-            paintProgress.Color = Color.Chocolate.ToSKColor();
-            paintProgress.StrokeWidth = 2;
-           //  progress helpers
-            for (int i = 1; i <= 5; i++)
-            {
-                var cmp = (TransactionCompletion) i;
-                canvas.Save();
-                canvas.Translate(AsPixel(GetCompletionPosition(cmp)), 0);
-                canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
-                canvas.Restore();
-            }
+            //  progress helpers
+            //            paintProgress.Color = Color.Chocolate.ToSKColor();
+            //            paintProgress.StrokeWidth = 2;
+            //            for (int i = 1; i <= 5; i++)
+            //            {
+            //                var cmp = (TransactionCompletion) i;
+            //                canvas.Save();
+            //                canvas.Translate(AsPixel(GetCompletionPosition(cmp)), 0);
+            //                canvas.DrawLine(0, 1, 0, info.Height - 2, paintProgress);
+            //                canvas.Restore();
+            //            }
             canvas.Restore();
 
 
@@ -254,12 +257,12 @@ namespace BachelorThesis.Controls
                 {
                     foreach (var anchor in anchorList.Value)
                     {
-                        var size = anchor.IsFocused ? Anchor.AnchorWidth*2 : Anchor.AnchorWidth;
+                        var size = anchor.IsFocused ? Anchor.AnchorWidth * 2 : Anchor.AnchorWidth;
                         canvas.Save();
                         canvas.Translate(AsPixel(anchor.X), AsPixel(HeightRequest / 2f));
-                        canvas.RotateDegrees(45,0,0);
+                        canvas.RotateDegrees(45, 0, 0);
                         //canvas.DrawCircle(anchor.X, info.Height / 2f, size, paintTouchPoint);
-                        canvas.DrawRect(new SKRect(- size / 2f, -size / 2f, size, size), anchorPaint);
+                        canvas.DrawRect(new SKRect(-size / 2f, -size / 2f, size, size), anchorPaint);
                         canvas.Restore();
                     }
                 }
@@ -308,51 +311,64 @@ namespace BachelorThesis.Controls
                 }
             }
             else events.ForEach(x => x.Value.ForEach(an => an.IsFocused = false));
-            
+
             ((SKCanvasView)sender).InvalidateSurface();
         }
 
-        public void AddProgress(TransactionCompletion completion)
-        {
-            if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
-                stopped = true;
+//        public void AddProgress(TransactionCompletion completion)
+//        {
+//            if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
+//                stopped = true;
+//
+//            var start = Progress;
+//            // var end = completion.ToPercentValue();
+//            var end = completion.ToPercentValue();
+//            this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
+//        }
 
+        public void AddProgress(float end)
+        {
             var start = Progress;
-           // var end = completion.ToPercentValue();
-            var end = completion.ToPercentValue();
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
         }
 
         public void AssociateEvent(TimeLineAnchor timeLineAnchor)
         {
-
-            
-           // var percent = completion.ToPercentValue();
+            // var percent = completion.ToPercentValue();
             //var percent = Progress + 0.2f;
-
             if (!events.ContainsKey(timeLineAnchor.Id))
                 events[timeLineAnchor.Id] = new List<Anchor>();
+            // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
+            var x = timeLineAnchor.GetXPositionWithoutOffsets() - (float)X;
 
-           // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
-            var x = timeLineAnchor.GetXPositionWithoutOffsets() - X;
+            AddProgress(x);
 
-            if (x > WidthRequest)
-                WidthRequest = x + 1;
+            completions[timeLineAnchor.Completion] = x;
+
+            var link = links.FirstOrDefault(l => l.SourceCompletion == timeLineAnchor.Completion);
+            link?.RefreshLayout();
+
+            if (x > WidthRequest) // resize !
+                WidthRequest += timeLineAnchor.Completion.RemainingAsWidth((float) WidthRequest);
 
             //var x = percent * (float)WidthRequest - Anchor.AnchorWidth / 2f;
             //if (completion == TransactionCompletion.Accepted)
             //    x -= Anchor.AnchorWidth;
-            events[timeLineAnchor.Id].Add(new Anchor((float)x, timeLineAnchor));
-            
-           
+            events[timeLineAnchor.Id].Add(new Anchor(x, timeLineAnchor));
+
+
             InvalidateSurface();
         }
 
         public float GetCompletionPosition(TransactionCompletion completion)
         {
-              var percent = completion.ToPercentValue();
-           // var percent = Progress + 0.2f;
-            return ((float) WidthRequest * percent); // - TransactionLinkControl.ShapeRadius;//*2 - TransactionLinkControl.ShapeRadius/2f;
+            if (completions.ContainsKey(completion))
+                return completions[completion];
+
+
+            var percent = completion.ToPercentValue();
+            // var percent = Progress + 0.2f;
+            return ((float)WidthRequest * percent); // - TransactionLinkControl.ShapeRadius;//*2 - TransactionLinkControl.ShapeRadius/2f;
         }
 
         public float GetCompletionOffset(TransactionCompletion completion)
@@ -364,7 +380,7 @@ namespace BachelorThesis.Controls
         {
             descendant.SizeChanged += (sender, args) =>
             {
-                var box = (TransactionBoxControl) sender;
+                var box = (TransactionBoxControl)sender;
                 if (box.WidthRequest > WidthRequest - GetCompletionOffset(TransactionCompletion.Requested))
                 {
                     WidthRequest = box.WidthRequest + GetCompletionOffset(TransactionCompletion.Requested);
@@ -382,6 +398,25 @@ namespace BachelorThesis.Controls
             links.Add(link);
         }
 
-        
+
+        public void RefreshLayout()
+        {
+            if(!Transaction.RequestedTime.HasValue || !Transaction.ExpectedEndTime.HasValue)
+                return;
+
+            var totalMinutes = Transaction.ExpectedEndTime.Value.TimeOfDay.TotalMinutes -
+                               Transaction.RequestedTime.Value.TimeOfDay.TotalMinutes;
+            WidthRequest = totalMinutes * TimeLine.AnchorSpacing;
+
+            InvalidateSurface();
+        }
+
+        public void RefreshLayoutAsSketch()
+        {
+
+            var expectedMinute = Transaction.TransactionKind.ExpectedTimeEstimate;
+            WidthRequest = expectedMinute * TimeLine.AnchorSpacing;
+            InvalidateSurface();
+        }
     }
 }

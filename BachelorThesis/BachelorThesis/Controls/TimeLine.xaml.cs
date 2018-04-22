@@ -12,7 +12,7 @@ namespace BachelorThesis.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TimeLine : ContentView
     {
-        public float AnchorSpacing { get; set; } = 60;
+        public const float AnchorSpacing = 60;
         public float TimeLineOffset { get; set; }
 
     //    private List<TimeLineItem> items;
@@ -60,7 +60,11 @@ namespace BachelorThesis.Controls
                 lastOffset += 2;
             }
 
-            var item = new TimeLineItem(TimeLineOffset, lastOffset, hour, minute);
+            var item = new TimeLineItem(TimeLineOffset, lastOffset, hour, minute)
+            {
+                Completion = transactionEvent.Completion
+            };
+
             var timeLineEvent = item.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
 
           //  item.TotalOffsetX = lastOffset;
@@ -83,6 +87,37 @@ namespace BachelorThesis.Controls
             };
 //            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
             layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset));
+        }
+
+        public void PrepareTimeLine(DateTime start, DateTime end)
+        {
+            var day = start.Day;
+            var month = start.Month;
+
+            var hour = start.Hour;
+            var minute = start.Minute;
+
+            lastOffset = TimeLineOffset;
+
+            AddSeparator(lastOffset, day, month, null);
+            lastOffset += 2;
+
+            while (hour < 24)
+            {
+                while (minute != 60)
+                {
+                    var anchor = new TimeLineItem(TimeLineOffset, lastOffset, hour, minute);
+                    anchors.Add(anchor);
+                    lastOffset += AnchorSpacing;
+                    minute++;
+                }
+                hour++;
+            }
+
+            foreach (var anchor in anchors)
+            {
+                layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.TotalOffsetX));
+            }
         }
     }
 }

@@ -20,8 +20,21 @@ namespace BachelorThesis.Business.DataModels
         public int? ExecutorId { get; set; }
         public int? ParentId { get; set; }
 
-        public DateTime? RequestedTime { get; set; }
+        private DateTime? requestedTime;
+
+        public DateTime? RequestedTime
+        {
+            get => requestedTime;
+            set
+            {
+                requestedTime = value;
+                if (requestedTime != null)
+                    ExpectedEndTime = requestedTime.Value.AddMinutes(TransactionKind.ExpectedTimeEstimate);
+            }
+        }
+
         public DateTime? ExpectedEndTime { get; set; }
+
 
         [JsonIgnore]
         public TransactionKind TransactionKind { get; set; }

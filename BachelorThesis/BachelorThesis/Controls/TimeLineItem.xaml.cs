@@ -54,8 +54,6 @@ namespace BachelorThesis.Controls
             this.Content.BindingContext = this;
             Hour = hour;
             Minute = minute;
-
-            BackgroundColor = Color.LightGray;
         }
 
         public TimeLineEvent AddEvent(string identifier, TransactionCompletion completion, Color color)

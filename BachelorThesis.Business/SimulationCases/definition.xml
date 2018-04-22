@@ -7,7 +7,7 @@
     <ActorRole Id="4" Name="Rental contracter" />
   </ActorRoles>
   <Transactions>
-    <TransactionKind Id="1" Identificator="T1" Name="Rental contracting" OptimisticTimeEstimate="10" NormalTimeEstimate="12" PesimisticTimeEstimate="16" ProcessKindId="1" InitiatorRoleId="1" ExecutorRoleId="4" ParentId="">
+    <TransactionKind Id="1" Identificator="T1" Name="Rental contracting" OptimisticTimeEstimate="10" NormalTimeEstimate="15" PesimisticTimeEstimate="20" ProcessKindId="1" InitiatorRoleId="1" ExecutorRoleId="4" ParentId="">
       <TransactionKind Id="2" Identificator="T2" Name="Rental payment" OptimisticTimeEstimate="1" NormalTimeEstimate="3" PesimisticTimeEstimate="5" ProcessKindId="1" InitiatorRoleId="4" ExecutorRoleId="1" ParentId="1" />
     </TransactionKind>
     <TransactionKind Id="3" Identificator="T3" Name="Car pick up" OptimisticTimeEstimate="8" NormalTimeEstimate="10" PesimisticTimeEstimate="20" ProcessKindId="1" InitiatorRoleId="2" ExecutorRoleId="3" ParentId="">

@@ -44,5 +44,14 @@ namespace BachelorThesis.Business
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public static float RemainingAsWidth(this TransactionCompletion completion, float widthRequest)
+        {
+            var total = 0f;
+            for (var i = (int) completion + 1; i <= 5; i++)
+                total += 0.25f * widthRequest;
+
+            return total;
+        }
     }
 }
