@@ -58,11 +58,7 @@ namespace BachelorThesis.Views
             {
                 var transaction = simulation.ProcessInstance.GetTransactionById(control.TransactionId.Value);
                 control.Transaction = transaction;
-
-                //control.RefreshLayoutAsSketch();
             }
-
-            
         }
 
 
@@ -75,40 +71,28 @@ namespace BachelorThesis.Views
 
         private void BtnNextStep_OnClicked(object sender, EventArgs e)
         {
-
-            //            foreach (var boxControl in transactionBoxControls)
-            //            {
-            //                var start = boxControl.Progress;
-            //                var end = start + 0.2f;
-            //                boxControl.Animate("a", x => boxControl.Progress = (float)x, start, end, 4, 1000, Easing.Linear);
-            //            }
-
             var results = simulation.SimulateNextChunk();
-
             if (results == null)
             {
                 DisplayAlert("Simulation ended", "No more simulation steps", "Ok");
                 return;
             }
 
-       
-
-
             foreach (var evt in results)
             {
-//                if (simulation.ProcessInstance.StartTime == null)
-//                {
-//                    simulation.ProcessInstance.StartTime = evt.Created;
-//
-//                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
-//                }
+                //                if (simulation.ProcessInstance.StartTime == null)
+                //                {
+                //                    simulation.ProcessInstance.StartTime = evt.Created;
+                //
+                //                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
+                //                }
 
                 var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
                 var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
                 if (evt.EventType != TransactionEventType.CompletionChanged) continue;
 
                 var evtCompletion = (CompletionChangedTransactionEvent)evt;
-             //   transactionControl.AddProgress(evtCompletion.Completion);
+                //   transactionControl.AddProgress(evtCompletion.Completion);
                 Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evtCompletion.Completion} ");
 
                 transactionControl.AddProgress(evtCompletion.Completion);
@@ -118,28 +102,18 @@ namespace BachelorThesis.Views
                 //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
 
                 //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
-//                if (evtCompletion.Completion == TransactionCompletion.Requested)
-//                {
-//                    transaction.RequestedTime = evt.Created;
-//
-//                    transactionControl.RefreshLayout();
-//                }
+                //                if (evtCompletion.Completion == TransactionCompletion.Requested)
+                //                {
+                //                    transaction.RequestedTime = evt.Created;
+                //
+                //                    transactionControl.RefreshLayout();
+                //                }
 
                 // timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
-             //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
+                //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
             }
 
         }
-
-//        private void BtnClear_OnClicked(object sender, EventArgs e)
-//        {
-//                        foreach (var boxControl in transactionBoxControls)
-//                        {
-//                            boxControl.Progress = 0;
-//                        }
-//            
-//                        simulation.Reset();
-//        }
 
         private void ScrollView_OnScrolled(object sender, ScrolledEventArgs e)
         {

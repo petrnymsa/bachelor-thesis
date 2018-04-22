@@ -6,7 +6,7 @@ namespace BachelorThesis.Business.DataModels
 {
     public class ProcessInstance
     {
-        private static int nextId = 0;
+       // private static int nextId = 0;
 
         [Newtonsoft.Json.JsonProperty(Order = 6)]
         private List<TransactionInstance> transactions;
@@ -21,19 +21,6 @@ namespace BachelorThesis.Business.DataModels
         public DateTime? EndTime { get; set; }
 
         public ProcessInstance() { transactions = new List<TransactionInstance>(); }
-
-        //internal ProcessInstance(DateTime startTime, DateTime? expectedEndTime, int processKindId, float completion = 0f, DateTime? endTime = null)
-        //{
-        //    Id = Interlocked.Increment(ref nextId);
-        //    ProcessKindId = processKindId;
-        //    StartTime = startTime;
-        //    ExpectedEndTime = expectedEndTime;
-        //    EndTime = endTime;
-        //    Completion = completion;
-
-        //    transactions = new List<TransactionInstance>();
-        //}
-
 
         public void AddTransaction(TransactionInstance instance) => transactions.Add(instance);
 

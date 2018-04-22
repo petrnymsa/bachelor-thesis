@@ -182,9 +182,9 @@ namespace BachelorThesis.Controls
       //  private readonly Dictionary<Guid, List<Anchor>> events;
       //  private Dictionary<TransactionCompletion, float> completions;
 
-        private SKPoint lastTouch;
+    //    private SKPoint lastTouch;
 
-        private bool isPressed = false;
+     //   private bool isPressed = false;
         private bool stopped = false;
         private SKImageInfo info;
 

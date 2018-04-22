@@ -27,12 +27,6 @@ namespace BachelorThesis.Controls
         private const int ArrowAngle = 35;
         private const int ArrowLength = 8;
 
-        //        public const float ShapeRadius = 4 * 3;
-        //        public const float StateToRequestArrowHead = 16 * 3;
-        //        private const int ArrowAngle = 35;
-        //        private const int ArrowLength = 8 * 3;
-
-
         public const int LinkOrientationDown = (int)TransactionLinkOrientation.Down;
         public const int LinkOrientationUp = (int)TransactionLinkOrientation.Up;
 
@@ -97,29 +91,7 @@ namespace BachelorThesis.Controls
             set => SetValue(IsDashedProperty, value);
         }
 
-//        public static BindableProperty LinkOrientationProperty =
-//            BindableProperty.Create(nameof(LinkOrientation), typeof(int), typeof(TransactionLinkControl), 0,
-//                BindingMode.TwoWay, propertyChanged:
-//                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
-//
-//        public int LinkOrientation
-//        {
-//            get => (int)GetValue(LinkOrientationProperty);
-//            set => SetValue(LinkOrientationProperty, value);
-//        }
-
         public TransactionLinkOrientation LinkOrientation { get; set; }
-
-//        public static BindableProperty LinkStyleProperty =
-//            BindableProperty.Create(nameof(LinkStyle), typeof(int), typeof(TransactionLinkControl), 0,
-//                BindingMode.TwoWay, propertyChanged:
-//                (bindable, oldValue, newValue) => { (bindable as TransactionLinkControl).InvalidateSurface(); });
-//
-//        public int LinkStyle
-//        {
-//            get => (int)GetValue(LinkStyleProperty);
-//            set => SetValue(LinkStyleProperty, value);
-//        }
 
         public TransactionLinkStyle LinkStyle { get; set; }
 
@@ -156,27 +128,9 @@ namespace BachelorThesis.Controls
             set => SetValue(TargetXProperty, value);
         }
 
-        private TransactionCompletion sourceCompletion;
-        public TransactionCompletion SourceCompletion
-        {
-            get { return sourceCompletion; }
-            set
-            {
-                sourceCompletion = value;
-              //  RefreshLayout();
+        public TransactionCompletion SourceCompletion { get; set; }
 
-            }
-        }
-
-        private TransactionCompletion targetCompletion;
-
-        public TransactionCompletion TargetCompletion
-        {
-            get { return targetCompletion; }
-            set { targetCompletion = value;
-            //    RefreshLayout();
-            }
-        }
+        public TransactionCompletion TargetCompletion { get; set; }
 
         public TransactionBoxControl SourceBox { get; set; }
 
@@ -200,20 +154,6 @@ namespace BachelorThesis.Controls
         private Color strokeColor;
 
         #endregion
-
-        //public TransactionLinkControl(float space = 60f)
-        //{
-        //    arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
-        //    arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
-
-        //    spaceLength = space - ShapeRadius * 2;
-
-        //    strokeColor = Color.Black;
-
-        //    //    BackgroundColor = Color.Aquamarine;
-
-
-        //}
 
         public TransactionLinkControl(TransactionCompletion sourceCompletion, TransactionCompletion targetCompletion,
             TransactionBoxControl sourceBox, TransactionBoxControl targetBox, TransactionLinkOrientation orientation = TransactionLinkOrientation.Down,
@@ -243,13 +183,11 @@ namespace BachelorThesis.Controls
        
             RefreshLayout();
 
+            // react to box sizes
             sourceBox.SizeChanged += (sender, args) => RefreshLayout();
             targetBox.SizeChanged += (sender, args) => RefreshLayout();
-
+            //set as source link
             SourceBox.AddLink(this);
-
-            //BackgroundColor = Color.LightGray;
-
         }
 
         public void RefreshLayout()
@@ -261,13 +199,9 @@ namespace BachelorThesis.Controls
             float leftSpace = 0;
             float offsetX = 0;
 
-            SourceX = SourceBox.GetCompletionPosition(sourceCompletion);
-            TargetX = TargetBox.GetCompletionPosition(targetCompletion) - TargetBox.GetCompletionOffset(OffsetCompletion);
+            SourceX = SourceBox.GetCompletionPosition(SourceCompletion);
+            TargetX = TargetBox.GetCompletionPosition(TargetCompletion) - TargetBox.GetCompletionOffset(OffsetCompletion);
             IsReflected = SourceX <= TargetX;
-
-//            if (IsReflected)
-//                BackgroundColor = Color.LightSeaGreen;
-//            else BackgroundColor = Color.LightGray;
 
             if (LinkStyle == TransactionLinkStyle.StateToState)
                 offsetX = SourceX <= TargetX ? SourceX : TargetX;
@@ -275,7 +209,7 @@ namespace BachelorThesis.Controls
 
             if (LinkOrientation == TransactionLinkOrientation.Down)
                 leftSpace = SourceBox.GetCompletionOffset(OffsetCompletion);
-            else leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion); //todo determine by orientation, style
+            else leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion);
 
             if(LinkStyle == TransactionLinkStyle.StateToState)
                 RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
@@ -386,8 +320,6 @@ namespace BachelorThesis.Controls
 
         private void DrawBendedUpSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
-            //            if(IsReflected)
-            //                canvas.Translate((float)this.WidthRequest - ShapeRadius * , 0);
             if (IsReflected)
                 canvas.Translate(Math.Abs(SourceX - TargetX), 0);
             canvas.DrawRect(new SKRect(0, 0, ShapeRadius * 2, ShapeRadius * 2), paint);
