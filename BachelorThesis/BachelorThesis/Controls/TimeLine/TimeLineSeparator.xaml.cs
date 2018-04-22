@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace BachelorThesis.Controls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class TimeLineSeparator : ContentView
+	public partial class TimeLineSeparator : TimeLineAnchor
 	{
 	    public static readonly BindableProperty DayProperty = BindableProperty.Create(nameof(Day), typeof(int), typeof(HourMinuteAnchor), 0);
 
@@ -30,7 +30,6 @@ namespace BachelorThesis.Controls
 	    }
 
 	    public string FormattedString => $"{Day}.{Month}";
-
 
         public TimeLineSeparator ()
 		{

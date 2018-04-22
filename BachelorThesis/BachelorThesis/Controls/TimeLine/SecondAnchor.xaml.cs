@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace BachelorThesis.Controls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SecondAnchor : TimeLineAnchor
+	public partial class SecondAnchor : TimeLineEventAnchor
 	{
 
         public static readonly BindableProperty SecondProperty = 

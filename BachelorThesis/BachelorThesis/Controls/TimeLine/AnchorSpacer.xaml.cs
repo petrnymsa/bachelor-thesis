@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace BachelorThesis.Controls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AnchorSpacer : ContentView
+	public partial class AnchorSpacer : TimeLineAnchor
 	{
 		public AnchorSpacer ()
 		{

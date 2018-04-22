@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<controls:TimeLineAnchor xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              x:Class="BachelorThesis.Controls.AnchorSpacer">
   <ContentView.Content>
       <StackLayout Orientation="Horizontal">
@@ -9,4 +10,4 @@
             <BoxView WidthRequest="2" HeightRequest="2" VerticalOptions="Center" Color="Black"/>
         </StackLayout>
   </ContentView.Content>
-</ContentView>
+</controls:TimeLineAnchor>

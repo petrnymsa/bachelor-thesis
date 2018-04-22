@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace BachelorThesis.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HourMinuteAnchor : TimeLineAnchor
+    public partial class HourMinuteAnchor : TimeLineEventAnchor
     {
 
         public static readonly BindableProperty HourProperty = BindableProperty.Create(nameof(Hour), typeof(int), typeof(HourMinuteAnchor), 0);

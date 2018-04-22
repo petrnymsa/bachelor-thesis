@@ -29,7 +29,7 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\HourMinuteAnchor.xaml.cs">
+    <Compile Update="Controls\TimeLine\HourMinuteAnchor.xaml.cs">
       <DependentUpon>HourMinuteAnchor.xaml</DependentUpon>
     </Compile>
     <Compile Update="MainPageMenuItem.cs">
@@ -50,19 +50,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\SecondAnchor.xaml">
+    <EmbeddedResource Update="Controls\TimeLine\AnchorSpacer.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\TimeLine.xaml">
+    <EmbeddedResource Update="Controls\TimeLine\SecondAnchor.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\TimeLineEventContainer.xaml">
+    <EmbeddedResource Update="Controls\TimeLine\TimeLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\HourMinuteAnchor.xaml">
+    <EmbeddedResource Update="Controls\TimeLine\TimeLineEventContainer.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\TimeLineSeparator.xaml">
+    <EmbeddedResource Update="Controls\TimeLine\HourMinuteAnchor.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\TimeLine\TimeLineSeparator.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\DashboardPage.xaml">

@@ -14,9 +14,9 @@ namespace BachelorThesis.Controls
     public partial class TimeLine : ContentView
     {
         public const float AnchorSpacing = 60;
-       // public float TimeLineOffset { get; set; }
+        // public float TimeLineOffset { get; set; }
 
-    //    private List<HourMinuteAnchor> items;
+        //    private List<HourMinuteAnchor> items;
 
         private int? lastDay = null;
         private int? lastMonth = null;
@@ -27,7 +27,7 @@ namespace BachelorThesis.Controls
         public TimeLine()
         {
             InitializeComponent();
-         //   items = new List<HourMinuteAnchor>();
+            //   items = new List<HourMinuteAnchor>();
             anchors = new List<TimeLineAnchor>();
         }
 
@@ -41,11 +41,10 @@ namespace BachelorThesis.Controls
             if (!initialized)
             {
                 initialized = true;
-              //  lastOffset = TimeLineOffset;
+                //  lastOffset = TimeLineOffset;
             }
 
             var lastAnchor = anchors.Last();
-            var lastEvent = lastAnchor.Event;
             var month = transactionEvent.Created.Month;
             var day = transactionEvent.Created.Day;
             var hour = transactionEvent.Created.Hour;
@@ -56,45 +55,64 @@ namespace BachelorThesis.Controls
             //
             //            if (overlap != null)
             //                return overlap.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
+
+            //different Day or Month insert separator
             if (lastDay == null || day != lastDay || month != lastMonth)
             {
                 lastDay = day;
                 lastMonth = month;
 
-                AddSeparator(lastOffset, day, month,null);
-                lastOffset += 2;
+                var separator = new TimeLineSeparator()
+                {
+                    Day = day,
+                    Month = month,
+                    OffsetX = lastOffset
+                };
+                //            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
+                layout.Children.Add(separator, xConstraint: Constraint.RelativeToParent(p => separator.OffsetX));
+                lastOffset += (float)separator.WidthRequest;
+
+                // add event
+                var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+                var item = new HourMinuteAnchor(hour, minute, timeEvent)
+                {
+                    Completion = transactionEvent.Completion,
+                    OffsetX = lastOffset
+                };
+            }
+            //check for spacer
+            else
+            {
+                if(lastAnchor is TimeLineEventAnchor eventAnchor)
+                {
+                    //add spacer, cos larger space between minutes
+                    if (Math.Abs(minute - eventAnchor.Event.Created.Minute) > 1)
+                    {
+                        lastOffset += 1;
+                        var spacer = new AnchorSpacer()
+                        {
+                            OffsetX = lastOffset
+                        };
+                        layout.Children.Add(spacer, xConstraint: Constraint.RelativeToParent(p => spacer.OffsetX));
+
+                        lastOffset += (float)spacer.WidthRequest + 1;
+                    }
+                }               
             }
 
-            if (Math.Abs(minute - lastEvent.Created.Minute) > 1)
-            {
-                //todo insert anchor spacer
-                lastOffset += 1;
-                AddSpacer(lastOffset);
-            }
+            //var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+            //var item = new HourMinuteAnchor(hour, minute, timeEvent)
+            //{
+            //    Completion = transactionEvent.Completion,
+            //    OffsetX = lastOffset
+            //};
 
-            var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
-            var item = new HourMinuteAnchor(hour, minute, timeEvent)
-            {
-                Completion = transactionEvent.Completion,
-                OffsetX = lastOffset
-            };
-
-            //  var timeLineEvent = item.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
-
-            //   items.Add(item);
-            anchors.Add(item);
-
-//            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX - item.WidthRequest / 2f));
-            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.OffsetX));
-        //    boxControl.AssociateEvent(item);
-       //     lastOffset += AnchorSpacing;
-        //    return timeLineEvent;
+            //anchors.Add(item);
         }
 
         private void AddSpacer(float offset)
         {
-            var spacer = new AnchorSpacer();
-            layout.Children.Add(spacer, xConstraint: Constraint.RelativeToParent(p => offset));
+
         }
 
         private void AddSeparator(double separatorOffset, int day, int month, HourMinuteAnchor item)
@@ -104,8 +122,8 @@ namespace BachelorThesis.Controls
                 Day = day,
                 Month = month
             };
-//            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
-            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset));
+            //            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
+            layout.Children.Add(separator, xConstraint: Constraint.RelativeToParent(p => separatorOffset));
         }
 
         //public void PrepareTimeLine(DateTime start, DateTime end)
