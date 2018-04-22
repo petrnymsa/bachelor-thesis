@@ -20,6 +20,15 @@ namespace BachelorThesis.Controls
             set => SetValue(EventProperty, value);
         }
 
+
+        public static readonly BindableProperty LabelFontSizeProperty = BindableProperty.Create(nameof(LabelFontSize), typeof(double), typeof(TimeLineEventContainer), default(double));
+
+        public double LabelFontSize
+        {
+            get => (double)GetValue(LabelFontSizeProperty);
+            set => SetValue(LabelFontSizeProperty, value);
+        }
+
 	    public TimeLineEventContainer()
 	    {
 	        InitializeComponent ();

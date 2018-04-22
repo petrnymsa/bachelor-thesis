@@ -11,9 +11,12 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <StackLayout>
-            <Label Text="{Binding Event.FormattedString, Source={x:Reference self}}" TextColor="{Binding Event.Color, Source={x:Reference self}}" FontSize="10" />
-            <BoxView HorizontalOptions="Center" WidthRequest="5" HeightRequest="5" Color="{Binding Event.Color, Source={x:Reference self}}"/>
+        <StackLayout Spacing="1">
+            <Label Text="{Binding Event.FormattedString, Source={x:Reference self}}"
+                   TextColor="{Binding Event.Color, Source={x:Reference self}}" 
+                   FontSize="{Binding LabelFontSize, Source={x:Reference self}}" />
+
+            <BoxView HorizontalOptions="Center" WidthRequest="4" HeightRequest="4" Color="{Binding Event.Color, Source={x:Reference self}}"/>
         </StackLayout>
     </ContentView.Content>
 </ContentView>
