@@ -27,7 +27,7 @@ namespace BachelorThesis.Controls
                 set
                 {
                     isFocused = value;
-                    AssociatedEvent.IsRevealed = isFocused;
+                  //  AssociatedEvent.IsRevealed = isFocused;
                 }
             }
 
