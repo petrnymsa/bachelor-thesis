@@ -4,13 +4,13 @@
              x:Class="BachelorThesis.Controls.TimeLine">
     <RelativeLayout x:Name="layout">
 
-        <BoxView x:Name="timeLineBottom" Color="Black" HeightRequest="2"
+        <BoxView x:Name="timeLineBottom" Color="{StaticResource TimeLineColorAccent}" HeightRequest="2"
                  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-2}"/>
 
-        <Label Text="2018" TextColor="LightSteelBlue" FontSize="24" 
+        <!--<Label Text="2018" TextColor="LightSteelBlue" FontSize="24" 
                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=1, Constant=22}"
-               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=1, Constant=5}"/>
+               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=1, Constant=5}"/>-->
 
     </RelativeLayout>
 </ContentView>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BachelorThesis.Controls.TimeLineEventContainer" 
+             xmlns:converters="clr-namespace:BachelorThesis.Converters"
+
+             x:Name="self">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="{Binding Event.FormattedString, Source={x:Reference self}}" TextColor="{Binding Event.Color, Source={x:Reference self}}" FontSize="10" />
+            <BoxView HorizontalOptions="Center" WidthRequest="5" HeightRequest="5" Color="{Binding Event.Color, Source={x:Reference self}}"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

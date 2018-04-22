@@ -147,7 +147,7 @@ namespace BachelorThesis.Controls
         public TransactionBoxControl ParentControl { get; set; }
         //        public float OffsetX { get; set; }
         //
-        //        public float TotalOffsetX
+        //        public float OffsetX
         //        {
         //            get
         //            {
@@ -336,7 +336,7 @@ namespace BachelorThesis.Controls
 //            //var percent = Progress + 0.2f;
 //            if (!events.ContainsKey(timeLineAnchor.Id))
 //                events[timeLineAnchor.Id] = new List<Anchor>();
-//            // var x = (float)timeLineAnchor.X - TotalOffsetX - 100;
+//            // var x = (float)timeLineAnchor.X - OffsetX - 100;
 //            var x = timeLineAnchor.GetXPositionWithoutOffsets() - (float)X;
 //
 //            //  AddProgress(x);

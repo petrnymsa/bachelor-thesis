@@ -21,7 +21,7 @@ namespace BachelorThesis.Views
         private List<TransactionBoxControl> transactionBoxControls;
 
         private bool livePreview = true;
-        private List<TimeLineItem> items = new List<TimeLineItem>();
+        private List<HourMinuteAnchor> items = new List<HourMinuteAnchor>();
 
         public ProcessVisualisationPage()
         {
@@ -46,7 +46,9 @@ namespace BachelorThesis.Views
             base.OnAppearing();
             MessagingCenter.Send(this, "setLandscape");
 
-            await PrepareSimulation();
+         //   await PrepareSimulation();
+
+            timeLineLayout.PrepareTimeLine(DateTime.Now, DateTime.Now);
         }
 
         private async Task PrepareSimulation()

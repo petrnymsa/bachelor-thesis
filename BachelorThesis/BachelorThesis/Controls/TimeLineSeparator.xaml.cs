@@ -12,7 +12,7 @@ namespace BachelorThesis.Controls
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TimeLineSeparator : ContentView
 	{
-	    public static readonly BindableProperty DayProperty = BindableProperty.Create(nameof(Day), typeof(int), typeof(TimeLineItem), 0);
+	    public static readonly BindableProperty DayProperty = BindableProperty.Create(nameof(Day), typeof(int), typeof(HourMinuteAnchor), 0);
 
 	    public int Day
 	    {
@@ -21,7 +21,7 @@ namespace BachelorThesis.Controls
 	    }
 
 
-	    public static readonly BindableProperty MonthProperty = BindableProperty.Create(nameof(Month), typeof(int), typeof(TimeLineItem), 0);
+	    public static readonly BindableProperty MonthProperty = BindableProperty.Create(nameof(Month), typeof(int), typeof(HourMinuteAnchor), 0);
 
 	    public int Month
 	    {

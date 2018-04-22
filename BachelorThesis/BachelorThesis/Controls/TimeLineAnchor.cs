@@ -8,21 +8,21 @@ namespace BachelorThesis.Controls
 {
     public class TimeLineAnchor : ContentView
     {
-        public float BaseOffsetX { get; set; }
-        public float TotalOffsetX { get; set; }
+//        public float BaseOffsetX { get; set; }
+        public float OffsetX { get; set; }
 
         public bool IsRevealed { get; set; }
 
         public TransactionCompletion Completion { get; set; }
 
 
-        public TimeLineAnchor(float baseOffsetX, float totalOffsetX)
+        public TimeLineAnchor()
         {
-            BaseOffsetX = baseOffsetX;
-            TotalOffsetX = totalOffsetX;
+//            BaseOffsetX = baseOffsetX;
+//            OffsetX = totalOffsetX;
             IsRevealed = false;
         }
 
-        public float GetXPositionWithoutOffsets() => TotalOffsetX - BaseOffsetX;
+    //    public float GetXPositionWithoutOffsets() => OffsetX - BaseOffsetX;
     }
 }

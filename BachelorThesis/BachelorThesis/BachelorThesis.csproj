@@ -29,6 +29,9 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\HourMinuteAnchor.xaml.cs">
+      <DependentUpon>HourMinuteAnchor.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MainPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -50,7 +53,10 @@
     <EmbeddedResource Update="Controls\TimeLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\TimeLineItem.xaml">
+    <EmbeddedResource Update="Controls\TimeLineEventContainer.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\HourMinuteAnchor.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TimeLineSeparator.xaml">
