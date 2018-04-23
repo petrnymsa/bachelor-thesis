@@ -32,6 +32,7 @@ namespace BachelorThesis.Business.DataModels
             TransactionKindId = transactionKindId;
             RaisedByActorId = raisedByActorId;
             Created = created;
+            Completion = completion;
         }
 
      //   public abstract void DoTransactionAction(TransactionInstance instance);
