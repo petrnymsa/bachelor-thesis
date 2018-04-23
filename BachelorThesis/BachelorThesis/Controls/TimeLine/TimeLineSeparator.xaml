@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
              x:Class="BachelorThesis.Controls.TimeLineSeparator"
-             x:Name="self" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="30" HeightRequest="50"
+             x:Name="self" HeightRequest="{StaticResource TimeLineHeight}" WidthRequest="30" 
              >
     <Grid HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
         <Grid.RowDefinitions>
@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <BoxView Color="Black" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
-        <Label Grid.Row="1" TextColor="Black" HorizontalTextAlignment="Center" FontSize="10" Text="{Binding FormattedString,Source={x:Reference self}}"  />
-        <BoxView Grid.Row="2" Color="Black" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+        <Label Grid.Row="1" TextColor="{StaticResource TimeLineColor}" HorizontalTextAlignment="Center" FontSize="10" Text="{Binding FormattedString,Source={x:Reference self}}"  />
+        <BoxView Grid.Row="2" Color="{StaticResource TimeLineColor}" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
     </Grid>
 </controls:TimeLineAnchor>

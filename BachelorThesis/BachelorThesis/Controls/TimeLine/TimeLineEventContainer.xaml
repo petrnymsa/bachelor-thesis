@@ -6,9 +6,9 @@
 
              x:Name="self">
     <ContentView.Resources>
-        <ResourceDictionary>
+        <!--<ResourceDictionary>
             <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />
-        </ResourceDictionary>
+        </ResourceDictionary>-->
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout Spacing="1">

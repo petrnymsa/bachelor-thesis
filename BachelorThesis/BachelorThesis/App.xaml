@@ -6,6 +6,8 @@
 
         <!-- Application resource dictionary -->
         <ResourceDictionary>
+            <x:Double x:Key="TimeLineHeight">50</x:Double>
+
             <Color x:Key="Primary">#2485FA</Color>
             <Color x:Key="PrimaryDark">#1976D2</Color>
             <Color x:Key="Accent">#0087ce</Color>

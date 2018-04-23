@@ -56,7 +56,7 @@
             <Label Text="2018" TextColor="LightSteelBlue" FontSize="24" VerticalOptions="Center" HorizontalOptions="Center" />
 
             <ScrollView Orientation="Horizontal" Grid.Column="1">
-                <controls:TimeLine x:Name="timeLineLayout" HeightRequest="50" BackgroundColor="{StaticResource CanvasBackground}" 
+                <controls:TimeLine x:Name="timeLineLayout" HeightRequest="{StaticResource TimeLineHeight}" BackgroundColor="{StaticResource CanvasBackground}" 
                                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
             </ScrollView>
         </Grid>
