@@ -26,6 +26,8 @@ namespace BachelorThesis.Controls
 
         public bool IsRevealed { get; set; }
 
+        public TransactionEvent Event { get; set; }
+
         private List<string> acts;
 
         public TimeLineEvent(string transactionIdentifier,TransactionEvent transactionEvent, Color color)
@@ -36,6 +38,7 @@ namespace BachelorThesis.Controls
             acts = new List<string>() {transactionEvent.Completion.AsAbbreviation()};
             Id = nextId++;
             IsRevealed = false;
+            Event = transactionEvent;
         }
 
         public void AddAct(string act)
