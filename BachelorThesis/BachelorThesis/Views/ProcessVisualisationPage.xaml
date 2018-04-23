@@ -52,13 +52,19 @@
                 <ColumnDefinition  Width="100"/>
                 <ColumnDefinition  Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2"/>
+            </Grid.RowDefinitions>
 
-            <Label Text="2018" TextColor="LightSteelBlue" FontSize="24" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Text="2018" TextColor="{StaticResource TimeLineColor}" FontSize="24" VerticalOptions="Center" HorizontalOptions="Center" />
 
-            <ScrollView Orientation="Horizontal" Grid.Column="1">
+            <ScrollView Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
                 <controls:TimeLine x:Name="timeLineLayout" HeightRequest="{StaticResource TimeLineHeight}" BackgroundColor="{StaticResource CanvasBackground}" 
                                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
             </ScrollView>
+            
+            <BoxView Color="{StaticResource TimeLineColor}" HeightRequest="2" HorizontalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
         </Grid>
        
       

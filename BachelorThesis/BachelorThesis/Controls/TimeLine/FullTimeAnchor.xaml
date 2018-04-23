@@ -8,11 +8,11 @@
     <ContentView.Content>
         <StackLayout>
             <Label Text="{Binding FormattedString, Source={x:Reference self}}" HorizontalOptions="CenterAndExpand " HorizontalTextAlignment="Center"
-                 FontSize="8" FontAttributes="Bold" TextColor="{StaticResource TimeLineColor}" />
+                 FontSize="10" FontAttributes="Bold" TextColor="{StaticResource TimeLineColor}" />
 
             <controls:TimeLineEventContainer Event="{Binding Event, Source={x:Reference self}}" IsVisible="{Binding WithEvent, Source={x:Reference self}}" 
                                            HorizontalOptions="Center" VerticalOptions="Center"
-                                           LabelFontSize="7"/>
+                                           LabelFontSize="9"/>
         </StackLayout>
     </ContentView.Content>
 </controls:TimeLineEventAnchor>
