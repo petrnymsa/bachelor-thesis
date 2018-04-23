@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<controls:TimeLineEventAnchor xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
+             x:Class="BachelorThesis.Controls.FullTimeAnchor"
+             x:Name="self" HorizontalOptions="Center" VerticalOptions="Center"
+             WidthRequest="40" HeightRequest="{StaticResource TimeLineHeight}">
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="{Binding FormattedString, Source={x:Reference self}}" HorizontalOptions="CenterAndExpand " HorizontalTextAlignment="Center"
+                 FontSize="8" FontAttributes="Bold" TextColor="{StaticResource TimeLineColor}" />
+
+            <controls:TimeLineEventContainer Event="{Binding Event, Source={x:Reference self}}" IsVisible="{Binding WithEvent, Source={x:Reference self}}" 
+                                           HorizontalOptions="Center" VerticalOptions="Center"
+                                           LabelFontSize="7"/>
+        </StackLayout>
+    </ContentView.Content>
+</controls:TimeLineEventAnchor>
