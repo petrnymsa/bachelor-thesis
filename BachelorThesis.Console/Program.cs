@@ -57,24 +57,14 @@ namespace BachelorThesis.ConsoleTest
                     Console.WriteLineFormatted("[{0}] Event '{1}' affected transaction '{2}'. Raised by '{3}'", Color.Moccasin, Color.WhiteSmoke, new[]
                     {
                         transactionEvent.Created.ToString(),
-                        transactionEvent.EventType.ToString(),
+                      //  transactionEvent.EventType.ToString(),
                         transaction.Identificator,
                         actor.FullName
                     });
 
-                    switch (transactionEvent.EventType)
-                    {
-                        case TransactionEventType.CompletionChanged:
-                            var cEvent = transactionEvent;
-                            Console.Write($"\tTransaction's state changed to ");
-                            Console.WriteLine(cEvent.Completion, Color.Salmon);
-                            break;
-                        case TransactionEventType.InitiatorAssigned:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
 
+                    Console.Write($"\tTransaction's state changed to ");
+                    Console.WriteLine(transactionEvent.Completion, Color.Salmon);
                     Console.WriteLine();
                 }
                 NextCmd(simulation.ProcessInstance);

@@ -6,12 +6,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace BachelorThesis.Business.DataModels
 {
-
-    public enum TransactionEventType
-    {
-        CompletionChanged,
-        InitiatorAssigned
-    }
     [DataContract]
     public class TransactionEvent
     {
@@ -19,9 +13,6 @@ namespace BachelorThesis.Business.DataModels
 
         [JsonProperty]
         public int Id { get; set; }
-        [JsonProperty]
-        public TransactionEventType EventType { get; set; }
-        //  public int ProcessInstanceId { get; set; } //TODO parsers must recognize it
         [JsonProperty]
         public int TransactionInstanceId { get; set; }
         [JsonProperty]
@@ -34,10 +25,9 @@ namespace BachelorThesis.Business.DataModels
         [JsonProperty]
         public TransactionCompletion Completion { get; }
 
-        public TransactionEvent(TransactionEventType eventType, int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
+        public TransactionEvent(int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
         {
             Id = Interlocked.Increment(ref nextId);
-            EventType = eventType;
             TransactionInstanceId = transactionInstanceId;
             TransactionKindId = transactionKindId;
             RaisedByActorId = raisedByActorId;

@@ -40,7 +40,7 @@ namespace BachelorThesis.Business.Parsers
             //var transsactionId = int.Parse(element.Attribute(XmlParsersConfig.AttributeTransactionId)?.Value);
             //var transactionKindId = int.Parse(element.Attribute(XmlParsersConfig.AttributeTransactionKindId)?.Value);
             //var raisedBy = int.Parse(element.Attribute(XmlParsersConfig.AttributeRaisedById)?.Value);
-            var eventType = (TransactionEventType)ParseIntAttribute(element, XmlParsersConfig.AttributeType);
+          //  var eventType = (TransactionEventType)ParseIntAttribute(element, XmlParsersConfig.AttributeType);
             var transactionId = ParseIntAttribute(element, XmlParsersConfig.AttributeTransactionId);
             var transactionKindId = ParseIntAttribute(element, XmlParsersConfig.AttributeTransactionKindId);
             var raisedBy = ParseIntAttribute(element, XmlParsersConfig.AttributeRaisedById);
@@ -51,7 +51,7 @@ namespace BachelorThesis.Business.Parsers
             var completion = (TransactionCompletion)Enum.Parse(typeof(TransactionCompletion), completionChangedElement?.Attribute(XmlParsersConfig.AttributeCompletion)?.Value);
 
 
-            return new TransactionEvent(eventType, transactionId, transactionKindId, raisedBy, created, completion);
+            return new TransactionEvent(transactionId, transactionKindId, raisedBy, created, completion);
 //            switch (eventType)
 //            {
 //                case TransactionEventType.CompletionChanged:
@@ -80,7 +80,7 @@ namespace BachelorThesis.Business.Parsers
                 foreach (var tEvent in events)
                 {
                     var eventElement = new XElement(XmlParsersConfig.ElementEvent,
-                        new XAttribute(XmlParsersConfig.AttributeType, (int)tEvent.EventType),
+                        //new XAttribute(XmlParsersConfig.AttributeType, (int)tEvent.EventType),
                         new XAttribute(XmlParsersConfig.AttributeTransactionId, tEvent.TransactionInstanceId),
                         new XAttribute(XmlParsersConfig.AttributeTransactionKindId, tEvent.TransactionKindId),
                         new XAttribute(XmlParsersConfig.AttributeRaisedById, tEvent.RaisedByActorId),

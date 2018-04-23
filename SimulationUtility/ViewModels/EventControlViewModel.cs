@@ -21,9 +21,9 @@ namespace SimulationUtility.ViewModels
         public List<TransactionCompletion> TransactionCompletions { get; set; }
         public TransactionCompletion SelectedCompletion { get; set; }
 
-        public List<TransactionEventType> TransactionEventTypes { get; set; }
+       // public List<TransactionEventType> TransactionEventTypes { get; set; }
 
-        public TransactionEventType SelectedEventType { get; set; }
+        //public TransactionEventType SelectedEventType { get; set; }
 
         public ObservableCollection<ActorViewModel> Actors { get; set; }
 
@@ -42,7 +42,7 @@ namespace SimulationUtility.ViewModels
 
             RemoveMeCommand = new Command(RemoveMeCommandExecute);
 
-            TransactionEventTypes = new List<TransactionEventType>(Enum.GetValues(typeof(TransactionEventType)).Cast<TransactionEventType>());
+          //  TransactionEventTypes = new List<TransactionEventType>(Enum.GetValues(typeof(TransactionEventType)).Cast<TransactionEventType>());
             TransactionCompletions = new List<TransactionCompletion>(Enum.GetValues(typeof(TransactionCompletion)).Cast<TransactionCompletion>());
 
             Actors = new ObservableCollection<ActorViewModel>();
@@ -84,7 +84,7 @@ namespace SimulationUtility.ViewModels
 
         public TransactionEvent GetTransactionEvent()
         {
-            return new TransactionEvent(TransactionEventType.CompletionChanged, SelectedTransactionInstance.Instance.Id, SelectedTransactionInstance.Instance.TransactionKindId, SelectedActor.Id,
+            return new TransactionEvent(SelectedTransactionInstance.Instance.Id, SelectedTransactionInstance.Instance.TransactionKindId, SelectedActor.Id,
                 DateTime.ParseExact(CreationTime, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture), SelectedCompletion);
         }
 
