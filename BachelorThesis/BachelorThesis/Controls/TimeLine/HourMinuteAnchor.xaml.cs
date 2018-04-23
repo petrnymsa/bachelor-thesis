@@ -38,17 +38,17 @@ namespace BachelorThesis.Controls
 
      //   public TimeLineEvent Event { get; set; }
 
-        public HourMinuteAnchor()
-        :base(null)
-        {
-            InitializeComponent();
-            // Events = new ObservableCollection<TimeLineEvent>();
+//        public HourMinuteAnchor()
+//        :base(null)
+//        {
+//            InitializeComponent();
+//            // Events = new ObservableCollection<TimeLineEvent>();
+//
+//            this.Content.BindingContext = this;
+//        }
 
-            this.Content.BindingContext = this;
-        }
-
-        public HourMinuteAnchor(int hour, int minute, TimeLineEvent timeEvent)
-        :base(timeEvent)
+        public HourMinuteAnchor(int hour, int minute, double leftX, TimeLineEvent timeEvent, TransactionCompletion completion)
+        :base(leftX, timeEvent, completion)
         {
             InitializeComponent();
            // Events = new ObservableCollection<TimeLineEvent>();

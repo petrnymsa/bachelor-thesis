@@ -12,7 +12,7 @@ namespace BachelorThesis.Controls
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AnchorSpacer : TimeLineAnchor
 	{
-		public AnchorSpacer ()
+		public AnchorSpacer (double leftX) : base(leftX)
 		{
 			InitializeComponent ();
 		}

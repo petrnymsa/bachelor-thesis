@@ -21,7 +21,7 @@ namespace BachelorThesis.Views
         private List<TransactionBoxControl> transactionBoxControls;
 
         private bool livePreview = true;
-        private List<HourMinuteAnchor> items = new List<HourMinuteAnchor>();
+     //   private List<HourMinuteAnchor> items = new List<HourMinuteAnchor>();
 
         public ProcessVisualisationPage()
         {
@@ -46,9 +46,7 @@ namespace BachelorThesis.Views
             base.OnAppearing();
             MessagingCenter.Send(this, "setLandscape");
 
-         //   await PrepareSimulation();
-
-           // timeLineLayout.PrepareTimeLine(DateTime.Now, DateTime.Now);
+            await PrepareSimulation();
         }
 
         private async Task PrepareSimulation()
@@ -80,37 +78,15 @@ namespace BachelorThesis.Views
                 return;
             }
 
-            foreach (var evt in results)
+            foreach (var transactionEvent in results)
             {
-                //                if (simulation.ProcessInstance.StartTime == null)
-                //                {
-                //                    simulation.ProcessInstance.StartTime = evt.Created;
-                //
-                //                    timeLineLayout.PrepareTimeLine(simulation.ProcessInstance.StartTime.Value, simulation.ProcessInstance.StartTime.Value);
-                //                }
+                var transaction = simulation.ProcessInstance.GetTransactionById(transactionEvent.TransactionInstanceId);
+                var transactionControl = transactionBoxControls.Find(x => x.TransactionId == transactionEvent.TransactionInstanceId);
+                Debug.WriteLine($"[info] Transaction {transactionEvent.TransactionInstanceId} changed state to {transactionEvent.Completion} ");
 
-                var transaction = simulation.ProcessInstance.GetTransactionById(evt.TransactionInstanceId);
-                var transactionControl = transactionBoxControls.Find(x => x.TransactionId == evt.TransactionInstanceId);
-               // if (evt.EventType != TransactionEventType.CompletionChanged) continue;
-                //   transactionControl.AddProgress(evtCompletion.Completion);
-                Debug.WriteLine($"[info] Transaction {evt.TransactionInstanceId} changed state to {evt.Completion} ");
+                transactionControl.AddProgress(transactionEvent.Completion);
 
-                transactionControl.AddProgress(evt.Completion);
-
-                //                var offset = timeLineLayout.X; //- 100; // we all love magic constants, i know
-                //                var spaceX = transactionControl.X - offset;
-                //                var move = spaceX + transactionControl.GetCompletionPosition(evtCompletion.Completion);
-
-                //     DebugHelper.Info($"box: {transactionControl.X}, timeline: {timeLineLayout.X}, offset: {offset}, spaceX: {spaceX}, move: {move}");
-                //                if (evtCompletion.Completion == TransactionCompletion.Requested)
-                //                {
-                //                    transaction.RequestedTime = evt.Created;
-                //
-                //                    transactionControl.RefreshLayout();
-                //                }
-
-                // timeLineLayout.AssociateEvent(transactionControl, evtCompletion);
-                //   transactionControl.AssociateEvent(timeLineEvent, evtCompletion.Completion);
+                timeLineLayout.AssociateEvent(transactionControl, transactionEvent);
             }
 
         }

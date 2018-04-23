@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BachelorThesis.Business.DataModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,17 +26,18 @@ namespace BachelorThesis.Controls
 
 	    public string FormattedSecond => $":{Second}";
 
-        public SecondAnchor () : base(null)
-		{
-			InitializeComponent ();
+//        public SecondAnchor () : base(null)
+//		{
+//			InitializeComponent ();
+//
+//		    this.Content.BindingContext = this;
+//        }
 
-		    this.Content.BindingContext = this;
-        }
-
-	    public SecondAnchor(TimeLineEvent timeEvent)
-        :base(timeEvent)
+	    public SecondAnchor(int second, double leftX,  TimeLineEvent timeEvent, TransactionCompletion completion)
+        :base(leftX, timeEvent, completion)
 	    {
 	        InitializeComponent();
+	        Second = second;
 	        this.Content.BindingContext = this;
         }
     }

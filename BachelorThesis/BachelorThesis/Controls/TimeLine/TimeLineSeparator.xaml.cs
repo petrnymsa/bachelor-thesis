@@ -31,9 +31,12 @@ namespace BachelorThesis.Controls
 
 	    public string FormattedString => $"{Day}.{Month}";
 
-        public TimeLineSeparator ()
+        public TimeLineSeparator (int day, int month, double leftX) : base(leftX)
 		{
 			InitializeComponent ();
+
+		    Day = day;
+		    Month = month;
 		}
 	}
 }
