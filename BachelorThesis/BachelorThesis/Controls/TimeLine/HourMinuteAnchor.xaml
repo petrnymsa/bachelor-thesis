@@ -11,16 +11,16 @@
             <converters:BoolToBoldConverter x:Key="BoolToBoldConverter" />
         </ResourceDictionary>-->
     </ContentView.Resources>
-    <Grid Padding="0,1,0,0" HorizontalOptions="Center">
-        <Grid.RowDefinitions>
+    <StackLayout>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
         <Label Text="{Binding FormattedHourMinute, Source={x:Reference self}}" HorizontalOptions="Center " HorizontalTextAlignment="Center" 
                FontSize="8" FontAttributes="Bold" TextColor="{StaticResource TimeLineColor}" />
 
-        <controls:TimeLineEventContainer Grid.Row="1" Event="{Binding Event, Source={x:Reference self}}" LabelFontSize="12" />
+        <controls:TimeLineEventContainer Event="{Binding Event, Source={x:Reference self}}" IsVisible="{Binding WithEvent, Source={x:Reference self}}" LabelFontSize="8" />
         <!--<ListView Grid.Row="1" ItemsSource="{Binding Events}" HasUnevenRows="True" ItemTapped="ListView_OnItemTapped" HorizontalOptions="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -32,5 +32,5 @@
             </ListView.ItemTemplate>
         </ListView>-->
 
-    </Grid>
+    </StackLayout>
 </controls:TimeLineEventAnchor>

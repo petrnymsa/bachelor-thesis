@@ -12,7 +12,7 @@
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout Spacing="1">
-            <Label Text="{Binding Event.FormattedString, Source={x:Reference self}}"
+            <Label Text="{Binding Event.FormattedString, Source={x:Reference self}}" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                    TextColor="{Binding Event.Color, Source={x:Reference self}}" 
                    FontSize="{Binding LabelFontSize, Source={x:Reference self}}" />
 

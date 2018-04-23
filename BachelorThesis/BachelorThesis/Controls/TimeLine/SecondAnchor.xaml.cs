@@ -24,7 +24,7 @@ namespace BachelorThesis.Controls
 
 	  
 
-	    public string FormattedSecond => $":{Second}";
+	    public string FormattedSecond => $"{Second}";
 
 //        public SecondAnchor () : base(null)
 //		{

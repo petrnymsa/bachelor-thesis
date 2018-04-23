@@ -93,7 +93,14 @@ namespace BachelorThesis.Controls
                     }
                     else
                     {
-
+                        if (Math.Abs(minute - eventAnchor.Event.Created.Minute) > 1)
+                        {
+                            //add dummy anchor
+                            var date = eventAnchor.Event.Created.AddMinutes(1);
+                           // AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                           AddHourMinuteAnchorWithoutEvent(date.Hour, date.Minute);
+                           AddSpacer();
+                        }
                     }
 
                     AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
@@ -121,7 +128,8 @@ namespace BachelorThesis.Controls
 
             layout.Children.Add(spacer,
                 xConstraint: Constraint.RelativeToParent(p => spacer.LeftX),
-                yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
+                yConstraint: Constraint.RelativeToParent(p => 2));
+          //      yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
 
             currentX += (float)spacer.Width + 1;
         }
@@ -131,7 +139,7 @@ namespace BachelorThesis.Controls
             var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
             var item = new SecondAnchor(second, currentX, timeEvent, transactionEvent.Completion)
             {
-                BackgroundColor = Color.FromRgb(rnd.Next(150, 200), rnd.Next(150, 200), rnd.Next(150, 200))
+              //  BackgroundColor = Color.FromRgb(rnd.Next(150, 200), rnd.Next(150, 200), rnd.Next(150, 200))
             };
 
             anchors.Add(item);
@@ -149,6 +157,19 @@ namespace BachelorThesis.Controls
             var item = new HourMinuteAnchor(hour, minute, currentX, timeEvent, transactionEvent.Completion)
             {
                // BackgroundColor = Color.SandyBrown
+            };
+            anchors.Add(item);
+            layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.LeftX));
+
+            currentX += (float)item.Width;
+        }
+
+        private void AddHourMinuteAnchorWithoutEvent(int hour, int minute)
+        {
+            var item = new HourMinuteAnchor(hour, minute, currentX, null, TransactionCompletion.None)
+            {
+                WithEvent = false
+                // BackgroundColor = Color.SandyBrown
             };
             anchors.Add(item);
             layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.LeftX));

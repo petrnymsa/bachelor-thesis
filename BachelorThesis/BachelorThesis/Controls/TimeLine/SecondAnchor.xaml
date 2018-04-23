@@ -2,20 +2,16 @@
 <controls:TimeLineEventAnchor xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:BachelorThesis.Controls;assembly=BachelorThesis"
-             x:Class="BachelorThesis.Controls.SecondAnchor" x:Name="self" WidthRequest="24">
+             x:Class="BachelorThesis.Controls.SecondAnchor" x:Name="self" WidthRequest="24" HeightRequest="{StaticResource TimeLineHeight}">
     <ContentView.Content>
         <StackLayout>
             <Label Text="{Binding FormattedSecond, Source={x:Reference self}}" HorizontalOptions="CenterAndExpand " HorizontalTextAlignment="Center"
-                   FontSize="8" FontAttributes="Bold" TextColor="{StaticResource TimeLineColorAccent}" />
+                   FontSize="8" FontAttributes="Bold" TextColor="{StaticResource TimeLineColor}" />
 
-            <controls:TimeLineEventContainer Event="{Binding Event, Source={x:Reference self}}"
+            <controls:TimeLineEventContainer Event="{Binding Event, Source={x:Reference self}}" IsVisible="{Binding WithEvent, Source={x:Reference self}}" 
                                            HorizontalOptions="Center" VerticalOptions="Center"
                                            LabelFontSize="7"/>
         </StackLayout>
-
-
-
-        <!--<BoxView Width="4" HeightRequest="4" HorizontalOptions="Center" VerticalOptions="Center" Color="{Binding Event.Color, Source={x:Reference self}}" />-->
 
     </ContentView.Content>
 </controls:TimeLineEventAnchor>
