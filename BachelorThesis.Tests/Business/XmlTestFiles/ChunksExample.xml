@@ -23,7 +23,7 @@
     </Chunk>
     <Chunk>
       <Event Type="0" TransactionId="2"  TransactionKindId="2" RaisedById="4" Created="01-02-2018 09:01:00">
-        <CompletionChanged Completion="Requested" />
+        <CompletionChanged Completion="Stated" />
       </Event>
     </Chunk>
   </Chunks>
