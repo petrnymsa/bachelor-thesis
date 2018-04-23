@@ -14,21 +14,12 @@ namespace BachelorThesis.Controls
     public partial class TimeLine : ContentView
     {
         public const float HourMinuteSpacing = 60;
-        // public float TimeLineOffset { get; set; }
-
-        //    private List<HourMinuteAnchor> items;
 
         private int? lastDay = null;
         private int? lastMonth = null;
 
-        Random rnd = new Random();
-
         private List<TimeLineAnchor> anchors;
         private double currentX = 0;
-
-        //private double CurrentX =
-
-        //   private bool initialized = false;
         public TimeLine()
         {
             InitializeComponent();
@@ -37,19 +28,8 @@ namespace BachelorThesis.Controls
 
             BackgroundColor = Color.LightGreen;
         }
-
-        //protected HourMinuteAnchor IsOverllap(int hour, int minute)
-        //{
-        //    return anchors.FirstOrDefault(x => x.Hour == hour && x.Minute == minute);
-        //}
-
         public void AssociateEvent(TransactionBoxControl boxControl, TransactionEvent transactionEvent)
         {
-            //            if (!initialized)
-            //            {
-            //                initialized = true;
-            //                //  currentX = TimeLineOffset;
-            //            }
 
             var lastAnchor = anchors.LastOrDefault();
             var month = transactionEvent.Created.Month;
@@ -57,11 +37,6 @@ namespace BachelorThesis.Controls
             var hour = transactionEvent.Created.Hour;
             var minute = transactionEvent.Created.Minute;
             var second = transactionEvent.Created.Second;
-            //
-            //            var overlap = IsOverllap(hour, minute);
-            //
-            //            if (overlap != null)
-            //                return overlap.AddEvent(boxControl.Transaction.Identificator, transactionEvent.Completion, boxControl.HighlightColor);
 
             //different Day or Month insert separator
             if (lastDay == null || day != lastDay || month != lastMonth)
@@ -72,64 +47,68 @@ namespace BachelorThesis.Controls
                 AddDayMonthSeparator(month, day);
 
                 //and add event
-                AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                // AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                AddTimeAnchor(hour, minute, second, boxControl, transactionEvent);
 
                 return;
             }
 
             if (lastAnchor != null && lastAnchor is TimeLineEventAnchor eventAnchor)
             {
-
-                // add seconds
-                if (minute == eventAnchor.Event.Created.Minute)
+                if (Math.Abs(minute - eventAnchor.Event.Created.Minute) > 1)
                 {
-                    AddSecondsAnchor(boxControl, transactionEvent, second);
+                    AddSpacer(eventAnchor);
                 }
-                else // add spacer
-                {
-                    if (!(eventAnchor is SecondAnchor))
-                    {
-                        AddSpacer();
-                    }
-                    else
-                    {
-                        if (Math.Abs(minute - eventAnchor.Event.Created.Minute) > 1)
-                        {
-                            //add dummy anchor
-                            var date = eventAnchor.Event.Created.AddMinutes(1);
-                           // AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
-                           AddHourMinuteAnchorWithoutEvent(date.Hour, date.Minute);
-                           AddSpacer();
-                        }
-                    }
-
-                    AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
-                }
+                AddTimeAnchor(hour, minute, second, boxControl, transactionEvent);
             }
-            else // not event anchor, put new HourMinute
+            else // not event anchor, put new Time
             {
-                AddHourMinuteAnchor(boxControl, transactionEvent, hour, minute);
+                AddTimeAnchor(hour, minute, second, boxControl, transactionEvent);
             }
+        }
+
+        private void AddTimeAnchor(int hour, int minute, int second, TransactionBoxControl boxControl,
+            TransactionEvent transactionEvent)
+        {
+            var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+            var anchor = new FullTimeAnchor(hour, minute, second, currentX, timeEvent, transactionEvent.Completion);
+            anchors.Add(anchor);
+
+            layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
+            currentX += (float)anchor.Width + 1;
+        }
+
+        private void AddTimeAnchorWithoutEvent(int hour, int minute, int second)
+        {
+            // var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
+            var anchor = new FullTimeAnchor(hour, minute, second, currentX, null, TransactionCompletion.None)
+            {
+                WithEvent = false
+            };
+            anchors.Add(anchor);
+
+            layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
+            currentX += (float)anchor.Width + 1;
         }
 
         private void AddDayMonthSeparator(int month, int day)
         {
-            var separator = new TimeLineSeparator(day, month, currentX); // {BackgroundColor = Color.Aquamarine};
-                                                                         //            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
+
+            var separator = new TimeLineSeparator(day, month, currentX);
             layout.Children.Add(separator, xConstraint: Constraint.RelativeToParent(p => separator.LeftX));
             currentX += (float)separator.Width;
         }
 
-        private void AddSpacer()
+        private void AddSpacer(View view)
         {
-            currentX += 1;
+            // currentX += 1;
             var spacer = new AnchorSpacer(currentX); // {BackgroundColor = Color.GreenYellow};
             anchors.Add(spacer);
 
             layout.Children.Add(spacer,
                 xConstraint: Constraint.RelativeToParent(p => spacer.LeftX),
-                yConstraint: Constraint.RelativeToParent(p => 2));
-          //      yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
+                yConstraint: Constraint.RelativeToView(view, (vl, element) => element.Y));
+            //      yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
 
             currentX += (float)spacer.Width + 1;
         }
@@ -139,7 +118,7 @@ namespace BachelorThesis.Controls
             var timeEvent = new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
             var item = new SecondAnchor(second, currentX, timeEvent, transactionEvent.Completion)
             {
-              //  BackgroundColor = Color.FromRgb(rnd.Next(150, 200), rnd.Next(150, 200), rnd.Next(150, 200))
+                //  BackgroundColor = Color.FromRgb(rnd.Next(150, 200), rnd.Next(150, 200), rnd.Next(150, 200))
             };
 
             anchors.Add(item);
@@ -156,7 +135,7 @@ namespace BachelorThesis.Controls
                 new TimeLineEvent(boxControl.Transaction.Identificator, transactionEvent, boxControl.HighlightColor);
             var item = new HourMinuteAnchor(hour, minute, currentX, timeEvent, transactionEvent.Completion)
             {
-               // BackgroundColor = Color.SandyBrown
+                // BackgroundColor = Color.SandyBrown
             };
             anchors.Add(item);
             layout.Children.Add(item, xConstraint: Constraint.RelativeToParent(p => item.LeftX));
@@ -176,53 +155,5 @@ namespace BachelorThesis.Controls
 
             currentX += (float)item.Width;
         }
-
-        //   private void AddSeparator(double separatorOffset, int day, int month, HourMinuteAnchor item)
-        //        {
-        //            var separator = new TimeLineSeparator()
-        //            {
-        //                Day = day,
-        //                Month = month
-        //            };
-        //            //            layout.Children.Add(separator,xConstraint: Constraint.RelativeToParent(p => separatorOffset - item.WidthRequest / 2f - separator.WidthRequest / 2f));
-        //            layout.Children.Add(separator, xConstraint: Constraint.RelativeToParent(p => separatorOffset));
-        //        }
-
-        //public void PrepareTimeLine(DateTime start, DateTime end)
-        //{
-        //    anchors = new List<TimeLineAnchor>();
-        //    var day = start.Day;
-        //    var month = start.Month;
-
-        //    var hour = start.Hour;
-        //    var minute = start.Minute;
-
-        //    currentX = 0;
-
-        //    AddSeparator(currentX, day, month, null);
-        //    currentX += 6;
-
-        //    while (hour < 24)
-        //    {
-        //        while (minute != 60)
-        //        {
-        //            var anchor = new HourMinuteAnchor(hour, minute, new TimeLineEvent("T1", "Rq", Color.Salmon))
-        //            {
-        //                LeftX = currentX,
-        //                Completion = TransactionCompletion.Requested
-
-        //            };
-        //            anchors.Add(anchor);
-        //            currentX += HourMinuteSpacing;
-        //            minute++;
-        //        }
-        //        hour++;
-        //    }
-
-        //    foreach (var anchor in anchors)
-        //    {
-        //        layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
-        //    }
-        //}
     }
 }
