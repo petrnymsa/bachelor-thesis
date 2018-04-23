@@ -132,7 +132,7 @@ namespace SimulationUtility.ViewModels
                     var eventVm = new EventControlViewModel(chunkVm)
                     {
                         CreationTime = tEvent.Created.ToString(XmlParsersConfig.DateTimeFormat),
-                        SelectedCompletion = ((CompletionChangedTransactionEvent) tEvent).Completion
+                        SelectedCompletion = tEvent.Completion
                     };
 
 

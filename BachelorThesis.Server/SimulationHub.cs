@@ -34,7 +34,7 @@ namespace BachelorThesis.Server
     // Client side
     public interface ISimulationHubClient
     {
-        Task NotifyEvent(CompletionChangedTransactionEvent transactionEvent);
+        Task NotifyEvent(TransactionEvent transactionEvent);
         Task NotifyStart(ProcessKind processKind);
         Task NotifySimulationEnd();
     }

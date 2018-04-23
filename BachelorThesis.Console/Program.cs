@@ -65,7 +65,7 @@ namespace BachelorThesis.ConsoleTest
                     switch (transactionEvent.EventType)
                     {
                         case TransactionEventType.CompletionChanged:
-                            var cEvent = (CompletionChangedTransactionEvent)transactionEvent;
+                            var cEvent = transactionEvent;
                             Console.Write($"\tTransaction's state changed to ");
                             Console.WriteLine(cEvent.Completion, Color.Salmon);
                             break;

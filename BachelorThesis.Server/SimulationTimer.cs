@@ -57,7 +57,7 @@ namespace BachelorThesis.Server
 
             foreach (var transactionEvent in events)
             {
-                await Hub.Clients.All.NotifyEvent((CompletionChangedTransactionEvent)transactionEvent);
+                await Hub.Clients.All.NotifyEvent(transactionEvent);
             }
         }
 

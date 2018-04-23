@@ -84,7 +84,7 @@ namespace SimulationUtility.ViewModels
 
         public TransactionEvent GetTransactionEvent()
         {
-            return new CompletionChangedTransactionEvent(SelectedTransactionInstance.Instance.Id, SelectedTransactionInstance.Instance.TransactionKindId, SelectedActor.Id,
+            return new TransactionEvent(TransactionEventType.CompletionChanged, SelectedTransactionInstance.Instance.Id, SelectedTransactionInstance.Instance.TransactionKindId, SelectedActor.Id,
                 DateTime.ParseExact(CreationTime, XmlParsersConfig.DateTimeFormat, CultureInfo.InvariantCulture), SelectedCompletion);
         }
 
