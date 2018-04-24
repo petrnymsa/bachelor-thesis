@@ -8,20 +8,20 @@
         <ResourceDictionary>
             <x:Double x:Key="TimeLineHeight">50</x:Double>
 
-            <Color x:Key="Primary">#2485FA</Color>
-            <Color x:Key="PrimaryDark">#1976D2</Color>
-            <Color x:Key="Accent">#0087ce</Color>
+            <Color x:Key="Primary">#52C7F5</Color>
+            <Color x:Key="PrimaryDark">#3F87DE</Color>
+            <Color x:Key="Accent">#3FDBDE</Color>
 
-            <Color x:Key="TransactionColor1">#FEC200</Color>
-            <Color x:Key="TransactionColor2">#CA765A</Color>
-            <Color x:Key="TransactionColor3">#2485FA</Color>
-            <Color x:Key="TransactionColor4">#C152D2</Color>
-            <Color x:Key="TransactionColor5">#3D4EB8</Color>
+            <Color x:Key="TransactionColor1">#486BFF</Color>
+            <Color x:Key="TransactionColor2">#3F87DE</Color>
+            <Color x:Key="TransactionColor3">#52C7F5</Color>
+            <Color x:Key="TransactionColor4">#4498DE</Color>
+            <Color x:Key="TransactionColor5">#3F87DE</Color>
 
             <Color x:Key="CanvasBackground">White</Color>
             <Color x:Key="TimeLineColor">#363a3f</Color>
             <Color x:Key="TimeLineColorAccent">LightSlateGray</Color>
-            <Color x:Key="ProgressColor">LightGreen</Color>
+            <Color x:Key="ProgressColor">#30D636</Color>
             <Color x:Key="StopColor">Salmon</Color>
             <Color x:Key="StrokeColor">Black</Color>
         </ResourceDictionary>
