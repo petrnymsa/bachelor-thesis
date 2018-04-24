@@ -13,10 +13,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Step" Clicked="BtnNextStep_OnClicked" />
-        <ToolbarItem Text="Play" Clicked="BtnNextStep_OnClicked" />
-        <ToolbarItem Text="Pause" Clicked="BtnNextStep_OnClicked" />
-        <ToolbarItem Text="Stop" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Icon="ic_action_fast_forward.png" Text="Step" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Icon="ic_action_play_arrow.png" Text="Play" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Icon="ic_action_pause.png" Text="Pause" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Icon="ic_action_stop.png" Text="Stop" Clicked="BtnNextStep_OnClicked" />
         <ToolbarItem Text="About" Order="Secondary" />
         <ToolbarItem Text="Legend" Order="Secondary" />
     </ContentPage.ToolbarItems>
