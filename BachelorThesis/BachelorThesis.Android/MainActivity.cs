@@ -34,7 +34,7 @@ namespace BachelorThesis.Droid
             //allowing the device to change the screen orientation based on the rotation
             MessagingCenter.Subscribe<Views.ProcessVisualisationPage>(this, "setLandscape", sender =>
             {
-                RequestedOrientation = ScreenOrientation.Landscape;
+                RequestedOrientation = ScreenOrientation.UserLandscape;
             });
 
             //during page close setting back to portrait
