@@ -21,15 +21,6 @@
         <ToolbarItem Text="Legend" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
-        <!--<Grid.RowDefinitions>
-            <RowDefinition  Height="Auto"/>
-            <RowDefinition  Height="*"/>
-        </Grid.RowDefinitions>
-
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Next" Clicked="BtnNextStep_OnClicked" />
-        </StackLayout>-->
-
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
