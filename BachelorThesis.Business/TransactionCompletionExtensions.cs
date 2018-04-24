@@ -10,15 +10,15 @@ namespace BachelorThesis.Business
             switch (completion)
             {
                 case TransactionCompletion.None: return 0f;
-                case TransactionCompletion.Requested: return 0.0f;
+                case TransactionCompletion.Requested: return 0.001f;
                 case TransactionCompletion.Promised: return 0.25f;
                 case TransactionCompletion.Executed: return 0.50f;
                 case TransactionCompletion.Stated: return 0.75f;
                 case TransactionCompletion.Accepted: return 1f;
-                case TransactionCompletion.Declined: return 0.40f;
-                case TransactionCompletion.Quitted: return 0.40f;
-                case TransactionCompletion.Rejected: return 0.5f;
-                case TransactionCompletion.Stopped: return 0.5f;
+                case TransactionCompletion.Declined: return 0.10f;
+                case TransactionCompletion.Quitted: return 0.10f;
+                case TransactionCompletion.Rejected: return 0.50f;
+                case TransactionCompletion.Stopped: return 0.50f;
          
                 default:
                     throw new ArgumentOutOfRangeException();
