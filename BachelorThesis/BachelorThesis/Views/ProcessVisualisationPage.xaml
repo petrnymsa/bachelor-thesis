@@ -17,6 +17,8 @@
         <ToolbarItem Text="Play" Clicked="BtnNextStep_OnClicked" />
         <ToolbarItem Text="Pause" Clicked="BtnNextStep_OnClicked" />
         <ToolbarItem Text="Stop" Clicked="BtnNextStep_OnClicked" />
+        <ToolbarItem Text="About" Order="Secondary" />
+        <ToolbarItem Text="Legend" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
         <!--<Grid.RowDefinitions>
