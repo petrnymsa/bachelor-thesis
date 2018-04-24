@@ -162,6 +162,7 @@ namespace BachelorThesis.Controls
 
         private List<TransactionBoxControl> descendats { get; set; }
 
+        private const float BorderWidth = 3f;
 
         private List<TransactionLinkControl> links;
 
@@ -207,7 +208,7 @@ namespace BachelorThesis.Controls
             var paintBorder = new SKPaint
             {
                 IsAntialias = true,
-                StrokeWidth = 2.5f,
+                StrokeWidth = BorderWidth,
                 Color = MainColor.ToSKColor(),
                 Style = SKPaintStyle.Stroke,
 
@@ -232,7 +233,7 @@ namespace BachelorThesis.Controls
             canvas.DrawRect(new SKRect(0, 0, AsPixel(WidthRequest), AsPixel(HeightRequest)), paintBorder);
             // progress rectangle
             if (Math.Abs(Progress) > 0.0)
-                canvas.DrawRect(new SKRect(3, 3, AsPixel(Progress * WidthRequest - 3f), AsPixel(HeightRequest - 3)), paintProgress);
+                canvas.DrawRect(new SKRect(BorderWidth, BorderWidth, AsPixel(Progress * WidthRequest) - BorderWidth, AsPixel(HeightRequest) - BorderWidth), paintProgress);
 
             //  progress helpers
             paintProgress.Color = Color.Chocolate.ToSKColor();
