@@ -24,6 +24,7 @@ namespace BachelorThesis.Controls
     {
         public const float ShapeRadius = 4;
         public const float StateToRequestArrowHead = 16;
+        public const float TextSpacing = 5f;
         private const int ArrowAngle = 35;
         private const int ArrowLength = 8;
 
@@ -148,10 +149,9 @@ namespace BachelorThesis.Controls
         }
 
         private readonly float arrowX;
-
         private readonly float arrowY;
-
         private Color strokeColor;
+
 
         #endregion
 
@@ -172,15 +172,17 @@ namespace BachelorThesis.Controls
             SourceX = sourceBox.GetCompletionPosition(sourceCompletion);
             TargetX = targetBox.GetCompletionPosition(targetCompletion) - targetBox.GetCompletionOffset(OffsetCompletion);
 
-            SourceText = SourceCompletion.AsAbbreviation();
-            TargetText = TargetCompletion.AsAbbreviation();
+            //            SourceText = SourceCompletion.AsAbbreviation();
+            //            TargetText = TargetCompletion.AsAbbreviation();
+            SourceText = SourceCompletion.ToString();
+            TargetText = TargetCompletion.ToString();
 
             arrowX = (float)(ArrowLength * Math.Sin(ArrowAngle * (Math.PI / 180)));
             arrowY = (float)(ArrowLength * Math.Cos(ArrowAngle * (Math.PI / 180)));
 
             spaceLength = space - ShapeRadius * 2;
             strokeColor = Color.Black;
-       
+
             RefreshLayout();
 
             // react to box sizes
@@ -188,12 +190,14 @@ namespace BachelorThesis.Controls
             targetBox.SizeChanged += (sender, args) => RefreshLayout();
             //set as source link
             SourceBox.AddLink(this);
+
+           // BackgroundColor = Color.LightGray;
         }
 
         public void RefreshLayout()
         {
             // little hack
-            if(TargetBox ==null || SourceBox == null )
+            if (TargetBox == null || SourceBox == null)
                 return;
 
             float leftSpace = 0;
@@ -211,10 +215,10 @@ namespace BachelorThesis.Controls
                 leftSpace = SourceBox.GetCompletionOffset(OffsetCompletion);
             else leftSpace = TargetBox.GetCompletionOffset(OffsetCompletion);
 
-            if(LinkStyle == TransactionLinkStyle.StateToState)
+            if (LinkStyle == TransactionLinkStyle.StateToState)
                 RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(TargetBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius));
             else
-                RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(SourceBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius*2 - StateToRequestArrowHead));
+                RelativeLayout.SetXConstraint(this, Constraint.RelativeToView(SourceBox, (parent, sibling) => sibling.X + leftSpace + offsetX - ShapeRadius * 2 - StateToRequestArrowHead));
 
             InvalidateSurface();
         }
@@ -248,17 +252,17 @@ namespace BachelorThesis.Controls
             };
 
             canvas.Clear();
-            HeightRequest = 4 * ShapeRadius + spaceLength + paint.StrokeWidth;
-            WidthRequest = 3 * ShapeRadius + paint.MeasureText(SourceText);
+            HeightRequest = 4 * ShapeRadius + spaceLength + paint.StrokeWidth*2;
+            WidthRequest = 3 * ShapeRadius + textPaint.MeasureText(SourceText.Length >= TargetText.Length ? SourceText : TargetText);
 
             var scale = (float)(e.Info.Width / this.Width); //scale canvas
             canvas.Scale(scale);
 
-           
+
 
             if (LinkStyle == StyleStateToState)
             {
-                WidthRequest = Math.Abs(SourceX - TargetX) + ShapeRadius * 5 + 5;
+                WidthRequest = Math.Abs(SourceX - TargetX) + ShapeRadius*2 + textPaint.MeasureText(SourceText.Length >= TargetText.Length ? SourceText : TargetText) + TextSpacing;
 
                 if (LinkOrientation == LinkOrientationDown)
                     DrawBendedDownSide(canvas, paint, textPaint, dashedPaint);
@@ -267,7 +271,7 @@ namespace BachelorThesis.Controls
             }
             else // State - Request
             {
-                HeightRequest += ShapeRadius*3 + 1 + arrowY;
+                HeightRequest += ShapeRadius * 3 + 1 + arrowY;
                 DrawStateToRequestDownSide(canvas, paint, textPaint, dashedPaint);
             }
 
@@ -280,13 +284,13 @@ namespace BachelorThesis.Controls
         private void DrawBendedDownSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
             //circle
-            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+            canvas.Translate(ShapeRadius + paint.StrokeWidth, ShapeRadius + paint.StrokeWidth);
             canvas.DrawCircle(0, 0, ShapeRadius, paint);
             canvas.Translate(0, ShapeRadius);
 
             // source text
             canvas.Save();
-            canvas.Translate(ShapeRadius, 5);
+            canvas.Translate(ShapeRadius, TextSpacing);
             canvas.DrawText(SourceText, 0, 0, textPaint);
 
             if (!string.IsNullOrEmpty(SourceCardinality))
@@ -303,7 +307,7 @@ namespace BachelorThesis.Controls
             DrawArrow(canvas, paint);
             // target text
             canvas.Save();
-            canvas.Translate(ShapeRadius, -10);
+            canvas.Translate(ShapeRadius, -2* TextSpacing);
             canvas.DrawText(TargetText, 0, 0, textPaint);
 
             if (!string.IsNullOrEmpty(TargetCardinality))
@@ -326,7 +330,7 @@ namespace BachelorThesis.Controls
             canvas.Translate(ShapeRadius, ShapeRadius * 2);
             // target text
             canvas.Save();
-            canvas.Translate(ShapeRadius / 2f + 5, ShapeRadius + 5);
+            canvas.Translate(ShapeRadius / 2f + TextSpacing, ShapeRadius + TextSpacing);
             canvas.DrawText(TargetText, 0, 0, textPaint);
             if (!string.IsNullOrEmpty(TargetCardinality))
             {
@@ -342,7 +346,7 @@ namespace BachelorThesis.Controls
 
             // source text
             canvas.Save();
-            canvas.Translate(ShapeRadius, -10);
+            canvas.Translate(ShapeRadius, -2 * TextSpacing);
             canvas.DrawText(SourceText, 0, 0, textPaint);
             if (!string.IsNullOrEmpty(SourceCardinality))
             {
@@ -372,7 +376,7 @@ namespace BachelorThesis.Controls
         private void DrawStateToRequestDownSide(SKCanvas canvas, SKPaint paint, SKPaint textPaint, SKPaint dashedPaint)
         {
             //circle
-            canvas.Translate(ShapeRadius + 1, ShapeRadius + 1);
+            canvas.Translate(ShapeRadius + paint.StrokeWidth, ShapeRadius + paint.StrokeWidth);
             canvas.DrawCircle(0, 0, ShapeRadius, paint);
             canvas.Translate(0, ShapeRadius);
 
@@ -390,7 +394,7 @@ namespace BachelorThesis.Controls
             canvas.Restore();
 
             //line
-            canvas.DrawLine(0, 0, 0, spaceLength + ShapeRadius *2, IsDashed ? dashedPaint : paint);
+            canvas.DrawLine(0, 0, 0, spaceLength + ShapeRadius * 2, IsDashed ? dashedPaint : paint);
             canvas.Translate(0, spaceLength + ShapeRadius * 2);
             canvas.DrawLine(0, 0, 0, ShapeRadius * 3, IsDashed ? dashedPaint : paint);
 
