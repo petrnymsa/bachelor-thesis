@@ -27,8 +27,20 @@ namespace BachelorThesis.Views
         {
 
             InitializeComponent();
-
             transactionBoxControls = new List<TransactionBoxControl>();
+            selectedCase = new SimulationCaseViewModel("Case -01", SimulationCases.Case01, "...");
+            this.Title = selectedCase.Name;
+
+            PrepareView();
+        }
+
+        public ProcessVisualisationPage(SimulationCaseViewModel selectedCase)
+        {
+            InitializeComponent();
+            this.selectedCase = selectedCase;
+            this.Title = selectedCase.Name;
+            transactionBoxControls = new List<TransactionBoxControl>();
+
             PrepareView();
         }
 
