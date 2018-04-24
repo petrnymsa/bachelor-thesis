@@ -109,18 +109,6 @@ namespace BachelorThesis.Controls
             get => (Color)GetValue(HighlightColorProperty);
             set => SetValue(HighlightColorProperty, value);
         }
-
-        public static BindableProperty ProgressColorProperty =
-            BindableProperty.Create(nameof(ProgressColor), typeof(Color), typeof(TransactionLinkControl), Color.Aquamarine,
-                BindingMode.OneWay, propertyChanged:
-                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
-
-        public Color ProgressColor
-        {
-            get => (Color)GetValue(ProgressColorProperty);
-            set => SetValue(ProgressColorProperty, value);
-        }
-
         public static BindableProperty MainColorProperty =
             BindableProperty.Create(nameof(MainColor), typeof(Color), typeof(TransactionLinkControl), Color.Black,
                 BindingMode.OneWay, propertyChanged:
@@ -132,15 +120,39 @@ namespace BachelorThesis.Controls
             set => SetValue(MainColorProperty, value);
         }
 
-        public static BindableProperty InvalidColorProperty =
-            BindableProperty.Create(nameof(InvalidColor), typeof(Color), typeof(TransactionLinkControl), Color.DarkSalmon,
+        public static BindableProperty ProgressColorProperty =
+            BindableProperty.Create(nameof(ProgressColor), typeof(Color), typeof(TransactionLinkControl), Color.LimeGreen,
                 BindingMode.OneWay, propertyChanged:
                 (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
 
-        public Color InvalidColor
+        public Color ProgressColor
         {
-            get => (Color)GetValue(InvalidColorProperty);
-            set => SetValue(InvalidColorProperty, value);
+            get => (Color)GetValue(ProgressColorProperty);
+            set => SetValue(ProgressColorProperty, value);
+        }
+
+
+        public static BindableProperty StopColorProperty =
+            BindableProperty.Create(nameof(StopColor), typeof(Color), typeof(TransactionLinkControl), Color.Red,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color StopColor
+        {
+            get => (Color)GetValue(StopColorProperty);
+            set => SetValue(StopColorProperty, value);
+        }
+
+
+        public static BindableProperty WarninigColorProperty =
+            BindableProperty.Create(nameof(WarningColor), typeof(Color), typeof(TransactionLinkControl), Color.Yellow,
+                BindingMode.OneWay, propertyChanged:
+                (bindable, oldValue, newValue) => { (bindable as TransactionBoxControl).InvalidateSurface(); });
+
+        public Color WarningColor
+        {
+            get => (Color)GetValue(WarninigColorProperty);
+            set => SetValue(WarninigColorProperty, value);
         }
 
         public TransactionInstance Transaction { get; set; }
@@ -149,6 +161,7 @@ namespace BachelorThesis.Controls
         #endregion
 
         private bool stopped = false;
+        private TransactionCompletion currentCompletion = TransactionCompletion.None;
         private const float BorderWidth = 3f;
         private readonly List<TransactionBoxControl> descendats;
         private readonly List<TransactionLinkControl> links;
@@ -186,11 +199,17 @@ namespace BachelorThesis.Controls
 
             };
 
+            var progressColor = ProgressColor;
+            if (currentCompletion == TransactionCompletion.Declined || currentCompletion == TransactionCompletion.Rejected)
+                progressColor = WarningColor;
+            else if (currentCompletion == TransactionCompletion.Stopped || currentCompletion == TransactionCompletion.Quitted)
+                progressColor = StopColor;
+
             var paintProgress = new SKPaint
             {
                 IsAntialias = true,
                 StrokeWidth = 1,
-                Color = !stopped ? ProgressColor.ToSKColor() : InvalidColor.ToSKColor(),
+                Color = progressColor.ToSKColor(),
                 Style = SKPaintStyle.StrokeAndFill,
 
             };
@@ -224,6 +243,7 @@ namespace BachelorThesis.Controls
 
         public void AddProgress(TransactionCompletion completion)
         {
+            currentCompletion = completion;
             if (completion == TransactionCompletion.Quitted || completion == TransactionCompletion.Stopped)
                 stopped = true;
 
@@ -231,6 +251,10 @@ namespace BachelorThesis.Controls
             // var end = completion.ToPercentValue();
             var end = completion.ToPercentValue();
             this.Animate("ProgressAnimation", x => Progress = (float)x, start, end, 4, 1200, Easing.SinInOut);
+
+            if(Math.Abs(start - end) < 0.000001)
+                InvalidateSurface();
+            
         }
 
 

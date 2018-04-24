@@ -130,7 +130,9 @@ namespace BachelorThesis
                 IsActive = isActive,
                 TransactionId = transactionId,
                 HighlightColor = color,
-                ProgressColor = (Color)App.Current.Resources["ProgressColor"]
+                ProgressColor = (Color)App.Current.Resources["ProgressColor"],
+                StopColor = (Color)App.Current.Resources["ProgressStopColor"],
+                WarningColor = (Color)App.Current.Resources["ProgressWarningColor"],
             };
         }
         

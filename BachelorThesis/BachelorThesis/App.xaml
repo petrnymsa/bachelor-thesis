@@ -22,8 +22,10 @@
             <Color x:Key="CanvasBackground">White</Color>
             <Color x:Key="TimeLineColor">#363a3f</Color>
             <Color x:Key="TimeLineColorAccent">LightSlateGray</Color>
-            <Color x:Key="ProgressColor">#30D636</Color>
-            <Color x:Key="StopColor">Salmon</Color>
+            <Color x:Key="ProgressColor">#32CD32</Color>
+            <Color x:Key="ProgressStopColor">Salmon</Color>
+            <Color x:Key="ProgressWarningColor">#fff960</Color>
+          
             <Color x:Key="StrokeColor">Black</Color>
         </ResourceDictionary>
 
