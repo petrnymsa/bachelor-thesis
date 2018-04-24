@@ -290,5 +290,12 @@ namespace BachelorThesis.Controls
         {
             links.Add(link);
         }
+
+        public void ResetProgress()
+        {
+            Progress = 0;
+            InvalidateSurface();
+            
+        }
     }
 }

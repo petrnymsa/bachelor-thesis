@@ -29,13 +29,5 @@ namespace BachelorThesis.Business.Simulation
 
             
         }
-
-        public void Reset()
-        {
-            base.ResetChunks();
-            Actors.Clear();
-            Prepare();
-            
-        }
     }
 }

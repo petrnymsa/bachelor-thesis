@@ -154,5 +154,14 @@ namespace BachelorThesis.Controls
 
             currentX += (float)item.Width;
         }
+
+        public void Reset()
+        {
+            anchors.Clear();
+            currentX = 0;
+            lastDay = lastMonth = null;
+
+            layout.Children.Clear();
+        }
     }
 }
