@@ -25,8 +25,6 @@ namespace BachelorThesis.Controls
             InitializeComponent();
             //   items = new List<HourMinuteAnchor>();
             anchors = new List<TimeLineAnchor>();
-
-            BackgroundColor = Color.LightGreen;
         }
         public void AssociateEvent(TransactionBoxControl boxControl, TransactionEvent transactionEvent)
         {

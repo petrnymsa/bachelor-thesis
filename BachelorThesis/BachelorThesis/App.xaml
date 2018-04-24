@@ -7,6 +7,7 @@
         <!-- Application resource dictionary -->
         <ResourceDictionary>
             <x:Double x:Key="TimeLineHeight">50</x:Double>
+            <GridLength x:Key="TimeLineRowHeight">50</GridLength>
 
             <Color x:Key="Primary">#52C7F5</Color>
             <Color x:Key="PrimaryDark">#3F87DE</Color>

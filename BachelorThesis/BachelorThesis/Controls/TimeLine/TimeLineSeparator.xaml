@@ -11,8 +11,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <BoxView Color="{StaticResource TimeLineColor}" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+        <BoxView Color="{StaticResource TimeLineColor}" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0" />
         <Label Grid.Row="1" TextColor="{StaticResource TimeLineColor}" HorizontalTextAlignment="Center" FontSize="10" Text="{Binding FormattedString,Source={x:Reference self}}"  />
-        <BoxView Grid.Row="2" Color="{StaticResource TimeLineColor}" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" Margin="0,1" />
+        <BoxView Grid.Row="2" Color="{StaticResource TimeLineColor}" WidthRequest="2" VerticalOptions="Fill" HorizontalOptions="Center" />
     </Grid>
 </controls:TimeLineAnchor>
