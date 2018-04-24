@@ -29,7 +29,7 @@ namespace BachelorThesis.Controls
 	        set { SetValue(MonthProperty, value); OnPropertyChanged(nameof(FormattedString)); }
 	    }
 
-	    public string FormattedString => $"{Day}.{Month}";
+	    public string FormattedString => $"{Day}.{Month}.";
 
         public TimeLineSeparator (int day, int month, double leftX) : base(leftX)
 		{
