@@ -74,6 +74,8 @@ namespace BachelorThesis.Controls
             anchors.Add(anchor);
 
             layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
+            scrollView.ScrollToAsync(anchor, ScrollToPosition.End, true);
+
             currentX += (float)anchor.Width + FullTimeSpacing;
         }
 
@@ -87,6 +89,7 @@ namespace BachelorThesis.Controls
             anchors.Add(anchor);
 
             layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
+
             currentX += (float)anchor.Width + FullTimeSpacing;
         }
 
@@ -95,6 +98,8 @@ namespace BachelorThesis.Controls
 
             var separator = new TimeLineSeparator(day, month, currentX);
             layout.Children.Add(separator, xConstraint: Constraint.RelativeToParent(p => separator.LeftX));
+            scrollView.ScrollToAsync(separator, ScrollToPosition.End, true);
+
             currentX += (float)separator.Width;
         }
 
@@ -108,7 +113,7 @@ namespace BachelorThesis.Controls
                 xConstraint: Constraint.RelativeToParent(p => spacer.LeftX),
                 yConstraint: Constraint.RelativeToParent(p => 4));
             //      yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
-
+            scrollView.ScrollToAsync(spacer, ScrollToPosition.End, true);
             currentX += (float)spacer.Width + FullTimeSpacing;
         }
 

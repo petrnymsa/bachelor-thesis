@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BachelorThesis.Controls.TimeLine">
-    <ScrollView x:Name="scrollView" Orientation="Horizontal" Padding="0" Margin="0">
+    <ScrollView x:Name="scrollView" Orientation="Horizontal" Padding="0,0,0,0" Margin="0,0,10,0">
         <RelativeLayout x:Name="layout" />
     </ScrollView>
 </ContentView>
