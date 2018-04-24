@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:BachelorThesis"
              xmlns:controls="clr-namespace:BachelorThesis.Controls"
-
-             x:Class="BachelorThesis.Views.ProcessVisualisationPage">
+             x:Class="BachelorThesis.Views.ProcessVisualisationPage"
+             Title="Case-01">
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:Double x:Key="BarHeight">30</x:Double>
