@@ -39,10 +39,10 @@
 
             <Label Grid.Row="0" Text="2018" TextColor="{StaticResource TimeLineColor}" FontSize="24" VerticalOptions="Center" HorizontalOptions="Center" />
 
-            <ScrollView Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Padding="0" Margin="0">
-                <controls:TimeLine x:Name="timeLineLayout" HeightRequest="{StaticResource TimeLineHeight}" Margin="0" Padding="0"
-                                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
-            </ScrollView>
+
+            <controls:TimeLine x:Name="timeLineLayout" HeightRequest="{StaticResource TimeLineHeight}" Margin="0" Padding="0"  Grid.Row="0" Grid.Column="1"
+                                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=0}"/>
+
 
             <BoxView Color="{StaticResource TimeLineColor}" HorizontalOptions="FillAndExpand" HeightRequest="2" Margin="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
         </Grid>
