@@ -14,7 +14,7 @@ namespace BachelorThesis.Controls
     public partial class TimeLine : ContentView
     {
         public const float HourMinuteSpacing = 60;
-        private const int FullTimeSpacing = 3;
+        private const int FullTimeSpacing = 6;
         private int? lastDay = null;
         private int? lastMonth = null;
 
@@ -32,6 +32,7 @@ namespace BachelorThesis.Controls
         {
 
             var lastAnchor = anchors.LastOrDefault();
+
             var month = transactionEvent.Created.Month;
             var day = transactionEvent.Created.Day;
             var hour = transactionEvent.Created.Hour;
@@ -88,7 +89,7 @@ namespace BachelorThesis.Controls
             anchors.Add(anchor);
 
             layout.Children.Add(anchor, xConstraint: Constraint.RelativeToParent(p => anchor.LeftX));
-            currentX += (float)anchor.Width + 3;
+            currentX += (float)anchor.Width + FullTimeSpacing;
         }
 
         private void AddDayMonthSeparator(int month, int day)
@@ -110,7 +111,7 @@ namespace BachelorThesis.Controls
                 yConstraint: Constraint.RelativeToParent(p => 4));
             //      yConstraint: Constraint.RelativeToParent(p => p.Height * 0.5f - spacer.Height / 2f));
 
-            currentX += (float)spacer.Width + 2;
+            currentX += (float)spacer.Width + FullTimeSpacing;
         }
 
         private void AddSecondsAnchor(TransactionBoxControl boxControl, TransactionEvent transactionEvent, int second)
