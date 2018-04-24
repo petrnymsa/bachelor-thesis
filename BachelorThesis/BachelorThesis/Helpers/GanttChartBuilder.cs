@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using BachelorThesis.Business.DataModels;
 using BachelorThesis.Controls;
 using Xamarin.Forms;
 
-namespace BachelorThesis
+namespace BachelorThesis.Helpers
 {
     public class GanttChartBuilder
     {

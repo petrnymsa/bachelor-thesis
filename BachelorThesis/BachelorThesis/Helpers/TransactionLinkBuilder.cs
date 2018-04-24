@@ -2,7 +2,7 @@
 using BachelorThesis.Controls;
 using Xamarin.Forms;
 
-namespace BachelorThesis
+namespace BachelorThesis.Helpers
 {
     public class TransactionLinkBuilder
     {
