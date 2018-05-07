@@ -100,34 +100,6 @@ namespace BachelorThesis.Business.DataModels
             return links.Where(x => x.SourceTransactionKindId == transactionKindId).ToList();
         }
 
-        //public ProcessInstance NewInstance(DateTime startTime, float completion = 0f)
-        //{
-        //    var process = new ProcessInstance(startTime, null,Id, completion);
-        //    foreach (var kind in transactions)
-        //    {
-        //        var instance = kind.NewInstance(process.Id);
-        //        AddChild(kind, instance, process);
-        //        process.AddTransaction(instance);
-          
-        //    }
-
-        //    return process;
-        //}
-
-//        private void AddChild(TransactionKind node, TransactionInstance instance, ProcessInstance process)
-//        {
-//            if(node == null)
-//                return;
-//
-//            foreach (var child in node.GetChildren())
-//            {
-//                var childInstance = child.NewInstance(process.ProcessKindId);
-//                instance.AddChild(childInstance);
-//                
-//                AddChild(child,childInstance,process);
-//            }
-//        }
-
         public override string ToString()
         {
             return $"{nameof(transactions)}: {transactions.Count}, {nameof(links)}: {links.Count}, {nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(ActorRoles)}: {ActorRoles.Count}";

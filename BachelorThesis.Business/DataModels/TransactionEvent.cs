@@ -34,39 +34,6 @@ namespace BachelorThesis.Business.DataModels
             Created = created;
             Completion = completion;
         }
-
-     //   public abstract void DoTransactionAction(TransactionInstance instance);
+     
     }
-
-    //public class CompletionChangedTransactionEvent : TransactionEvent
-    //{
-        
-
-    //    public CompletionChangedTransactionEvent(int transactionInstanceId, int transactionKindId, int raisedByActorId, DateTime created, TransactionCompletion completion)
-    //        : base(TransactionEventType.CompletionChanged, transactionInstanceId, transactionKindId, raisedByActorId, created)
-    //    {
-    //        Completion = completion;
-    //    }
-
-    //    public override void DoTransactionAction(TransactionInstance instance)
-    //    {
-    //        instance.Completion = Completion;
-    //    }
-    //}
-
-    //public class InitiatorAssigned : TransactionEvent
-    //{
-    //    public int InitiatorId { get; set; }
-
-    //    public InitiatorAssigned(int transactionInstanceId, int raisedByActorId, DateTime created, int initiatorId) 
-    //        : base(TransactionEventType.InitiatorAssigned, transactionInstanceId, raisedByActorId, created)
-    //    {
-    //        this.InitiatorId = initiatorId;
-    //    }
-
-    //    public override void DoTransactionAction(TransactionInstance instance)
-    //    {
-    //        instance.InitiatorId = InitiatorId;
-    //    }
-    //}
 }

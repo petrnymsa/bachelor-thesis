@@ -16,9 +16,6 @@
         <controls:BindableToolbarItem x:Name="btnPlay" Icon="ic_action_play_arrow.png" Text="Play" Clicked="BtnPlay_OnClicked" Priority="0"  />
         <controls:BindableToolbarItem x:Name="btnPause" Icon="ic_action_pause.png" Text="Pause" Clicked="BtnPause_OnClicked"  Priority="1" IsVisible="False"/>
         <controls:BindableToolbarItem x:Name="btnNextStep" Icon="ic_action_fast_forward.png" Text="Step" Clicked="BtnNextStep_OnClicked" Priority="2" />
-        <!--<ToolbarItem Icon="ic_action_stop.png" Text="Stop" IsEnabled="False" Priority="3" />-->
-        <ToolbarItem Text="About" Order="Secondary" />
-        <ToolbarItem Text="Legend" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0" BackgroundColor="{StaticResource CanvasBackground}">
 
