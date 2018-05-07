@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Simulation Name="Case03">
+  <Actors>
+    <Actor Id="1" ActorRoleId="1" FirstName="George" LastName="Lucas" />
+    <Actor Id="2" ActorRoleId="2" FirstName="George" LastName="Lucas" />
+    <Actor Id="3" ActorRoleId="3" FirstName="Bob" LastName="Freeman" />
+    <Actor Id="4" ActorRoleId="4" FirstName="Alice" LastName="Freeman" />
+  </Actors>
+  <ProcessInstance Id="1" KindId="1" StartTime="" ExpectedEndTime="">
+    <TransactionInstance Id="1" KindId="1" Identificator="T1" CompletionType="0" ProcessInstanceId="1" InitiatorId="0" ExecutorId="0" ParentId="0">
+      <TransactionInstance Id="2" KindId="2" Identificator="T2" CompletionType="0" ProcessInstanceId="1" InitiatorId="0" ExecutorId="0" ParentId="1" />
+    </TransactionInstance>
+    <TransactionInstance Id="3" KindId="3" Identificator="T3" CompletionType="0" ProcessInstanceId="1" InitiatorId="0" ExecutorId="0" ParentId="0">
+      <TransactionInstance Id="4" KindId="4" Identificator="T4" CompletionType="0" ProcessInstanceId="1" InitiatorId="0" ExecutorId="0" ParentId="3" />
+      <TransactionInstance Id="5" KindId="5" Identificator="T5" CompletionType="0" ProcessInstanceId="1" InitiatorId="0" ExecutorId="0" ParentId="3" />
+    </TransactionInstance>
+  </ProcessInstance>
+  <Chunks>
+    <Chunk>
+      <Event TransactionId="1" TransactionKindId="1" RaisedById="1" Created="01-02-2018 09:00:00">
+        <CompletionChanged Completion="Requested" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="4" Created="01-02-2018 09:01:00">
+        <CompletionChanged Completion="Requested" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="1" Created="01-02-2018 09:01:10">
+        <CompletionChanged Completion="Promised" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="1" TransactionKindId="1" RaisedById="4" Created="01-02-2018 09:01:30">
+        <CompletionChanged Completion="Promised" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="1" Created="01-02-2018 09:01:40">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="1" Created="01-02-2018 09:02:00">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="4" Created="01-02-2018 09:02:15">
+        <CompletionChanged Completion="Rejected" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="1" Created="01-02-2018 09:02:28">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="1" Created="01-02-2018 09:02:33">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="2" TransactionKindId="2" RaisedById="4" Created="01-02-2018 09:03:00">
+        <CompletionChanged Completion="Accepted" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="1" TransactionKindId="1" RaisedById="4" Created="01-02-2018 09:03:15">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="1" TransactionKindId="1" RaisedById="4" Created="01-02-2018 09:20:10">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="1" TransactionKindId="1" RaisedById="1" Created="01-02-2018 09:25:12">
+        <CompletionChanged Completion="Accepted" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="3" TransactionKindId="3" RaisedById="2" Created="02-02-2018 08:30:00">
+        <CompletionChanged Completion="Requested" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="3" TransactionKindId="3" RaisedById="3" Created="02-02-2018 08:30:20">
+        <CompletionChanged Completion="Promised" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="3" Created="02-02-2018 08:30:25">
+        <CompletionChanged Completion="Requested" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="2" Created="02-02-2018 08:30:40">
+        <CompletionChanged Completion="Promised" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="3" TransactionKindId="3" RaisedById="3" Created="02-02-2018 08:32:20">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="3" TransactionKindId="3" RaisedById="3" Created="02-02-2018 08:38:20">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="3" TransactionKindId="3" RaisedById="2" Created="02-02-2018 08:39:00">
+        <CompletionChanged Completion="Accepted" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="2" Created="01-03-2018 16:35:00">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="1" Created="01-03-2018 16:38:00">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="3" Created="01-03-2018 16:40:00">
+        <CompletionChanged Completion="Rejected" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="5" TransactionKindId="5" RaisedById="3" Created="01-03-2018 16:41:00">
+        <CompletionChanged Completion="Requested" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="2" Created="01-03-2018 16:41:10">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+      <Event TransactionId="5" TransactionKindId="5" RaisedById="2" Created="01-03-2018 16:41:20">
+        <CompletionChanged Completion="Promised" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="5" TransactionKindId="5" RaisedById="2" Created="01-03-2018 16:41:30">
+        <CompletionChanged Completion="Executed" />
+      </Event>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="2" Created="01-03-2018 16:41:42">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+      <Event TransactionId="5" TransactionKindId="5" RaisedById="2" Created="01-03-2018 16:44:10">
+        <CompletionChanged Completion="Stated" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="5" TransactionKindId="5" RaisedById="3" Created="01-03-2018 16:44:30">
+        <CompletionChanged Completion="Accepted" />
+      </Event>
+    </Chunk>
+    <Chunk>
+      <Event TransactionId="4" TransactionKindId="4" RaisedById="3" Created="01-03-2018 16:50:40">
+        <CompletionChanged Completion="Accepted" />
+      </Event>
+    </Chunk>
+  </Chunks>
+</Simulation>

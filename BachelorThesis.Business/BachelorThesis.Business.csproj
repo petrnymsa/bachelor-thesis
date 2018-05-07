@@ -7,7 +7,12 @@
   <ItemGroup>
     <None Remove="SimulationCases\case-01.xml" />
     <None Remove="SimulationCases\case-02.xml" />
+    <None Remove="SimulationCases\case-03.xml" />
     <None Remove="SimulationCases\definition.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SimulationCases\case-03.xml" />
   </ItemGroup>
 
   <ItemGroup>

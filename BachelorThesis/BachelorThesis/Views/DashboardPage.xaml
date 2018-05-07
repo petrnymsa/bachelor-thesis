@@ -13,27 +13,25 @@
                 <Color>Maroon</Color>
                 <Color>Pink</Color>
             </chart:ChartColorCollection>
+
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter  Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
         <StackLayout>
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>-->
-
-            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="200">
+            <!-- # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # -->
+            <Grid HeightRequest="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Text="Average Waiting Time of Rental Contracting" HorizontalOptions="Center" Margin="0,5" />
+                <Label Text="New Contract Average Waiting Time" />
                 <chart:SfChart Grid.Row="1" x:Name="chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <chart:SfChart.PrimaryAxis>
                         <chart:CategoryAxis>
@@ -46,14 +44,18 @@
                     <chart:SfChart.SecondaryAxis>
                         <chart:NumericalAxis>
                             <chart:NumericalAxis.Title>
-                                <chart:ChartAxisTitle Text="Wait start (minutes)"/>
+                                <chart:ChartAxisTitle Text="Total minutes"/>
                             </chart:NumericalAxis.Title>
                         </chart:NumericalAxis>
                     </chart:SfChart.SecondaryAxis>
-                    
-                    <chart:ColumnSeries x:Name="columnSeries" DataMarkerPosition="Top" EnableAnimation="True">
+
+                    <chart:ColumnSeries x:Name="contractAverageWaiting" DataMarkerPosition="Top" EnableAnimation="True">
                         <chart:ColumnSeries.DataMarker>
-                            <chart:ChartDataMarker />
+                            <chart:ChartDataMarker>
+                                <chart:ChartDataMarker.LabelStyle>
+                                    <chart:DataMarkerLabelStyle LabelPosition="Inner" />
+                                </chart:ChartDataMarker.LabelStyle>
+                            </chart:ChartDataMarker>
                         </chart:ColumnSeries.DataMarker>
                         <chart:ColumnSeries.ColorModel>
                             <chart:ChartColorModel Palette="Custom">
@@ -70,18 +72,108 @@
                     </chart:ColumnSeries>
                 </chart:SfChart>
             </Grid>
-
-            <Grid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="160">
+  
+            <!-- # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # -->
+            <Grid HeightRequest="300" Padding="5,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Text="Current Month Success Rate" HorizontalOptions="Center" Margin="0,5" />
+                <Label Text="Daily New Rental Contracts" HorizontalOptions="Center" Margin="0,5" />
+                <chart:SfChart Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <chart:SfChart.PrimaryAxis>
+                        <!--<chart:CategoryAxis ShowMajorGridLines="False" PlotOffset="10" AxisLineOffset="10">-->
+                        <chart:CategoryAxis>
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Week"/>
+                            </chart:CategoryAxis.Title>
+                            <!--<chart:CategoryAxis.MajorTickStyle>
+                                <chart:ChartAxisTickStyle  TickSize="10"/>
+                            </chart:CategoryAxis.MajorTickStyle>-->
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis Maximum="50" PlotOffset="6">
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text=""/>
+                            </chart:NumericalAxis.Title>
+                            <!--<chart:NumericalAxis.AxisLineStyle>
+                                <chart:ChartLineStyle  StrokeWidth="10"/>
+                            </chart:NumericalAxis.AxisLineStyle>-->
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
+                    <chart:LineSeries x:Name="dailyNewContracts" EnableTooltip="True" StrokeWidth="2" EnableAnimation="True" Color="DodgerBlue">
+                        <chart:LineSeries.DataMarker>
+                            <chart:ChartDataMarker ShowLabel="False" ShowMarker="True" MarkerBorderWidth="1" MarkerType="Square" MarkerWidth="6" MarkerHeight="6"  />
+                        </chart:LineSeries.DataMarker>
+                    </chart:LineSeries>
+                </chart:SfChart>
+            </Grid>
+
+            <!-- # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # -->
+            <Grid HeightRequest="300" Padding="5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Income - Expense" HorizontalOptions="Center" Margin="0,5" />
+                <chart:SfChart Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis>
+                            <chart:CategoryAxis.Title>
+                                <chart:ChartAxisTitle Text="Month"/>
+                            </chart:CategoryAxis.Title>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis>
+                            <chart:NumericalAxis.Title>
+                                <chart:ChartAxisTitle Text="Total $"/>
+                            </chart:NumericalAxis.Title>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
+
+                    <chart:SfChart.Legend>
+                        <chart:ChartLegend DockPosition="Bottom" Orientation="Horizontal" OverflowMode="Wrap"/>
+                    </chart:SfChart.Legend>
+
+                    <chart:ColumnSeries x:Name="incomeSeries" Label="Income" EnableTooltip="True" EnableAnimation="True" IsVisibleOnLegend="True" Color="LightGreen" DataMarkerPosition="Top">
+                        <chart:ColumnSeries.DataMarker>
+                            <chart:ChartDataMarker ShowLabel="False" ShowMarker="False">
+                                <chart:ChartDataMarker.LabelStyle>
+                                    <chart:DataMarkerLabelStyle  LabelPosition="Inner"/>
+                                </chart:ChartDataMarker.LabelStyle>
+                            </chart:ChartDataMarker>
+                        </chart:ColumnSeries.DataMarker>
+                    </chart:ColumnSeries>
+
+                    <chart:ColumnSeries x:Name="expenseSeries" Label="Expense" EnableTooltip="True" EnableAnimation="True" Color="Salmon" DataMarkerPosition="Top">
+                        <chart:ColumnSeries.DataMarker>
+                            <chart:ChartDataMarker ShowLabel="False" ShowMarker="False">
+                                <chart:ChartDataMarker.LabelStyle>
+                                    <chart:DataMarkerLabelStyle  LabelPosition="Inner"/>
+                                </chart:ChartDataMarker.LabelStyle>
+                            </chart:ChartDataMarker>
+
+                        </chart:ColumnSeries.DataMarker>
+                    </chart:ColumnSeries>
+                </chart:SfChart>
+            </Grid>
+
+            <!-- # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # - # - # - # - #- # - # -->
+            <Grid HeightRequest="160">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Text="Current Month Success Rate" />
                 <chart:SfChart Grid.Row="1" x:Name="chartPie" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <chart:SfChart.Legend>
                         <chart:ChartLegend ToggleSeriesVisibility="True" DockPosition="Left"/>
                     </chart:SfChart.Legend>
-                    <chart:PieSeries x:Name="pieSeries" DataMarkerPosition="OutsideExtended" ConnectorLineType="Bezier" EnableAnimation="True" CircularCoefficient="0.8" >
+                    <chart:PieSeries x:Name="monthSuccessRate" DataMarkerPosition="OutsideExtended" ConnectorLineType="Bezier" EnableAnimation="True" CircularCoefficient="0.8" >
                         <chart:PieSeries.DataMarker>
                             <chart:ChartDataMarker LabelContent="Percentage" />
                         </chart:PieSeries.DataMarker>
@@ -91,60 +183,9 @@
                     </chart:PieSeries>
                 </chart:SfChart>
             </Grid>
-
-            <Grid Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HeightRequest="300" Padding="5,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label Text="Daily Number of Requests" HorizontalOptions="Center" Margin="0,5" />
-                <chart:SfChart Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <!--<chart:SfChart.Legend>
-                        <chart:ChartLegend ToggleSeriesVisibility="True" DockPosition="Top"/>
-                    </chart:SfChart.Legend>-->
-                    <chart:SfChart.PrimaryAxis>
-                        <chart:CategoryAxis ShowMajorGridLines="False" PlotOffset="10" AxisLineOffset="10">
-                            <chart:CategoryAxis.Title>
-                                <chart:ChartAxisTitle Text="Week"/>
-                            </chart:CategoryAxis.Title>
-                            <chart:CategoryAxis.MajorTickStyle>
-                                <chart:ChartAxisTickStyle  TickSize="10"/>
-                            </chart:CategoryAxis.MajorTickStyle>
-                        </chart:CategoryAxis>
-                    </chart:SfChart.PrimaryAxis>
-
-                    <chart:SfChart.SecondaryAxis>
-                        <chart:NumericalAxis Maximum="50">
-                            <chart:NumericalAxis.Title>
-                                <chart:ChartAxisTitle Text="# Requests"/>
-                            </chart:NumericalAxis.Title>
-                            <chart:NumericalAxis.AxisLineStyle>
-                                <chart:ChartLineStyle  StrokeWidth="10"/>
-                            </chart:NumericalAxis.AxisLineStyle>
-                        </chart:NumericalAxis>
-                    </chart:SfChart.SecondaryAxis>
-                    <chart:LineSeries x:Name="lineSeries" EnableTooltip="True" EnableAnimation="True" StrokeWidth="2" Color="DodgerBlue">
-                        <chart:LineSeries.DataMarker>
-                            <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" ShowLabel="False" ShowMarker="True" MarkerBorderColor="White" MarkerBorderWidth="2" MarkerColor="LightSkyBlue" />
-                        </chart:LineSeries.DataMarker>
-                        <!--<chart:LineSeries.ColorModel>
-                            <chart:ChartColorModel Palette="Custom">
-                                <chart:ChartColorModel.CustomGradientColors>
-                                    <chart:ChartGradientColor StartPoint="0.5,1" EndPoint="0.5,0">
-                                        <chart:ChartGradientColor.GradientStops>
-                                            <chart:ChartGradientStop Color="DodgerBlue" Offset= "0"/>
-                                            <chart:ChartGradientStop Color="LightSkyBlue" Offset= "1"/>
-                                        </chart:ChartGradientColor.GradientStops>
-                                    </chart:ChartGradientColor>
-                                </chart:ChartColorModel.CustomGradientColors>
-                            </chart:ChartColorModel>
-                        </chart:LineSeries.ColorModel>-->
-                    </chart:LineSeries>
-                </chart:SfChart>
-            </Grid>
         </StackLayout>
 
 
     </ScrollView>
-   
+
 </ContentPage>

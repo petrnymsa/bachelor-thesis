@@ -36,6 +36,8 @@ namespace SimulationUtility.ViewModels
 
         public string SimulationName { get; set; }
 
+        public static MainPageViewModel instance;
+
         public MainPageViewModel()
         {
             simulationCaseParser = new SimulationCaseParser();
@@ -46,6 +48,8 @@ namespace SimulationUtility.ViewModels
             LoadModelCommand = new Command(LoadModelCommandExecute);
 
             SaveSimulationCommand = new Command(SaveSimulationCommandExecute, obj => ParserResult != null);
+
+            instance = this;
         }
 
         private void LoadModelCommandExecute(object obj)
@@ -59,7 +63,8 @@ namespace SimulationUtility.ViewModels
             
 
             var parser = new ProcessKindXmlParser();
-            ProcessKind = parser.ParseDefinition(dialog.FileName);
+            var xml= File.ReadAllText(dialog.FileName);
+            ProcessKind = parser.ParseDefinition(xml);
             ProcessKind.ActorRoles.ForEach(x => ActorRoles.Add(x));
             // = result;
             //result.ActorRoles.ForEach(x => ActorRoles.Add(x));
@@ -159,5 +164,13 @@ namespace SimulationUtility.ViewModels
         }
 
         public static ActorRole GetActorRole(int id) => ProcessKind.ActorRoles.First(x => x.Id == id);
+
+        public static ChunkControlViewModel SecondLastChunk()
+        {
+            if (instance.ChunkControls.Count > 1)
+                return (ChunkControlViewModel) instance.ChunkControls[instance.ChunkControls.Count - 2].DataContext;
+
+            return null;
+        }
     }
 }

@@ -3,28 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BachelorThesis.MainPageMaster"
              Title="Master">
-  <StackLayout>
-    <ListView x:Name="MenuItemsListView"
+    <StackLayout>
+        <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
-      <ListView.Header>
-        <Grid BackgroundColor="{StaticResource Primary}" HeightRequest="100">
-          
-        </Grid>
-      </ListView.Header>
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Padding="15,20" HorizontalOptions="FillAndExpand">
-              <Label VerticalOptions="FillAndExpand" 
-                    VerticalTextAlignment="Center" 
-                    Text="{Binding Title}" 
-                    FontSize="16"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+            <ListView.Header>
+                <Grid BackgroundColor="{StaticResource Primary}" HeightRequest="150" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label  Text="Rent-A-Car Systems" TextColor="WhiteSmoke" HorizontalOptions="Center"  HorizontalTextAlignment="Center" FontSize="20" VerticalOptions="Center"/>
+
+                    <Grid Grid.Row="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image  Source="ic_account_circle.png" HeightRequest="80" WidthRequest="80" HorizontalOptions="Start"/>
+                        <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                            <Label Text="John Doe" FontSize="14" TextColor="WhiteSmoke" HorizontalOptions="FillAndExpand"  HorizontalTextAlignment="Start"  />
+                            <Label Text="Accountant Manager" FontSize="14" TextColor="WhiteSmoke" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
+                        </StackLayout>
+                    </Grid>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid HorizontalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Icon}" WidthRequest="50" HeightRequest="50" />
+                            <Label Grid.Column="1"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="16"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

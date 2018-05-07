@@ -44,8 +44,9 @@ namespace BachelorThesis.Views
 
             Cases = new ObservableCollection<SimulationCaseViewModel>()
             {
-                new SimulationCaseViewModel("Happy Path", SimulationCases.Case01, "..."),
-                new SimulationCaseViewModel("Declined Contract", SimulationCases.Case02, "..."),
+                new SimulationCaseViewModel("Happy Path", SimulationCases.Case01, "A straightforward scenario with 'happy' path. The contract is requested and successfully accepted. Later the car is picked up and then returned without complications."),
+                new SimulationCaseViewModel("Declined Contract", SimulationCases.Case02, "A short scenario, when contract is declined and costumer decided to leave."),
+                new SimulationCaseViewModel("Penalty Payment", SimulationCases.Case03, "Most complex scenario. Firstly, contract is declined, but then successfully signed. When customer wanted to drop off the car, the penalty payment was charged.")
             };
         }
 
@@ -53,10 +54,11 @@ namespace BachelorThesis.Views
 
         private async void Navigate()
         {
-            if (SelectedCase != null)
-            {
-                await navigation.PushAsync(new ProcessVisualisationPage(SelectedCase));
-            }
+            if (SelectedCase == null) return;
+
+
+            await navigation.PushAsync(new ProcessVisualisationPage(SelectedCase));
+            SelectedCase = null;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SimulationUtility.ViewModels
         public List<TransactionCompletion> TransactionCompletions { get; set; }
         public TransactionCompletion SelectedCompletion { get; set; }
 
-       // public List<TransactionEventType> TransactionEventTypes { get; set; }
+        // public List<TransactionEventType> TransactionEventTypes { get; set; }
 
         //public TransactionEventType SelectedEventType { get; set; }
 
@@ -42,7 +42,7 @@ namespace SimulationUtility.ViewModels
 
             RemoveMeCommand = new Command(RemoveMeCommandExecute);
 
-          //  TransactionEventTypes = new List<TransactionEventType>(Enum.GetValues(typeof(TransactionEventType)).Cast<TransactionEventType>());
+            //  TransactionEventTypes = new List<TransactionEventType>(Enum.GetValues(typeof(TransactionEventType)).Cast<TransactionEventType>());
             TransactionCompletions = new List<TransactionCompletion>(Enum.GetValues(typeof(TransactionCompletion)).Cast<TransactionCompletion>());
 
             Actors = new ObservableCollection<ActorViewModel>();
@@ -69,7 +69,17 @@ namespace SimulationUtility.ViewModels
 
             }
 
-            CreationTime = "01-02-2018 15:34:23";
+            var lastChunk = MainPageViewModel.SecondLastChunk();
+
+            if (this.chunkControlViewModel.Events.Count > 1)
+                CreationTime =
+                    ((EventControlViewModel)chunkControlViewModel.Events[chunkControlViewModel.Events.Count - 2]
+                        .DataContext).CreationTime;
+            else if (lastChunk != null && lastChunk.Events.Count > 0)
+                CreationTime = ((EventControlViewModel)(lastChunk.Events[lastChunk.Events.Count - 1]
+                    .DataContext)).CreationTime;
+            else
+                CreationTime = "01-02-2018 15:34:23";
         }
 
         public void SetSelectedActor(int actorId)

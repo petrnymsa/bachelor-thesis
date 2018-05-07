@@ -85,8 +85,8 @@ namespace BachelorThesis.Business.Parsers
             var root = new XElement(XmlParsersConfig.ElementProcessInstance,
                 new XAttribute(XmlParsersConfig.AttributeId, process.Id),
                 new XAttribute(XmlParsersConfig.AttributeKindId, process.ProcessKindId),
-                new XAttribute(XmlParsersConfig.AttributeStartTime, process.StartTime?.ToString(XmlParsersConfig.DateTimeFormat)),
-                new XAttribute(XmlParsersConfig.AttributeExpectedEndTime, process.ExpectedEndTime?.ToString(XmlParsersConfig.DateTimeFormat)));
+                new XAttribute(XmlParsersConfig.AttributeStartTime, process.StartTime.HasValue ? process.StartTime.Value.ToString(XmlParsersConfig.DateTimeFormat) : string.Empty),
+                new XAttribute(XmlParsersConfig.AttributeExpectedEndTime, process.ExpectedEndTime.HasValue ? process.ExpectedEndTime.Value.ToString(XmlParsersConfig.DateTimeFormat) : string.Empty));
 
             foreach (var transaction in process.GetTransactions())
             {

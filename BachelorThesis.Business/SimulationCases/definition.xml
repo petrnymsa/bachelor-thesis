@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ProcessKind Id="1" Name="Rental contract">
   <ActorRoles>
     <ActorRole Id="1" Name="Renter" />

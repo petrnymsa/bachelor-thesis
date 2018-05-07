@@ -14,7 +14,7 @@ namespace BachelorThesis.Views
         {
             InitializeComponent();
 
-            columnSeries.ItemsSource = new List<ChartDataPoint>
+            contractAverageWaiting.ItemsSource = new List<ChartDataPoint>
             {
                 new ChartDataPoint("Jan", 40.5),
                 new ChartDataPoint("Feb", 37.1),
@@ -22,23 +22,39 @@ namespace BachelorThesis.Views
                 new ChartDataPoint("Apr", 41.8),
             };
 
-            pieSeries.ItemsSource = new List<ChartDataPoint>
+            monthSuccessRate.ItemsSource = new List<ChartDataPoint>
             {
                 new ChartDataPoint("Accepted", 67),
-                new ChartDataPoint("Stated", 33),
+                new ChartDataPoint("Failed", 33),
             };
 
 
 
-            lineSeries.ItemsSource = new List<ChartDataPoint>
+            dailyNewContracts.ItemsSource = new List<ChartDataPoint>
             {
-                new ChartDataPoint("Mon", 32),
-                new ChartDataPoint("Tue", 31),
-                new ChartDataPoint("Wed", 29),
+                new ChartDataPoint("Mon", 16),
+                new ChartDataPoint("Tue", 22),
+                new ChartDataPoint("Wed", 15),
                 new ChartDataPoint("Thu", 34),
-                new ChartDataPoint("Fri", 33),
-                new ChartDataPoint("Sat", 45),
-                new ChartDataPoint("Sun", 11),
+                new ChartDataPoint("Fri", 48),
+                new ChartDataPoint("Sat", 38),
+                new ChartDataPoint("Sun", 25),
+            };
+
+            incomeSeries.ItemsSource = new List<ChartDataPoint>
+            {
+                new ChartDataPoint("Jan", 5000),
+                new ChartDataPoint("Feb", 4800),
+                new ChartDataPoint("Mar", 6800),
+                new ChartDataPoint("Apr", 6000),
+            };
+
+            expenseSeries.ItemsSource = new List<ChartDataPoint>
+            {
+                new ChartDataPoint("Jan", 3900),
+                new ChartDataPoint("Feb", 4200),
+                new ChartDataPoint("Mar", 4500),
+                new ChartDataPoint("Apr", 5200),
             };
         }
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Simulation Name="Case01">
+<Simulation Name="Case02">
   <Actors>
     <Actor Id="1" ActorRoleId="1" FirstName="George" LastName="Lucas" />
     <Actor Id="2" ActorRoleId="2" FirstName="George" LastName="Lucas" />

@@ -9,15 +9,15 @@
             <x:Double x:Key="TimeLineHeight">50</x:Double>
             <GridLength x:Key="TimeLineRowHeight">50</GridLength>
 
-            <Color x:Key="Primary">#52C7F5</Color>
+            <Color x:Key="Primary">#006DAB</Color>
             <Color x:Key="PrimaryDark">#3F87DE</Color>
             <Color x:Key="Accent">#3FDBDE</Color>
 
-            <Color x:Key="TransactionColor1">#486BFF</Color>
-            <Color x:Key="TransactionColor2">#3F87DE</Color>
-            <Color x:Key="TransactionColor3">#52C7F5</Color>
-            <Color x:Key="TransactionColor4">#4498DE</Color>
-            <Color x:Key="TransactionColor5">#3F87DE</Color>
+            <Color x:Key="TransactionColor1">#2C8CAB</Color>
+            <Color x:Key="TransactionColor2">#006DAB</Color>
+            <Color x:Key="TransactionColor3">#294CA6</Color>
+            <Color x:Key="TransactionColor4">#163584</Color>
+            <Color x:Key="TransactionColor5">#0F2347</Color>
 
             <Color x:Key="CanvasBackground">White</Color>
             <Color x:Key="TimeLineColor">#363a3f</Color>

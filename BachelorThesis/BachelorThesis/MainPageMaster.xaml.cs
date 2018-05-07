@@ -33,9 +33,9 @@ namespace BachelorThesis
             {
                 MenuItems = new ObservableCollection<MainPageMenuItem>(new[]
                 {
-                    new MainPageMenuItem { Title = "Dashboard" , TargetType = typeof(DashboardPage)},
-                    new MainPageMenuItem { Title = "Process" , TargetType = typeof(ProcessVisualisationPage)},
-                    new MainPageMenuItem { Title = "Cases" , TargetType = typeof(SimulationCasesPage)},
+                    new MainPageMenuItem { Title = "Dashboard" , Icon = "ic_dashboard.png", TargetType = typeof(DashboardPage)},
+                //    new MainPageMenuItem { Title = "Process" , TargetType = typeof(ProcessVisualisationPage)},
+                    new MainPageMenuItem { Title = "Cases" , Icon = "ic_timeline.png", TargetType = typeof(SimulationCasesPage)},
                 });
             }
             
